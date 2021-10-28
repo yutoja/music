@@ -5,8 +5,8 @@
       <div class="right">
         <h3 class="no"><span class="font red"></span>{{ data.playlist.name }}</h3>
         <div class="to">
-          <a :href="`/User?id=${data.playlist.creator.userId}`" class="yo"><img :src="data.playlist.creator.avatarUrl" class="yo"/></a>
-          <a :href="`/User?id=${data.playlist.creator.userId}`" class="ve col size">{{ data.playlist.creator.nickname }}</a>
+          <router-link :to="`/User?id=${data.playlist.creator.userId}`" class="yo"><img :src="data.playlist.creator.avatarUrl" class="yo"/></router-link>
+          <router-link :to="`/User?id=${data.playlist.creator.userId}`" class="ve col size">{{ data.playlist.creator.nickname }}</router-link>
           <span class="ve clo size">{{ time }} 创建</span>
         </div>
         <div class="btb">
@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="top">
-          标签：<a :href="`Gedan?cat=${item}`" v-for="(item, index) in data.playlist.tags" :key="index">{{ item }}</a>
+          标签：<router-link :to="`Gedan?cat=${item}`" v-for="(item, index) in data.playlist.tags" :key="index">{{ item }}</router-link>
         </div>
         <div class="fotr"><span>介绍：</span>{{ data.playlist.description }}</div>
       </div>
@@ -69,7 +69,7 @@
       <a href="#" class="buttno">下载客户端</a>
     </div>
     <div class="ping" v-if="hot && news" id="ping">
-      <Com :sw="news" :sh="hot" :su="shu" :typ="typ" :cid="uqwr"></Com>
+      <Com :sw="news" :sh="hot" :su="shu" :typ="typ"></Com>
       <div class="foote">
         <a @click="app">上一页</a>
         <input type="number" placeholder="页数" class="tex" v-model="yeshu" />
@@ -130,24 +130,24 @@ export default {
     }
   },
   watch: {
-    async uqwr() {
-      this.hotp(this, this.$route.query.id, 2)
-      this.newsa(this, this.$route.query.id, 2)
-      this.date(this, this.$route.query.id)
+    $route(to, from) {
+      this.hotp(this, to.query.id, 2)
+      this.newsa(this, to.query.id, 2)
+      this.date(this, to.query.id)
     }
   },
-
-  created() {
+  async created() {
     this.date(this, this.$route.query.id)
+    this.hotp(this, this.$route.query.id, 2)
+    this.newsa(this, this.$route.query.id, 2)
+    const a = await this.$http(`/playlist/detail/dynamic?id=${this.$route.query.id}`)
+    this.zda = a
   },
   computed: {
     time() {
       if (!this.data) return ''
       const a = new Date(this.data.playlist.createTime)
       return `2${a.getYear()}-${a.getMonth() + 1}-${a.getDay()}`
-    },
-    uqwr() {
-      return this.$route.query.id
     }
   },
   filters: {
@@ -158,12 +158,6 @@ export default {
       const time = `${fe < 10 ? '0' + fe : fe}:${miao < 10 ? '0' + miao : miao}`
       return time
     }
-  },
-  async beforeMount() {
-    this.hotp(this, this.$route.query.id, 2)
-    this.newsa(this, this.$route.query.id, 2)
-    const a = await this.$http(`/playlist/detail/dynamic?id=${this.$route.query.id}`)
-    this.zda = a
   }
 }
 </script>
@@ -176,7 +170,6 @@ export default {
   padding: 47px 30px 100px 39px;
   border: 1px solid #ccc;
   background-color: white;
-  min-height: 1000px;
 }
 .fff {
   color: #ccc;

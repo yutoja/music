@@ -7,6 +7,7 @@ import api from '../api/api'
 Vue.use(Vuex)
 
 const actions = {
+  // 添加音乐并加入到播放列表中
   async addsrc(commit, value) {
     const { data: res } = await api(`/song/url?id=${value}`)
     const {
@@ -27,6 +28,7 @@ const actions = {
     if (state.playli.some(value => value.id === dui.id)) return ''
     commit.commit('addbo', dui)
   },
+  // 加入到播放列表中
   async addbo(commit, value) {
     const { data: res } = await api(`/song/url?id=${value}`)
     const {
@@ -46,15 +48,21 @@ const actions = {
     if (state.playli.some(value => value.id === dui.id)) return ''
     commit.commit('addbo', dui)
   },
+  // 清空播放列表
   clear(commit, va) {
     if (va === 'n') {
       commit.commit('clear')
     }
   },
+  // 删除播放列表中的音乐
   remove(commit, id) {
     const a = state.playli.findIndex(value => value.id === id)
     if (a === -1) return ''
     commit.commit('remove', a)
+  },
+  // 添加个人用户数据
+  user(commit, data) {
+    commit.commit('user', data)
   }
 }
 const mutations = {
@@ -69,12 +77,16 @@ const mutations = {
   },
   remove(state, index) {
     state.playli.splice(index, 1)
+  },
+  user(state, data) {
+    state.user = data
   }
 }
 
 const state = {
   id: '',
-  playli: []
+  playli: [],
+  user: null
 }
 
 const store = new Vuex.Store({

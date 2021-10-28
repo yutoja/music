@@ -8,13 +8,13 @@
         </div>
         <div class="right">></div>
         <div class="felei" v-show="ba">
-          <div class="fehe"><a href="/Gedan" class="xiaolu">全部分类</a></div>
+          <div class="fehe"><router-link to="/Gedan" class="xiaolu">全部分类</router-link></div>
           <div class="febd">
             <dl v-for="(item, index) in feng[0]" :key="index">
               <dt class="febb"><span v-text="zibiao[index]"></span> {{ item }}</dt>
               <dd class="fenn">
                 <div v-for="iem in feng[++index]" :key="iem.id">
-                  <a :href="`/Gedan?cat=${iem.name}`" class="xiaolu">{{ iem.name }}</a> <span class="zjs">|</span>
+                  <router-link :to="`/Gedan?cat=${iem.name}`" class="xiaolu">{{ iem.name }}</router-link> <span class="zjs">|</span>
                 </div>
               </dd>
             </dl>
@@ -106,20 +106,12 @@ export default {
     }
   },
   watch: {
-    query: {
-      async handler() {
-        const {
-          data: { playlists }
-        } = await this.$http(`/top/playlist?limit=35${this.$route.query.cat ? `&cat=${this.$route.query.cat}` : ''}`)
+    async $route(to, from) {
+      const {
+        data: { playlists }
+      } = await this.$http(`/top/playlist?limit=35${to.query.cat ? `&cat=${to.query.cat}` : ''}`)
 
-        this.data_tou = playlists
-      },
-      deep: true
-    }
-  },
-  computed: {
-    query() {
-      return this.$route.query.cat
+      this.data_tou = playlists
     }
   }
 }
@@ -136,7 +128,6 @@ export default {
   background-color: #ffffff;
   padding: 40px;
   box-sizing: border-box;
-  min-height: 1000px;
 }
 .xi {
   font-weight: normal;

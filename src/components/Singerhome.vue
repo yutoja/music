@@ -120,7 +120,6 @@ export default {
   border: 1px solid #ccc;
   padding: 30px;
   background-color: white;
-  min-height: 1000px;
 }
 .nav > h1 {
   display: inline-block;

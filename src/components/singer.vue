@@ -4,29 +4,29 @@
       <dl>
         <dt class="dt">语种：</dt>
         <dd class="dd" v-for="(item, index) in zho" :key="index">
-          <a :class="{ back: add().area == item[1] }" :href="`/Singer?area=${item[1]}${add().type ? `&type=${add().type}` : ''}${add().initial ? `&initial=${add().initial}` : ''}`">{{ item[0] }}</a>
+          <router-link :class="{ back: add().area == item[1] }" :to="`/Singer?area=${item[1]}${add().type ? `&type=${add().type}` : ''}${add().initial ? `&initial=${add().initial}` : ''}`">{{ item[0] }}</router-link>
         </dd>
       </dl>
       <dl>
         <dt class="dt">分类：</dt>
         <dd class="dd" v-for="(item, index) in ge" :key="index">
-          <a :class="{ back: add().type == item[1] }" :href="`/Singer?type=${item[1]}${add().area ? `&area=${add().area}` : ''}${add().initial ? `&initial=${add().initial}` : ''}`">{{ item[0] }}</a>
+          <router-link :class="{ back: add().type == item[1] }" :to="`/Singer?type=${item[1]}${add().area ? `&area=${add().area}` : ''}${add().initial ? `&initial=${add().initial}` : ''}`">{{ item[0] }}</router-link>
         </dd>
       </dl>
       <dl>
         <dt class="dt">筛选：</dt>
         <dd class="dd cl" v-for="(item, index) in zi" :key="index">
-          <a :class="{ back: add().initial === item }" :href="`/Singer?initial=${item}${add().area ? `&area=${add().area}` : ''}${add().type ? `&type=${add().type}` : ''}`">{{ item }}</a>
+          <router-link :class="{ back: add().initial === item }" :to="`/Singer?initial=${item}${add().area ? `&area=${add().area}` : ''}${add().type ? `&type=${add().type}` : ''}`">{{ item }}</router-link>
         </dd>
       </dl>
     </div>
     <div class="sibd">
       <div class="xl" v-for="item in dat" :key="item.id">
-        <a :href="`/SingerHome?id=${item.id}`" class="img">
+        <router-link :to="`/SingerHome?id=${item.id}`" class="img">
           <img :src="item.img1v1Url" :title="item.name" />
-        </a>
+        </router-link>
         <p class="weng ove">
-          <a :href="`/SingerHome?id=${item.id}`" class="xiaolu  ">{{ item.name }}</a>
+          <router-link :to="`/SingerHome?id=${item.id}`" class="xiaolu  ">{{ item.name }}</router-link>
         </p>
       </div>
     </div>
@@ -78,18 +78,22 @@ export default {
     this.dat = artists
   },
   watch: {
-    async id() {
+    async $route(to, from) {
       const {
         data: { artists }
-      } = await this.$http(`/artist/list?${this.$route.query.type ? `type=${this.$route.query.type}` : ''}&${this.$route.query.area ? `area=${this.$route.query.area}` : ''}&${this.$route.query.initial ? `initial=${this.$route.query.initial}` : ''}&limit=10`)
+      } = await this.$http(`/artist/list?${to.query.type ? `type=${to.query.type}` : ''}&${to.query.area ? `area=${to.query.area}` : ''}&${to.query.initial ? `initial=${to.query.initial}` : ''}&limit=10`)
       this.dat = artists
     }
-  },
-  computed: {
-    id() {
-      return this.$route.query.type + this.$route.query.area + this.$route.query.initial
-    }
   }
+  //  beforeRouteEnter (to, from, next) {
+  //   const {
+  //     data: { artists }
+  //   } = await this.$http('/artist/list?type=-1&area=-1&limit=10')
+  //   next(artists)
+  // },
+  // beforeRouteUpdate (to, from, next) {
+  //   this.dat =
+  // },
 }
 </script>
 
@@ -104,7 +108,6 @@ export default {
   margin: 0 auto;
   width: 960px;
   padding: 30px;
-  min-height: 1000px;
 }
 .hea > dl {
   display: flex;

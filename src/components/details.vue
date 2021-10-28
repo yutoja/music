@@ -8,7 +8,7 @@
       <div class="right">
         <h2 class="tou">{{ scr[0].name }}</h2>
         <div class="ming">
-          歌手： <span class="blue xiaolu">{{ scr[0].ar[0].name }}</span>
+          歌手： <span class="blue xiaolu" @click="skip('/Singerhome', scr[0].al.id)">{{ scr[0].ar[0].name }}</span>
           <p>
             专辑： <span class="blue xiaolu">{{ scr[0].al.name }}</span>
           </p>
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="ping" v-if="hot && news">
-      <Com :sw="news" :sh="hot" :su="shu" :typ="typ" :cid="uqwr"></Com>
+      <Com :sw="news" :sh="hot" :su="shu" :typ="typ"></Com>
       <div class="foote">
         <a @click="app">上一页</a>
         <input type="number" placeholder="页数" class="tex" v-model="yeshu" />
@@ -100,23 +100,20 @@ export default {
     }
   },
   watch: {
-    async uqwr() {
-      this.hotp(this, this.$route.query.id, 0)
-      this.newsa(this, this.$route.query.id, 0)
-      this.gezi(this, this.$route.query.id)
+    uqwr() {},
+    async $route(to, from) {
+      this.hotp(this, to.query.id, 0)
+      this.newsa(this, to.query.id, 0)
+      this.gezi(this, to.query.id)
       const {
         data: { songs }
-      } = await this.$http(`/song/detail?ids=${this.$route.query.id}`)
+      } = await this.$http(`/song/detail?ids=${to.query.id}`)
       this.scr = songs
-      return this.$route.query.id
     }
   },
   computed: {
     banggg() {
       return this.bang
-    },
-    uqwr() {
-      return this.$route.query.id
     }
   },
   filters: {
@@ -154,7 +151,6 @@ export default {
   width: 709px;
   border: 1px solid #ccc;
   background-color: white;
-  min-height: 2000px;
 }
 .ping {
   margin-top: 30px;
@@ -200,7 +196,7 @@ export default {
   transform: rotate(0deg);
 }
 .right {
-  width: 360px;
+  width: 400px;
 }
 .tou {
   font-weight: normal;

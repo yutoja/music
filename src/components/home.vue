@@ -10,15 +10,15 @@
           <div class="te_nav">
             <div class="tou"><span class="lal"></span><a href="">热门推荐</a></div>
             <ul class="teu">
-              <li><a href="/Gedan?cat=流行">流行</a></li>
+              <li><router-link to="/Gedan?cat=流行">流行</router-link></li>
               <span>|</span>
-              <li><a href="/Gedan?cat=摇滚">摇滚</a></li>
+              <li><router-link to="/Gedan?cat=摇滚">摇滚</router-link></li>
               <span>|</span>
-              <li><a href="/Gedan?cat=民谣">民谣</a></li>
+              <li><router-link to="/Gedan?cat=民谣">民谣</router-link></li>
               <span>|</span>
-              <li><a href="/Gedan?cat=华语">华语</a></li>
+              <li><router-link to="/Gedan?cat=华语">华语</router-link></li>
               <span>|</span>
-              <li><a href="/Gedan?cat=电子">电子</a></li>
+              <li><router-link to="/Gedan?cat=电子">电子</router-link></li>
             </ul>
             <div class="ter"><a href="#" @click="dian" class="td erpp red ko">更多</a></div>
           </div>
@@ -49,13 +49,13 @@
             <ul>
               <li v-for="item in data_tui" :key="item.id">
                 <div class="er_na">
-                  <a :href="`/album?id=${item.id}`"><img :src="item.picUrl" class="eri"/></a>
+                  <router-link :to="`/album?id=${item.id}`"><img :src="item.picUrl" class="eri"/></router-link>
                 </div>
                 <p class="erp">
-                  <a :href="`/playlist?id=${item.id}`" class="td">{{ item.name }}</a>
+                  <router-link :to="`/playlist?id=${item.id}`" class="td">{{ item.name }}</router-link>
                 </p>
                 <p class="erpp">
-                  <a :href="`/playlist?id=${item.artist.id}`" class="td ko">{{ item.artist.name }}</a>
+                  <router-link :to="`/playlist?id=${item.artist.id}`" class="td ko">{{ item.artist.name }}</router-link>
                 </p>
               </li>
             </ul>
@@ -63,7 +63,7 @@
         </div>
         <div class="bd_3">
           <div class="te_nav">
-            <div class="tou"><span class="lal"></span><a href="/Bang?id=19723756">榜单</a></div>
+            <div class="tou"><span class="lal"></span><router-link to="/Bang?id=19723756">榜单</router-link></div>
             <div class="ter">
               <router-link to="/Bang?id=19723756" class="td erpp red ko">更多</router-link>
             </div>
@@ -108,13 +108,13 @@
           </div>
           <ul class="asbd2">
             <li v-for="item in data_gesh" :key="item.id">
-              <a :href="`/SingerHome?id=${item.id}`" class="asdb">
+              <router-link :to="`/SingerHome?id=${item.id}`" class="asdb">
                 <div><img :src="item.img1v1Url" :title="item.name" /></div>
                 <div>
                   <h4>{{ item.name }}</h4>
                   <p class="tud">{{ item.alias[0] }}</p>
                 </div>
-              </a>
+              </router-link>
             </li>
           </ul>
           <a href="https://music.163.com/st/musician" class="asbdf" target="_blank">申请成为网易音乐人</a>

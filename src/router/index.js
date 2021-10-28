@@ -2,34 +2,21 @@ import Vue from 'vue'
 
 import VueRouter from 'vue-router'
 
-import Home from '../components/home'
-import Bangdan from '../components/bangdan'
-import gedan from '../components/gedan'
-import xiang from '../components/xiang'
-import Details from '../components/details'
-import Personal from '@/components/personal'
-import Singer from '@/components/singer'
-import SingerHome from '@/components/Singerhome'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
   routes: [
     { path: '/', redirect: '/home' },
-    { path: '/home', component: Home },
-    { path: '/Bang', component: Bangdan },
-    { path: '/Gedan', component: gedan },
-    { path: '/Xiang', component: xiang },
-    { path: '/Details', component: Details },
-    { path: '/Personal', component: Personal },
-    { path: '/Singer', component: Singer },
-    { path: '/SingerHome', component: SingerHome },
-    {
-      path: '/User',
-      component: resolve => {
-        require(['@/components/user'], resolve)
-      }
-    }
+    { path: '/home', component: () => import('@/components/home') },
+    { path: '/Bang', component: () => import('@/components/bangdan') },
+    { path: '/Gedan', component: () => import('@/components/gedan') },
+    { path: '/Xiang', component: () => import('@/components/xiang') },
+    { path: '/Details', component: () => import('@/components/details') },
+    { path: '/Personal', component: () => import('@/components/personal') },
+    { path: '/Singer', component: () => import('@/components/singer') },
+    { path: '/SingerHome', component: () => import('@/components/Singerhome') },
+    { path: '/User', component: () => import('@/components/user') }
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {

@@ -156,12 +156,6 @@ export default {
   },
 
   computed: {
-    http() {
-      return {
-        id: this.$route.query.id,
-        type: this.$route.query.type
-      }
-    },
     shu() {
       if (!this.dat) return ''
       if (this.dat.songs) return this.dat.songs.length
@@ -180,18 +174,13 @@ export default {
     }
   },
   watch: {
-    http: {
-      handler() {
-        this.$http(`/search?keywords=${this.$route.query.id}&type=${this.$route.query.type ? this.$route.query.type : '1'}`).then(value => {
-          const {
-            data: { result }
-          } = value
-
-          this.dat = result
-        })
-      },
-      deep: true,
-      immediate: true
+    $route(to, from) {
+      this.$http(`/search?keywords=${to.query.id}&type=${to.query.type ? to.query.type : '1'}`).then(value => {
+        const {
+          data: { result }
+        } = value
+        this.dat = result
+      })
     },
     value: async function(newva) {
       if (newva !== '') {
@@ -207,6 +196,13 @@ export default {
         if (this.$route.query.id !== this.value) this.$router.push(`/Personal?id=${this.value}&type=1`)
       }
     }
+    this.$http(`/search?keywords=${this.$route.query.id}&type=${this.$route.query.type ? this.$route.query.type : '1'}`).then(value => {
+      const {
+        data: { result }
+      } = value
+
+      this.dat = result
+    })
   }
 }
 </script>
@@ -216,9 +212,8 @@ export default {
   margin: 0;
   padding: 0;
 }
-.rouqi {
-  min-height: 800px;
-}
+/* .rouqi {
+} */
 .gexi {
   font-size: 12px;
 }

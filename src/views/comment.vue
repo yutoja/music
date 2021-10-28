@@ -5,7 +5,7 @@
       <span>共有{{ shu }}评论</span>
     </div>
     <div class="discuss">
-      <div class="dsisscu"><img src="" /><textarea v-model="text"></textarea></div>
+      <div class="dsisscu"><img :src="sess ? sess.profile.avatarUrl : ''" /><textarea v-model="text"></textarea></div>
       <input type="button" value="评论" @click="pilun(text, 1)" />
     </div>
     <div class="zhon">
@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="discuss1" v-if="item.commentId == fuid">
-          <div class="dsisscu1"><img src="" /><textarea v-model="hhuifu" :placeholder="`回复${item.user.nickname}`"></textarea></div>
+          <div class="dsisscu1"><img :src="sess ? sess.profile.avatarUrl : ''" /><textarea v-model="hhuifu" :placeholder="`回复${item.user.nickname}`"></textarea></div>
           <input type="button1" value="回复" @click="pilun(hhuifu, 2, item.commentId)" />
         </div>
       </div>
@@ -56,9 +56,13 @@
             <span>{{ item.time | apitalize }}</span>
             <div class="bo">
               <span class="xiaolu"><span class="blue"></span>{{ item.likedCount > 0 ? `(${item.likedCount})` : '' }}</span>
-              <span class="xiaolu"> <span class="blue"></span>回复</span>
+              <span class="xiaolu" @click="fuid = item.commentId"> <span class="blue"></span>回复</span>
             </div>
           </div>
+        </div>
+        <div class="discuss1" v-if="item.commentId == fuid">
+          <div class="dsisscu1"><img :src="sess ? sess.profile.avatarUrl : ''" /><textarea v-model="hhuifu" :placeholder="`回复${item.user.nickname}`"></textarea></div>
+          <input type="button1" value="回复" @click="pilun(hhuifu, 2, item.commentId)" />
         </div>
       </div>
     </div>
@@ -89,10 +93,6 @@ export default {
     },
     typ: {
       type: Number,
-      default: 0
-    },
-    cid: {
-      type: [Number, String],
       default: 0
     }
   },
@@ -150,6 +150,9 @@ export default {
   computed: {
     cidd() {
       return this.$route.query.id
+    },
+    sess() {
+      return this.$store.state.user
     }
   }
 }

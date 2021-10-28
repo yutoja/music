@@ -1,8 +1,12 @@
 const mix = {
   data() {
-    return { t: 1 }
+    return { t: 1, zhen: false }
   },
   methods: {
+    // 获取验证码
+    verify(phone) {
+      this.$http(`/captcha/sent?phone=${phone}`)
+    },
     // 跳转页面
     skip(path, id) {
       this.$router.push({
@@ -39,25 +43,41 @@ const mix = {
     },
     // 登录
     async ghg(obj, na) {
-      const { data } = await this.$http(`/login/cellphone?phone=${obj.account}&password=${obj.password}`)
+      let data
+      if (obj.verification) {
+        this.$http(`/captcha/verify?phone=${obj.account}&captcha=${obj.verification}`)
+          .then(async value => {
+            data = await this.$http(`/login/cellphone?phone=${obj.account}&captcha=${obj.verification}`)
+          })
+          .catch(() => {
+            return ''
+          })
+      } else {
+        data = await this.$http(`/login/cellphone?phone=${obj.account}&password=${obj.password}`)
+        console.log(data)
+      }
 
-      if (data.code !== 200) return alert('。。。。')
-
-      sessionStorage.setItem('co', data.cookie)
+      if (data.data.code !== 200) return alert('。。。。')
+      this.zhen = true
+      sessionStorage.setItem('co', data.data.cookie)
       // 获取指定的cookie
       // console.log(document.cookie.replace(/(?:(?:^|.*;\s*)text\s*\=\s*([^;]*).*$)|^.*$/, '$1'))
-      na.cookie = {
-        account: data.account,
-        profile: data.profile,
-        bindings: data.bindings,
-        token: data.token
-      }
+      const {
+        data: { account, profile, bindings, token }
+      } = data
+      this.$store.dispatch('user', {
+        account,
+        profile,
+        bindings,
+        token
+      })
     },
     // 点赞
     diaz(id, cid, type) {
       const a = sessionStorage.getItem('co')
       if (!a) return alert('请先登录')
       this.$http(`/comment/like?id=${id}&cid=${cid}&type=${type}&t=${this.t}&cookie=${a}`)
+
       this.t = this.t === 1 ? 0 : 1
     },
     // 评论

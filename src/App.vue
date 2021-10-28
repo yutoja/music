@@ -46,7 +46,7 @@
           </div>
           <button class="m-zhon">创作者中心</button>
           <a href="" class="m-deng" @click.prevent="lun = true" v-if="!sese">登录</a>
-          <img v-else :src="cookie.profile.avatarUrl" class="douy" />
+          <img v-else :src="sese.profile.avatarUrl" class="douy" />
         </div>
       </div>
       <div class="m-botton">
@@ -65,21 +65,21 @@
               <a href="#">主播电台</a>
             </li>
             <li>
-              <a href="Singer?area=-1">歌手</a>
+              <router-link to="Singer?area=-1">歌手</router-link>
             </li>
             <li>
-              <a href="/User">新碟上架</a>
+              <a href="">新碟上架</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    <div :class="{ dohuan: true, huanda: lkjh }">登录成功<span class="font"></span></div>
+    <div :class="{ dohuan: true, huanda: this.zhen }">登录成功<span class="font"></span></div>
     <div class="register" ref="redister" v-if="lun">
       <div class="redh" @mousedown="weizhi"><span>手机号登录</span><span @click="lun = false">X</span></div>
       <div class="reab">
         <div class="reabb">
-          <input type="text" placeholder="请输入账户" v-model.trim="account" /><br />
+          <input type="text" placeholder="请输入手机号" v-model.trim="account" /><br />
           <input type="password" placeholder="请输入密码" v-if="duan" v-model.trim="password" />
           <div class="readuan" v-else>
             <input type="text" placeholder="请输入验证码" v-model.trim="verification" />
@@ -96,7 +96,8 @@
       </div>
     </div>
     <!-- <keep-alive :exclude="/xiang|detail|bang|SingerHome/"> -->
-    <router-view @gengdou="fun" :bang="austatus" @ge="cuo" :ef="s.id"></router-view>
+    <div class="max"><router-view @gengdou="fun" :bang="austatus" @ge="cuo" :ef="s.id"></router-view></div>
+
     <!-- </keep-alive> -->
 
     <div class="footer" ref="footer" @mouseleave="mout" @mouseenter="mouov">
@@ -189,11 +190,13 @@ export default {
       password: '',
       verification: '',
       cookie: null,
-      lkjh: false
+      // lkjh: false,
+      phone: /^1[36|78|51]\d{9}$/
     }
   },
   methods: {
     yztime(e) {
+      if (!this.phone.test(this.account)) return alert('请填写正确的账户')
       e.target.disabled = true
       let i = 60
       e.target.innerText = `${i}秒`
@@ -205,18 +208,32 @@ export default {
           e.target.innerText = '获取验证码'
         }
       }, 1000)
+      // 发送验证码
+      this.verify(this.account)
     },
     post() {
-      if (!(!isNaN(this.account) && (this.password || this.verification))) return alert('请填写正确的账户和密码')
-      this.ghg(
-        {
-          account: this.account,
-          password: this.password
-        },
-        this
-      )
+      if (!this.phone.test(this.account)) return alert('请填写正确的账户')
+      if (this.duan) {
+        if (!this.password) return alert('密码不能为空')
+        this.ghg(
+          {
+            account: this.account,
+            password: this.password
+          },
+          this
+        )
+      } else {
+        this.ghg(
+          {
+            account: this.account,
+            verification: this.verification
+          },
+          this
+        )
+      }
+
       // if (this.cookie && this.cookie.account) return alert(this.cookie.msg)
-      this.lkjh = true
+      this.zhen = false
       this.lun = false
       this.account = ''
       this.password = ''
@@ -364,7 +381,7 @@ export default {
       return this.$store.state.id
     },
     sese() {
-      return this.cookie
+      return this.$store.state.user
     }
   },
   created() {
@@ -416,6 +433,10 @@ export default {
   display: inline-block;
   vertical-align: bottom;
   cursor: pointer;
+}
+.max {
+  min-width: 98vw;
+  min-height: 1000px;
 }
 * {
   margin: 0;
@@ -998,7 +1019,7 @@ button {
   vertical-align: middle;
 }
 .huanda {
-  animation: sadad 1s ease-in-out 1;
+  animation: sadad 2s ease-in-out 1;
 }
 @keyframes sadad {
   from {

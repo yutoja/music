@@ -1,12 +1,12 @@
 <template>
-  <div class="user">
+  <div class="user" v-if="daia">
     <thead>
       <img :src="dat.profile.avatarUrl" alt="" class="img" />
       <div class="jian">
         <div class="jh">
           <h1>{{ dat.profile.nickname }}</h1>
           <em>Lv. {{ dat.level }} </em>
-          <span :class="{ font: true, blue: dat.profile.gender == 1, red: dat.profile.gender == 0 }"></span>
+          <span :class="{ font: true, blue: dat.profile.gender == 1, red: dat.profile.gender == 2 }"></span>
           <button @click="guzh(dat.userPoint.userId, xi), (xi = xi === 1 ? 0 : 1)" v-text="xi == 1 ? '关注' : '取消关注'">关注</button>
           <button>发私信</button>
         </div>
@@ -30,7 +30,7 @@
         <div class="jw">社交网络：</div> -->
       </div>
     </thead>
-    <div class="bdbd">
+    <div class="bdbd" v-if="daia.length > 0">
       <div class="bdhe">{{ dat.profile.nickname }}创建的歌单({{ daia.length }})</div>
       <ul class="tbody">
         <li class="tli" v-for="item in daia" :key="item.id">
@@ -44,13 +44,13 @@
         </li>
       </ul>
     </div>
-    <div class="bdbd">
+    <div class="bdbd" v-if="diaa.length > 0">
       <div class="bdhe">{{ dat.profile.nickname }}收藏的表单({{ diaa.length }})</div>
       <ul class="tbody">
         <li class="tli" v-for="item in diaa" :key="item.id">
-          <a :href="`/Xiang?id=${item.id}`">
+          <router-link :to="`/Xiang?id=${item.id}`">
             <img :src="item.coverImgUrl" alt="" class="ain" />
-          </a>
+          </router-link>
           <div class="baj">
             <span class="font"> {{ item.playCount > 10000 ? parseInt(item.playCount / 10000) + '万' : item.playCount }}</span> <span class="font"></span>
           </div>
@@ -110,7 +110,7 @@ export default {
 .user {
   padding: 40px;
   width: 980px;
-  min-height: 700px;
+
   margin: 0 auto;
   background-color: #fff;
   border: 1px solid #d3d3d3;
@@ -176,6 +176,9 @@ thead {
 .jh > em {
   color: red;
   font-weight: bold;
+}
+.red {
+  color: rgb(255, 93, 160);
 }
 .js {
   height: 40px;

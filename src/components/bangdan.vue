@@ -82,7 +82,7 @@
                 <span class="size">{{ item.dt | capitalize }}</span>
               </td>
               <td class="td4">
-                <a :href="`/SingerHome?id=${item.ar[0].id}`" class="hou size qwer asdf">{{ item.ar[0].name }}</a>
+                <router-link :to="`/SingerHome?id=${item.ar[0].id}`" class="hou size qwer asdf">{{ item.ar[0].name }}</router-link>
               </td>
             </tr>
           </tbody>
@@ -104,19 +104,18 @@ export default {
       i: 1
     }
   },
-  watch: {},
+  watch: {
+    $route(to, from) {
+      this.date(this.da, to.query.id)
+    }
+  },
   computed: {
     time() {
       if (this.data) {
         const shi = parseInt((+new Date() - this.data.playlist.updateTime) / 1000 / 60 / 6 / 24)
-
         return shi < 10 ? (shi < 1 ? '刚刚更新' : shi + '小时前更新') : shi / 10 + '天前更新'
       }
       return ''
-    },
-    id() {
-      this.date(this.da, this.$route.query.id)
-      return this.$route.query.id
     }
   },
 
@@ -160,7 +159,6 @@ export default {
 }
 .bangdan {
   background-color: #f5f5f5;
-  min-height: 1000px;
 }
 .bod {
   width: 982px;
