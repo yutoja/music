@@ -51,24 +51,24 @@
       </div>
       <div class="m-botton">
         <div class="m-nav">
-          <ul @click="qie($event, 'm-nav_a')">
-            <li class="m-nav_a">
+          <ul>
+            <li :class="{ 'm-nav_a': this.$route.path == '/home' }">
               <router-link to="/">推荐</router-link>
             </li>
-            <li>
+            <li :class="{ 'm-nav_a': this.$route.path == '/Bang' }">
               <router-link to="/Bang?id=19723756">排行榜</router-link>
             </li>
-            <li ref="geng">
+            <li ref="geng" :class="{ 'm-nav_a': this.$route.path == '/Gedan' }">
               <router-link to="/Gedan">歌单</router-link>
             </li>
-            <li>
+            <li :class="{ 'm-nav_a': this.$route.path == '/sss' }">
               <a href="#">主播电台</a>
             </li>
-            <li>
-              <router-link to="Singer?area=-1">歌手</router-link>
+            <li :class="{ 'm-nav_a': this.$route.path == '/Singer' }">
+              <router-link to="/Singer?area=-1">歌手</router-link>
             </li>
-            <li>
-              <a href="">新碟上架</a>
+            <li :class="{ 'm-nav_a': this.$route.path == '/qqq' }">
+              <router-link to="/Zhuan?id=2017304055">新碟上架</router-link>
             </li>
           </ul>
         </div>
@@ -96,16 +96,16 @@
       </div>
     </div>
     <!-- <keep-alive :exclude="/xiang|detail|bang|SingerHome/"> -->
-    <div class="max"><router-view @gengdou="fun" :bang="austatus" @ge="cuo" :ef="s.id"></router-view></div>
+    <div class="max"><router-view :bang="austatus" @ge="cuo" :ef="s.id"></router-view></div>
 
     <!-- </keep-alive> -->
 
     <div class="footer" ref="footer" @mouseleave="mout" @mouseenter="mouov">
       <div class="fbd">
         <div class="fbd1">
-          <a href="#"></a>
+          <a @click="app"></a>
           <a class="f-da" @click="stop" v-text="austatus ? '' : ''"></a>
-          <a href="#"></a>
+          <a @click="add"></a>
         </div>
         <div class="fbd2">
           <router-link :to="`/Details?id=${s ? s.id : ''}`" target="_self"><img :src="s ? s.al.picUrl : ''" :title="s ? s.al.name : ''"/></router-link>
@@ -113,8 +113,8 @@
         <div class="fbd3">
           <div class="fdb3s">
             <router-link :to="`/Details?id=${s ? s.id : ''}`" class="td" target="_self">{{ s ? s.name : '' }}</router-link>
-            <a href="#" class="td">{{ s ? s.ar[0].name : '' }}{{ s ? (s.ar[1] ? '/' + s.ar[1].name : '') : '' }}</a>
-            <a href="#" class="td"></a>
+            <router-link :to="`/Singerhome?id=${s ? s.ar[0].id : ''}`" class="td">{{ s ? s.ar[0].name : '' }}{{ s ? (s.ar[1] ? '/' + s.ar[1].name : '') : '' }}</router-link>
+            <router-link :to="`/Singerhome?id=${s ? s.ar[0].id : ''}`" class="td"></router-link>
           </div>
           <div class="fdb3r">
             <div class="f-yiao">
@@ -134,27 +134,41 @@
         </div>
         <div class="fdb6">
           <a class="" @click="yinl" v-text="range < 2 ? '' : ''"></a>
-          <a href="#" class="f-zhonj"></a>
-          <a @click="lib = !lib" title="播放列表"></a>
+          <a class="f-zhonj" @click="tiss(), (xed = xed > 1 ? 0 : ++xed)" v-text="xed > 1 ? '' : xed > 0 ? '' : ''"></a>
+          <a @click="lib = !lib" title="播放列表">{{ b.length > 0 ? b.length : '' }}</a>
           <div class="range" v-if="yin">
             <input type="range" value="0" v-model="range" />
           </div>
         </div>
         <div class="lieb" v-show="lib">
-          <div class="liehe">
-            <span>播放列表</span>
-            <a class="td  wite" @click="clear"><span class="sia"></span>清空</a>
+          <div class="lieasi">
+            <div class="liehe">
+              <span>播放列表</span>
+              <a class="td  wite" @click="clear"><span class="sia"></span>清空</a>
+            </div>
+            <div class="liebd">
+              <div class="li" v-for="item in b" :key="item.id">
+                <span class="sia red" :class="{ visi: item.id === s.id, vi: true }"></span>
+                <a class="wite mizh ove" :id="item.id" @click="sr">{{ item.name }}</a>
+                <span class="sia wite" @click="remove(item.id)"></span>
+                <router-link :to="`/SingerHome?id=${item.ar[0].id}`" class="wite zuozhe td ove">{{ item.ar[0].name }}</router-link>
+                <span class="wite">{{ item.dt | fezhon }}</span>
+              </div>
+            </div>
           </div>
-          <div class="liebd">
-            <div class="li" v-for="item in b" :key="item.id">
-              <span class="sia red" :class="{ visi: item.id === s.id, vi: true }"></span>
-              <a class="wite mizh ove" :id="item.id" @click="sr">{{ item.name }}</a>
-              <span class="sia wite" @click="remove(item.id)"></span>
-              <a href="#" class="wite zuozhe td ove">{{ item.ar[0].name }}</a>
-              <span class="wite">{{ item.dt | fezhon }}</span>
+          <div class="liezi">
+            <div class="liezih">
+              <span>{{ s ? s.name : '' }}</span>
+              <a @click="lib = false">x</a>
+            </div>
+            <div class="liezib" ref="geh">
+              <div class="ttbody">
+                <p v-for="(item, index) in gez" :key="index" :class="{ tran: index === zindex }">{{ item.lyri }}</p>
+              </div>
             </div>
           </div>
         </div>
+        <div class="tis" v-text="xed > 1 ? '单曲循坏' : xed > 0 ? '循坏' : '随机'" v-show="tis"></div>
         <span class="s" @click="teg" ref="foote" v-text="tef ? '' : ''"></span>
         <audio :src="s.url" ref="audio" @durationchange="pla" @timeupdate="yie" :id="s.id"></audio>
       </div>
@@ -191,10 +205,32 @@ export default {
       verification: '',
       cookie: null,
       // lkjh: false,
-      phone: /^1[36|78|51]\d{9}$/
+      phone: /^1[36|78|51]\d{9}$/,
+      gez: null,
+      zindex: 0,
+      xed: 0,
+      tis: false
     }
   },
   methods: {
+    tiss() {
+      clearTimeout(this.tyuu)
+      this.tis = true
+      this.tyuu = setTimeout(() => {
+        this.tis = false
+      }, 2000)
+    },
+    add() {
+      let a = this.b.findIndex(value => value.id === +this.$refs.audio.id)
+      a = a >= this.b.length - 1 ? 0 : ++a
+      this.$store.state.id = this.b[a]
+    },
+    app() {
+      let a = this.b.findIndex(value => value.id === +this.$refs.audio.id)
+      a = a <= 0 ? this.b.length - 1 : --a
+      this.$store.state.id = this.b[a]
+    },
+    // 获取验证码
     yztime(e) {
       if (!this.phone.test(this.account)) return alert('请填写正确的账户')
       e.target.disabled = true
@@ -211,6 +247,7 @@ export default {
       // 发送验证码
       this.verify(this.account)
     },
+    // 登录
     post() {
       if (!this.phone.test(this.account)) return alert('请填写正确的账户')
       if (this.duan) {
@@ -239,6 +276,7 @@ export default {
       this.password = ''
       this.verification = ''
     },
+    // 记录登录窗口的位置
     weizhi(e) {
       this.xy = {
         x: e.clientX,
@@ -249,18 +287,20 @@ export default {
         y: this.$refs.redister.offsetTop
       }
     },
+    // 移动登录窗口
     yido(e) {
       if (!this.xy) return ''
-
       this.$refs.redister.style.left = e.clientX - this.xy.x + this.dxy.x + 'px'
       this.$refs.redister.style.top = e.clientY - this.xy.y + this.dxy.y + 'px'
     },
     zhonz() {
       if (this.xy) return (this.xy = null)
     },
+    // 清空列表
     clear() {
       this.$store.dispatch('clear', 'n')
     },
+
     remove(id) {
       this.$store.dispatch('remove', id)
     },
@@ -269,9 +309,6 @@ export default {
     },
     yinl() {
       this.yin = !this.yin
-    },
-    fun() {
-      this.$refs.geng.children[0].click()
     },
     ganb() {
       setTimeout(() => {
@@ -305,16 +342,38 @@ export default {
         this.progressBar = this.$refs.audio.currentTime / this.$refs.audio.duration
         if (e.target.duration === e.target.currentTime && this.b.length > 0) {
           let a = this.b.findIndex(value => value.id === +e.target.id)
+          switch (this.xed) {
+            case 0:
+              {
+                const pp = parseInt(Math.random() * this.b.length)
+                this.$store.state.id = this.b[pp]
+                if (a === pp) {
+                  e.target.pause()
+                  e.target.play()
+                }
+              }
 
-          a = a === -1 ? 0 : ++a
-          a = a >= this.b.length ? 0 : a
+              break
+            case 1:
+              a = a === -1 ? 0 : ++a
+              a = a >= this.b.length ? 0 : a
+              this.$store.state.id = this.b[a]
 
-          this.$store.state.id = this.b[a]
+              break
+            case 2:
+              this.$store.state.id = this.b[a]
+              e.target.pause()
+              e.target.play()
+
+              break
+          }
         }
+        this.zindex = this.gez.findIndex(value => value.time > e.target.currentTime) - 1
       }
     },
     // 停止或播放音乐
     stop() {
+      this.$refs.audio.pause()
       if (!this.austatus) {
         this.$refs.audio.play()
         this.austatus = !this.austatus
@@ -347,9 +406,22 @@ export default {
     mouov() {
       clearTimeout(this.$refs.footer.ine)
       this.$refs.footer.style.bottom = '0px'
+    },
+    inter(obj, target, callback) {
+      clearInterval(obj.timer)
+      obj.timer = setInterval(function() {
+        let step = (target - obj.scrollTop) / 10
+        step = step > 0 ? Math.ceil(step) : Math.floor(step)
+        obj.scrollTop = step + obj.scrollTop
+        if (Math.abs(obj.scrollTop - target) < 1) {
+          clearInterval(obj.timer)
+          if (callback) {
+            callback()
+          }
+        }
+      }, 10)
     }
   },
-
   filters: {
     fezhon(value) {
       const fe = parseInt(value / 60 / 1000)
@@ -374,6 +446,14 @@ export default {
         this.b = this.$store.state.playli
       },
       deep: true
+    },
+    '$store.state.id': {
+      handler() {
+        this.gezi(this, this.s.id)
+      }
+    },
+    zindex(lod, ne) {
+      this.inter(this.$refs.geh, ne * 35)
     }
   },
   computed: {
@@ -668,6 +748,7 @@ button {
   width: 100%;
   background-image: linear-gradient(180deg, #3d3d3d, #000000);
   box-shadow: 0 -1px 3px 3px rgba(0.5, 0.5, 0.5, 0.2);
+  user-select: none;
 }
 .fbd {
   width: 980px;
@@ -679,6 +760,7 @@ button {
 .fbd1 {
   padding: 15px 0 0 0;
   width: 137px;
+  user-select: none;
 }
 .fbd1 > a {
   font-family: 'icomoon';
@@ -701,11 +783,19 @@ button {
   margin: 10px 10px 0 0;
 }
 .fdb3s {
+  width: 465px;
   margin: 5px 0 0 2px;
 }
 .fdb3s > a:nth-of-type(1) {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
   margin-right: 10px;
   color: white;
+  vertical-align: top;
 }
 .fdb3s > a:nth-of-type(2) {
   margin-right: 10px;
@@ -805,7 +895,7 @@ button {
   left: -50px;
   transform: rotate(-90deg);
   height: 30px;
-  z-index: 0;
+  z-index: 999;
   line-height: 30px;
   padding: 0 10px;
   background-color: #000000;
@@ -818,15 +908,65 @@ button {
   position: absolute;
   bottom: 100%;
   left: 50%;
-  width: 500px;
+  width: 900px;
   height: 300px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  border-radius: 5px 5px 0 0;
+  border: 1px solid rgb(12, 12, 12);
   transform: translateX(-50%);
+  overflow: hidden;
+  background-color: rgba(0.5, 0.5, 0.5, 0.8);
+}
+.lieasi {
+  width: 500px;
+  float: left;
+}
+.liezi {
+  width: 400px;
+  /* border-left: 2px solid #000000; */
+  float: left;
+}
+.liezih {
+  background-color: #242424;
+  line-height: 40px;
+  color: white;
+  padding: 0 15px;
+  font-size: 14px;
+  justify-content: space-between;
+  border-radius: 0 5px 0 0;
+  overflow: hidden;
+  border-bottom: 2px solid #000000;
+  text-align: center;
+  width: 93%;
+}
+.liezih > a {
+  float: right;
+  font-size: 20px;
+}
+.liezib {
+  text-align: center;
+  width: 94%;
+  /* background-color: rgba(0.5, 0.5, 0.5, 0.8); */
+  overflow-y: scroll;
+  height: 260px;
+  padding: 25px 24px 0 0;
+}
+.ttbody {
+  transition: 0.5s;
+}
+.ttbody > p {
+  padding: 10px 0 11px 25px;
+  color: #989898;
+  font-size: 12px;
+  transition: all 0.5s ease;
+}
+.tran {
+  color: white !important;
+  font-size: 14px !important;
 }
 .wite {
   color: white;
 }
+
 .liehe {
   background-color: #242424;
   line-height: 40px;
@@ -835,19 +975,23 @@ button {
   padding: 0 15px;
   font-size: 14px;
   justify-content: space-between;
-  border-radius: 5px 5px 0 0;
+  border-radius: 5px 0 0 0;
   overflow: hidden;
   border-bottom: 2px solid #000000;
 }
 .liebd {
   font-size: 14px;
   height: 260px;
-  background-color: rgba(0.5, 0.5, 0.5, 0.8);
+  /* background-color: rgba(0.5, 0.5, 0.5, 0.8); */
   overflow-y: scroll;
 }
 /* 滚动条整体部分，其中的属性: width,height,background,border等。 */
 .liebd::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
+  background-color: #242424;
+}
+.liezib::-webkit-scrollbar {
+  width: 5px;
   background-color: #242424;
 }
 /* 滚动条两端的按钮。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。 */
@@ -862,7 +1006,10 @@ button {
 /* 内层轨道，具体区别看下面gif图，需要注意的就是它会覆盖第三个属性的样式。 */
 /* .liebd::-webkit-scrollbar-track-piece  */
 /* 滚动条里面可以拖动的那部分 */
-/* .liebd::-webkit-scrollbar-thumb  */
+.liezib::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgb(136, 136, 136);
+}
 /* ：边角，两个滚动条交汇处 */
 /* .liebd::-webkit-scrollbar-corner  */
 /* 两个滚动条交汇处用于拖动调整元素大小的小控件（基本用不上） */
@@ -1043,5 +1190,17 @@ button {
   height: 40px;
   border-radius: 50%;
   margin: 13px 0 0 20px;
+}
+.tis {
+  position: fixed;
+  line-height: 32px;
+  width: 100px;
+  right: 100px;
+  bottom: 100px;
+  text-align: center;
+  color: white;
+  border-radius: 5px;
+
+  background-color: black;
 }
 </style>

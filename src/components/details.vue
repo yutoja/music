@@ -8,9 +8,9 @@
       <div class="right">
         <h2 class="tou">{{ scr[0].name }}</h2>
         <div class="ming">
-          歌手： <span class="blue xiaolu" @click="skip('/Singerhome', scr[0].al.id)">{{ scr[0].ar[0].name }}</span>
+          歌手： <span class="blue xiaolu" @click="skip('/Singerhome', scr[0].ar[0].id)">{{ scr[0].ar[0].name }}</span>
           <p>
-            专辑： <span class="blue xiaolu">{{ scr[0].al.name }}</span>
+            专辑： <span class="blue xiaolu" @click="skip('/Zhuan', scr[0].al.id)">{{ scr[0].al.name }}</span>
           </p>
         </div>
         <div :class="{ ooo: bl, tbody: true }" v-if="gez && gez.length > 0">
@@ -100,7 +100,6 @@ export default {
     }
   },
   watch: {
-    uqwr() {},
     async $route(to, from) {
       this.hotp(this, to.query.id, 0)
       this.newsa(this, to.query.id, 0)

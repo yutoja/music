@@ -2,7 +2,7 @@
   <div class="home">
     <div class="lup" @mouseover="di" @mouseout="run">
       <img class="lups" :src="url" />
-      <span @click="left"></span><img :src="url" /><span @click="right"></span>
+      <span @click="left"></span><img :src="url" @click="tiao" /><span @click="right"></span>
     </div>
     <div class="tbody">
       <div class="tebody">
@@ -20,7 +20,7 @@
               <span>|</span>
               <li><router-link to="/Gedan?cat=电子">电子</router-link></li>
             </ul>
-            <div class="ter"><a href="#" @click="dian" class="td erpp red ko">更多</a></div>
+            <div class="ter"><router-link to="/Gedan" class="td erpp red ko">更多</router-link></div>
           </div>
           <ul class="te_body">
             <li v-for="item in data_tou" :key="item.id">
@@ -46,16 +46,18 @@
             </div>
           </div>
           <div class="bd_bd">
-            <ul>
-              <li v-for="item in data_tui" :key="item.id">
+            <div class="befor" @click="befor"></div>
+            <div class="afte" @click="afte"></div>
+            <ul ref="uli">
+              <li v-for="(item, index) in data_tui" :key="index">
                 <div class="er_na">
-                  <router-link :to="`/album?id=${item.id}`"><img :src="item.picUrl" class="eri"/></router-link>
+                  <router-link :to="`/Zhuan?id=${item.id}`"><img :src="item.picUrl" class="eri"/></router-link>
                 </div>
                 <p class="erp">
                   <router-link :to="`/playlist?id=${item.id}`" class="td">{{ item.name }}</router-link>
                 </p>
                 <p class="erpp">
-                  <router-link :to="`/playlist?id=${item.artist.id}`" class="td ko">{{ item.artist.name }}</router-link>
+                  <router-link :to="`/Singerhome?id=${item.artist.id}`" class="td ko">{{ item.artist.name }}</router-link>
                 </p>
               </li>
             </ul>
@@ -104,7 +106,7 @@
         <div class="asbd">
           <div class="asbd1">
             <h6>热门歌手</h6>
-            <a href="#" class="td xiao">查看全部</a>
+            <router-link to="/Singer?area=-1" class="td xiao">查看全部</router-link>
           </div>
           <ul class="asbd2">
             <li v-for="item in data_gesh" :key="item.id">
@@ -121,18 +123,18 @@
         </div>
         <div class="remen">
           <div class="asbd1">
-            <h6>热门主播</h6>
+            <h6>主播</h6>
           </div>
           <ul>
             <li class="remena" v-for="item of data_zhubo" :key="item.id">
-              <a href="#">
+              <router-link :to="`/User?id=${item.id}`">
                 <img :src="item.avatarUrl" alt="" />
-              </a>
+              </router-link>
               <div class="rea">
                 <p>
-                  <a class="td ko" href="#">{{ item.nickName }}</a>
+                  <router-link class="td ko" :to="`/User?id=${item.id}`">{{ item.nickName }}</router-link>
                 </p>
-                <div class="fudb">34567890-34567</div>
+                <div class="fudb"></div>
               </div>
             </li>
           </ul>
@@ -155,13 +157,58 @@ export default {
       data_gesh: [],
       ge: 0,
       ds: 0,
-      src: this.$audio
+      src: this.$audio,
+      num: 1,
+      nutru: true
     }
   },
 
   methods: {
-    dian() {
-      this.$emit('gengdou')
+    tiao() {
+      const b = this.data_bran[this.ge]
+      const a = b.targetType == 1 ? { path: '/Details', query: { id: b.targetId } } : b.targetType == 10 ? { path: '/Zhuan', query: { id: b.targetId } } : b.targetType == 3000 ? `${b.url}` : ''
+      this.$router.push(a)
+    },
+    luno(obj, target, callback) {
+      clearInterval(obj.timer)
+
+      obj.timer = setInterval(function() {
+        var step = (target - obj.offsetLeft) / 10
+        step = step > 0 ? Math.ceil(step) : Math.floor(step)
+        obj.style.left = step + obj.offsetLeft + 'px'
+        if (obj.offsetLeft == target) {
+          clearInterval(obj.timer)
+          if (callback) {
+            callback()
+          }
+        }
+      }, 10)
+    },
+    befor() {
+      if (this.nutru) {
+        this.nutru = false
+        if (this.num == 0) {
+          this.$refs.uli.style.left = '-1330px'
+          this.num = 2
+        }
+        this.num--
+        this.luno(this.$refs.uli, -this.num * 670 + 16, () => {
+          this.nutru = true
+        })
+      }
+    },
+    afte() {
+      if (this.nutru) {
+        this.nutru = false
+        if (this.num == 3) {
+          this.num = 1
+          this.$refs.uli.style.left = '-660px'
+        }
+        this.num++
+        this.luno(this.$refs.uli, -this.num * 670 + 16, () => {
+          this.nutru = true
+        })
+      }
     },
     left() {
       this.ge--
@@ -199,6 +246,9 @@ export default {
     })
     this.$http('/album/newest').then(value => {
       this.data_tui = value.data.albums
+      const a = this.data_tui.splice(0, 5)
+      const b = this.data_tui.splice(0, 5)
+      this.data_tui = [...a, ...b, ...a, ...b]
     })
     // 获取榜单
     this.$http('/toplist').then(value => {
@@ -389,15 +439,17 @@ button {
   margin-top: 20px;
   padding: 20px 16px 0;
   position: relative;
+  overflow: hidden;
 }
 .bd_bd > ul > li {
-  margin-left: 11px;
-  margin-right: 20px;
+  margin: 0 17px;
   width: 100px;
 }
 .bd_bd > ul {
-  overflow: hidden;
+  position: absolute;
   display: flex;
+  left: -660px;
+  z-index: 1;
 }
 .er_na .eri {
   height: 100px;
@@ -417,22 +469,21 @@ button {
   color: #979797;
   vertical-align: middle;
 }
-.bd_bd::after,
-.bd_bd::before {
+.bd_bd > .afte,
+.bd_bd > .befor {
   transform: translateY(-50px);
   font-size: 16px;
   color: #979797;
   font-family: 'icomoon';
   cursor: pointer;
+  z-index: 2;
 }
-.bd_bd::after {
-  content: '\eb1b';
+.bd_bd > .afte {
   position: absolute;
   top: 60%;
   right: 5px;
 }
-.bd_bd::before {
-  content: '\eb1a';
+.bd_bd > .befor {
   position: absolute;
   top: 60%;
   left: 5px;

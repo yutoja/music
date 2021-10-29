@@ -16,7 +16,8 @@ const router = new VueRouter({
     { path: '/Personal', component: () => import('@/components/personal') },
     { path: '/Singer', component: () => import('@/components/singer') },
     { path: '/SingerHome', component: () => import('@/components/Singerhome') },
-    { path: '/User', component: () => import('@/components/user') }
+    { path: '/User', component: () => import('@/components/user') },
+    { path: '/Zhuan', component: () => import('@/components/zhuanji') }
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {

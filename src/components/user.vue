@@ -1,5 +1,5 @@
 <template>
-  <div class="user" v-if="daia">
+  <div class="user" v-if="daia && dat.profile">
     <thead>
       <img :src="dat.profile.avatarUrl" alt="" class="img" />
       <div class="jian">

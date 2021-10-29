@@ -134,7 +134,7 @@ const mix = {
     },
     formatTimeToSec(value) {
       const a = value.split(':')
-      return parseFloat(a[0]) + parseFloat((a[1] * 1).toFixed(1))
+      return parseFloat(a[0] * 60) + parseFloat((a[1] * 1).toFixed(1))
     }
   }
 }
