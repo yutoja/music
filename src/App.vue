@@ -15,7 +15,7 @@
           </ul>
           <div class="m-sou">
             <label for="m-in" class="m-la">
-              <input type="text" id="m-in" v-model="value" @blur="ganb" @focus="ganb" />
+              <input type="text" id="m-in" v-model.trim="value" @blur="ganb" @focus="ganb" />
             </label>
             <div class="m-souz" v-if="ggu">
               <dl v-if="seek.songs">
@@ -495,7 +495,7 @@ export default {
     }
     window.onmouseup = this.mousu
     window.addEventListener('keyup', e => {
-      if (this.ggu && e.keyCode === 13) {
+      if (this.ggu && e.keyCode === 13 && this.value) {
         if (this.$route.query.id !== this.value) this.$router.push(`/Personal?id=${this.value}&type=1`)
       }
     })
