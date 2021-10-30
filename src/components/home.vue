@@ -42,7 +42,7 @@
           <div class="te_nav">
             <div class="tou"><span class="lal"></span><a href="#">热门推荐</a></div>
             <div class="ter">
-              <a href="#" class="td erpp red ko">更多</a>
+              <router-link to="/Xindie" class="td erpp red ko">更多</router-link>
             </div>
           </div>
           <div class="bd_bd">
@@ -54,7 +54,7 @@
                   <router-link :to="`/Zhuan?id=${item.id}`"><img :src="item.picUrl" class="eri"/></router-link>
                 </div>
                 <p class="erp">
-                  <router-link :to="`/playlist?id=${item.id}`" class="td">{{ item.name }}</router-link>
+                  <router-link :to="`/Zhuan?id=${item.id}`" class="td">{{ item.name }}</router-link>
                 </p>
                 <p class="erpp">
                   <router-link :to="`/Singerhome?id=${item.artist.id}`" class="td ko">{{ item.artist.name }}</router-link>
@@ -82,7 +82,7 @@
                       {{ item.name }}
                     </a>
                   </h4>
-                  <p v-if="item.data"><a class=" as" :id="item.data[0].id" @click="sr"></a><a class=" as" href="#"></a></p>
+                  <p v-if="item.data"><a class=" as" @click="all(item.data)"></a><a class=" as" href="#"></a></p>
                 </div>
               </dt>
               <dd>
@@ -99,9 +99,9 @@
         </div>
       </div>
       <div class="asdie">
-        <div class="yon">
+        <div class="yon" v-if="!$store.state.user">
           <p>登录网易云音乐，可以享受无限收藏的乐趣，并且无限同步到手机</p>
-          <a href="#">用户登入</a>
+          <a @click="deng">用户登入</a>
         </div>
         <div class="asbd">
           <div class="asbd1">
@@ -164,6 +164,9 @@ export default {
   },
 
   methods: {
+    deng() {
+      this.$emit('deng')
+    },
     tiao() {
       const b = this.data_bran[this.ge]
       const a = b.targetType == 1 ? { path: '/Details', query: { id: b.targetId } } : b.targetType == 10 ? { path: '/Zhuan', query: { id: b.targetId } } : b.targetType == 3000 ? `${b.url}` : ''
@@ -343,7 +346,9 @@ button {
   box-sizing: border-box;
   padding: 20px 20px 40px;
 }
-
+.blk_b {
+  margin-left: 10px;
+}
 .te_nav {
   height: 35px;
   width: 100%;
@@ -482,11 +487,13 @@ button {
   position: absolute;
   top: 60%;
   right: 5px;
+  user-select: none;
 }
 .bd_bd > .befor {
   position: absolute;
   top: 60%;
   left: 5px;
+  user-select: none;
 }
 .bd_bd::after:hover,
 .bd_bd::before:hover {

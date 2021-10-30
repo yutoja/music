@@ -14,8 +14,8 @@
         <li :class="{ qiu: !teg }" @click="teg = false">艺人介绍</li>
       </ul>
       <div v-show="teg">
-        <div class="keg">
-          <a href="#"><a class="font witee"></a>播放</a>
+        <div class="keg" v-if="dat">
+          <a :id="dat[0].id" @click="sr"><a class="font witee"></a>播放</a>
         </div>
         <div class="tbody">
           <div class="td" v-for="(item, index) in dat" :key="item.id">

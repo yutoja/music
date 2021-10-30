@@ -20,7 +20,7 @@ const mix = {
     visit(id) {
       const a = sessionStorage.getItem('co')
       if (!a) return alert('请先登录')
-      console.log('g')
+
       this.$router.push({
         path: '/Xiang',
         query: {
@@ -37,7 +37,7 @@ const mix = {
       if (!a) return alert('请先登录')
       this.$http(`/follow?id=${id}&t=${type}&cookie=${a}`).then(value => {
         if (value.code === 200) {
-          console.log('1')
+          return 1
         }
       })
     },
@@ -54,7 +54,6 @@ const mix = {
           })
       } else {
         data = await this.$http(`/login/cellphone?phone=${obj.account}&password=${obj.password}`)
-        console.log(data)
       }
 
       if (data.data.code !== 200) return alert('。。。。')
@@ -84,12 +83,16 @@ const mix = {
     pinlu(id, text, type, t, commentId) {
       const a = sessionStorage.getItem('co')
       if (!a) return alert('请先登录')
-      this.$http(`/comment?t=2&type=1&id=5436712&content=${text}${t === 2 ? `&commentId=${6281318440}` : ''}&cookie=${a}`).then(value => {
-        console.log(value)
-      })
+      this.$http(`/comment?t=2&type=1&id=5436712&content=${text}${t === 2 ? `&commentId=${6281318440}` : ''}&cookie=${a}`).then(value => {})
     },
     sr(e) {
       this.$store.dispatch('addsrc', e.target.id)
+    },
+    all(e) {
+      this.$store.dispatch('addsrc', e.splice(0, 1)[0].id)
+      e.forEach(element => {
+        this.$store.dispatch('addbo', element.id)
+      })
     },
     bo(id) {
       this.$store.dispatch('addbo', id)
@@ -128,9 +131,7 @@ const mix = {
           result.push({ time: this.formatTimeToSec($1), lyri: $2 })
         })
         el.gez = result
-      } catch (err) {
-        console.log(err)
-      }
+      } catch (err) {}
     },
     formatTimeToSec(value) {
       const a = value.split(':')

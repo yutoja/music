@@ -27,7 +27,7 @@
             <span>{{ item.time | capitalize }}</span>
             <div class="bo">
               <span class="xiaolu" @click="diaz(cidd, item.commentId, typ)"><span class="blue"></span>({{ item.likedCount }})</span>
-              <span class="xiaolu" @click="fuid = item.commentId"> <span class="blue"></span>回复</span>
+              <span class="xiaolu" @click="fuid == item.commentId ? (fuid = '') : (fuid = item.commentId)"> <span class="blue"></span>回复</span>
             </div>
           </div>
         </div>
@@ -56,7 +56,7 @@
             <span>{{ item.time | apitalize }}</span>
             <div class="bo">
               <span class="xiaolu"><span class="blue"></span>{{ item.likedCount > 0 ? `(${item.likedCount})` : '' }}</span>
-              <span class="xiaolu" @click="fuid = item.commentId"> <span class="blue"></span>回复</span>
+              <span class="xiaolu" @click="fuid == item.commentId ? (fuid = '') : (fuid = item.commentId)"> <span class="blue"></span>回复</span>
             </div>
           </div>
         </div>
@@ -200,6 +200,7 @@ export default {
 }
 .bo {
   font-family: 'icomoon';
+  user-select: none;
 }
 .qufoot {
   margin-top: 10px;

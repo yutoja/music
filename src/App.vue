@@ -61,14 +61,14 @@
             <li ref="geng" :class="{ 'm-nav_a': this.$route.path == '/Gedan' }">
               <router-link to="/Gedan">歌单</router-link>
             </li>
-            <li :class="{ 'm-nav_a': this.$route.path == '/sss' }">
+            <!-- <li :class="{ 'm-nav_a': this.$route.path == '/sss' }">
               <a href="#">主播电台</a>
-            </li>
+            </li> -->
             <li :class="{ 'm-nav_a': this.$route.path == '/Singer' }">
               <router-link to="/Singer?area=-1">歌手</router-link>
             </li>
-            <li :class="{ 'm-nav_a': this.$route.path == '/qqq' }">
-              <router-link to="/Zhuan?id=2017304055">新碟上架</router-link>
+            <li :class="{ 'm-nav_a': this.$route.path == '/Xindie' }">
+              <router-link to="/Xindie">新碟上架</router-link>
             </li>
           </ul>
         </div>
@@ -96,7 +96,7 @@
       </div>
     </div>
     <!-- <keep-alive :exclude="/xiang|detail|bang|SingerHome/"> -->
-    <div class="max"><router-view :bang="austatus" @ge="cuo" :ef="s.id"></router-view></div>
+    <div class="max"><router-view :bang="austatus" @ge="cuo" :ef="s.id" @deng="uuu"></router-view></div>
 
     <!-- </keep-alive> -->
 
@@ -117,7 +117,7 @@
             <router-link :to="`/Singerhome?id=${s ? s.ar[0].id : ''}`" class="td"></router-link>
           </div>
           <div class="fdb3r">
-            <div class="f-yiao">
+            <div class="f-yiao" @click.stop="kuai" ref="fyiao">
               <div :style="`left:${progressBar * 100}%`" class="f-yiao_y" @mousedown="mousd" @mouseup="mousu"></div>
               <div class="quarter" :style="`width:${progressBar * 100}%`"></div>
             </div>
@@ -161,7 +161,7 @@
               <span>{{ s ? s.name : '' }}</span>
               <a @click="lib = false">x</a>
             </div>
-            <div class="liezib" ref="geh">
+            <div class="liezib" ref="geh" @mousewheel="geclear">
               <div class="ttbody">
                 <p v-for="(item, index) in gez" :key="index" :class="{ tran: index === zindex }">{{ item.lyri }}</p>
               </div>
@@ -204,15 +204,22 @@ export default {
       password: '',
       verification: '',
       cookie: null,
-      // lkjh: false,
       phone: /^1[36|78|51]\d{9}$/,
       gez: null,
       zindex: 0,
       xed: 0,
-      tis: false
+      tis: false,
+      geclas: true
     }
   },
   methods: {
+    kuai(e) {
+      const a = (e.clientX - this.$refs.fyiao.offsetLeft) / this.$refs.fyiao.clientWidth
+      this.$refs.audio.currentTime = this.$refs.audio.duration * a
+    },
+    uuu() {
+      this.lun = true
+    },
     tiss() {
       clearTimeout(this.tyuu)
       this.tis = true
@@ -420,6 +427,14 @@ export default {
           }
         }
       }, 10)
+    },
+    geclear() {
+      clearTimeout(this.$refs.geh.qou)
+      this.geclas = false
+      clearInterval(this.$refs.geh.timer)
+      this.$refs.geh.qou = setTimeout(() => {
+        this.geclas = true
+      }, 2000)
     }
   },
   filters: {
@@ -453,7 +468,9 @@ export default {
       }
     },
     zindex(lod, ne) {
-      this.inter(this.$refs.geh, ne * 35)
+      if (this.geclas) {
+        this.inter(this.$refs.geh, ne * 36 - 68)
+      }
     }
   },
   computed: {
@@ -954,7 +971,7 @@ button {
   transition: 0.5s;
 }
 .ttbody > p {
-  padding: 10px 0 11px 25px;
+  padding: 10px 0 10px 25px;
   color: #989898;
   font-size: 12px;
   transition: all 0.5s ease;

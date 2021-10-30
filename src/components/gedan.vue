@@ -110,7 +110,7 @@ export default {
       const {
         data: { playlists }
       } = await this.$http(`/top/playlist?limit=35${to.query.cat ? `&cat=${to.query.cat}` : ''}`)
-
+      this.ba = false
       this.data_tou = playlists
     }
   }

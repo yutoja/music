@@ -7,7 +7,7 @@
           <h1>{{ dat.profile.nickname }}</h1>
           <em>Lv. {{ dat.level }} </em>
           <span :class="{ font: true, blue: dat.profile.gender == 1, red: dat.profile.gender == 2 }"></span>
-          <button @click="guzh(dat.userPoint.userId, xi), (xi = xi === 1 ? 0 : 1)" v-text="xi == 1 ? '关注' : '取消关注'">关注</button>
+          <button @click=";(a = guzh(dat.userPoint.userId, xi)), xi === 1 && a ? (xi = 0) : ((xi = 1), (a = undefined))" v-text="xi == 1 ? '关注' : '取消关注'">关注</button>
           <button>发私信</button>
         </div>
         <div class="js">
@@ -69,7 +69,8 @@ export default {
       dat: null,
       xi: 1,
       daia: null,
-      diaa: null
+      diaa: null,
+      a: undefined
     }
   },
   computed: {

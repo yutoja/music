@@ -42,7 +42,7 @@
             <h3>{{ data.playlist.name }}</h3>
             <p class="size">{{ time }}</p>
             <div class="btt" v-if="data">
-              <a @click="sr" :id="data.playlist.tracks[0].id"><a class="font wite"></a>播放</a>
+              <a @click="all(data.playlist.tracks)"><a class="font wite"></a>播放</a>
               <a href="#" title="收藏"><a class="font wite black"></a>{{ data.playlist.subscribedCount }}</a>
               <a href="#" title="转发"><a class="font wite black"></a>{{ data.playlist.shareCount }}</a>
               <a href="#" title="评论"><a class="font wite black"></a>{{ data.playlist.commentCount }}</a>
