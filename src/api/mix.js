@@ -101,7 +101,16 @@ const mix = {
       const a = sessionStorage.getItem('co')
       if (!a) return alert('请先登录')
       this.$http(`/comment?t=${t}&type=${type}&id=${id}&content=${text}${t === 2 ? `&commentId=${commentId}` : ''}&cookie=${a}`).then(value => {
-        console.log(value)
+        alert('评论成功')
+
+        switch (type) {
+          case 0:
+            this.hotp(this, this.$route.query.id, 'musie')
+            break
+          case 2:
+            this.hotp(this, this.$route.query.id, 'playlist')
+            break
+        }
       })
     },
     remov(id, type, commentId) {
@@ -109,6 +118,15 @@ const mix = {
       this.$http(`/comment?t=0&type=${type}&id=${id}&commentId=${commentId}&cookie=${a}`).then(value => {
         if (value.data.code === 200) {
           alert('删除成功')
+
+          switch (type) {
+            case 0:
+              this.hotp(this, this.$route.query.id, 'musie')
+              break
+            case 2:
+              this.hotp(this, this.$route.query.id, 'playlist')
+              break
+          }
         }
       })
     },
