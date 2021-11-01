@@ -76,6 +76,7 @@ const mix = {
       const { data } = await this.$http('/logout')
       if (data.code == 200) {
         this.$store.dispatch('clearuser')
+        this.$router.push('/')
         return ''
       }
     },

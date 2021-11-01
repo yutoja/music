@@ -34,24 +34,20 @@
       >收搜'{{ this.$route.query.id }}' 共<span class="red">{{ shu }}</span
       >{{ zi }}</span
     >
-    <input type="radio" name="a" id="zhuj" class="dho" />
-    <input type="radio" name="a" id="geuhs" class="dho" />
-    <input type="radio" name="a" id="geshu" class="dho" />
-    <input type="radio" name="a" id="gedan" class="dho" checked="checked" />
     <ul class="nav">
       <li>
-        <label for="gedan" @click="pus(1, $event)">单曲</label>
+        <label for="gedan" @click="pus(1, $event)" :class="{ labhh: $route.query.type == 1 }">单曲</label>
       </li>
       <li>
-        <label for="geshu" @click="pus(100)">歌手</label>
+        <label for="geshu" @click="pus(100)" :class="{ labhh: $route.query.type == 100 }">歌手</label>
       </li>
-      <li><label for="geuhs" @click="pus(10)">专辑</label></li>
+      <li><label for="geuhs" @click="pus(10)" :class="{ labhh: $route.query.type == 10 }">专辑</label></li>
       <li>
-        <label for="zhuj" @click="pus(1000)">歌单</label>
+        <label for="zhuj" @click="pus(1000)" :class="{ labhh: $route.query.type == 1000 }">歌单</label>
       </li>
     </ul>
     <div class="rouqi">
-      <div class="gedan" v-for="item in dat.songs" :key="item.id">
+      <div class="gedan" v-for="item in dat.songs" :key="item.id" :class="{ qiang: $route.query.type == 1 }">
         <div class="body">
           <div class="bo1"><a :id="item.id" @click="sr" class="font"></a></div>
           <div class="bo2">
@@ -70,23 +66,23 @@
         </div>
       </div>
 
-      <div class="geshu">
+      <div class="geshu" :class="{ qiang: $route.query.type == 100 }">
         <ul>
           <li class="get" v-for="item in dat.artists" :key="item.id">
-            <img :src="item.img1v1Url" :title="item.name" />
+            <img :src="item.img1v1Url" :title="item.name" @click="skip('/Singerhome', item.id)" />
             <p class="over">
-              <a class="xiaoul size" href="#">{{ item.name }}</a>
+              <router-link class="xiaoul size" :to="`/SingerHome?id=${item.id}`">{{ item.name }}</router-link>
             </p>
           </li>
         </ul>
       </div>
 
-      <div class="geuhs">
+      <div class="geuhs" :class="{ qiang: $route.query.type == 10 }">
         <ul>
           <li class="get" v-for="item in dat.albums" :key="item.id">
-            <img :src="item.picUrl" />
+            <img :src="item.picUrl" @click="skip('/Zhuan', item.id)" />
             <p class="over">
-              <router-link class="xiaoul size black" to="#">{{ item.name }}</router-link>
+              <router-link class="xiaoul size black" :to="`/Zhuan?${item.id}`">{{ item.name }}</router-link>
             </p>
             <p class="over">
               <a class="xiaoul gexi" href="#">{{ item.artist.name }}</a>
@@ -95,7 +91,7 @@
         </ul>
       </div>
 
-      <table class="zhuj">
+      <table class="zhuj" :class="{ qiang: $route.query.type == 1000 }">
         <tr class="ge" v-for="item in dat.playlists" :key="item.id">
           <td class="ge1"><a class="font" @click="sr" :id="item.track.id"></a></td>
           <td class="ge2">
@@ -134,7 +130,8 @@ export default {
   },
   methods: {
     pus(val) {
-      if (val !== this.http.type) this.$router.push(`/Personal?id=${this.http.id}&type=${val}`)
+      console.log(val)
+      if (val !== this.$route.query.type) this.$router.push(`/Personal?id=${this.$route.query.id}&type=${val}`)
     },
     ganb() {
       setTimeout(() => {
@@ -196,11 +193,11 @@ export default {
         if (this.$route.query.id !== this.value) this.$router.push(`/Personal?id=${this.value}&type=1`)
       }
     }
+    this.dat = ''
     this.$http(`/search?keywords=${this.$route.query.id}&type=${this.$route.query.type ? this.$route.query.type : '1'}`).then(value => {
       const {
         data: { result }
       } = value
-
       this.dat = result
     })
   }
@@ -434,20 +431,11 @@ a {
 #geuhs:checked ~ .rouqi .geuhs {
   display: block !important;
 }
-#zhuj:checked ~ .rouqi .zhuj {
+.qiang {
   display: block !important;
 }
 
-#gedan:checked ~ .nav > li:nth-of-type(1) > label {
-  border-top: 2px solid red !important;
-}
-#geshu:checked ~ .nav > li:nth-of-type(2) > label {
-  border-top: 2px solid red !important;
-}
-#geuhs:checked ~ .nav > li:nth-of-type(3) > label {
-  border-top: 2px solid red !important;
-}
-#zhuj:checked ~ .nav > li:nth-of-type(4) > label {
+.labhh {
   border-top: 2px solid red !important;
 }
 .m-souz {
@@ -489,5 +477,8 @@ a {
   color: #9b9b9b;
   font-size: 12px;
   margin-right: 5px;
+}
+.get > img {
+  cursor: pointer;
 }
 </style>

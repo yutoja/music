@@ -3,6 +3,9 @@
     <div class="lup" @mouseover="di" @mouseout="run">
       <img class="lups" :src="url" />
       <span @click="left"></span><img :src="url" @click="tiao" /><span @click="right"></span>
+      <ul class="radoo">
+        <li v-for="(item, index) in radiu" :key="index" :class="{ raoo: ge == index }" @click="ge = index"></li>
+      </ul>
     </div>
     <div class="tbody">
       <div class="tebody">
@@ -174,7 +177,6 @@ export default {
     },
     luno(obj, target, callback) {
       clearInterval(obj.timer)
-
       obj.timer = setInterval(function() {
         var step = (target - obj.offsetLeft) / 10
         step = step > 0 ? Math.ceil(step) : Math.floor(step)
@@ -238,6 +240,9 @@ export default {
     url() {
       if (!this.data_bran[this.ge]) return ''
       return this.data_bran[this.ge].imageUrl
+    },
+    radiu() {
+      return this.data_bran
     }
   },
   created() {
@@ -718,5 +723,28 @@ button {
 .cpn {
   width: 20px;
   text-align: center;
+}
+.radoo {
+  position: absolute;
+  left: 50%;
+  top: 95%;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  transform: translateX(-50%);
+}
+.radoo > li {
+  height: 5px;
+  width: 5px;
+  background-color: white;
+  margin-left: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.radoo > li:hover {
+  background-color: red;
+}
+.raoo {
+  background-color: red !important;
 }
 </style>

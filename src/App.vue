@@ -15,7 +15,7 @@
           </ul>
           <div class="m-sou">
             <label for="m-in" class="m-la">
-              <input type="text" id="m-in" v-model.trim="value" @blur="ganb" @focus="ganb" />
+              <input type="text" id="m-in" v-model.trim="value" @blur="ganb" @focus="ganbb" />
             </label>
             <div class="m-souz" v-if="ggu">
               <dl v-if="seek.songs">
@@ -325,8 +325,15 @@ export default {
     },
     ganb() {
       setTimeout(() => {
-        this.ggu = !this.ggu
+        this.ggu = false
       }, 100)
+    },
+    ganbb() {
+      if (this.value !== '') {
+        setTimeout(() => {
+          this.ggu = true
+        }, 100)
+      }
     },
     qie(e, str) {
       for (const k in [...e.target.parentNode.parentNode.children]) {
@@ -456,6 +463,8 @@ export default {
         const { data } = await this.$http(`/search/suggest?keywords=${newva}`)
         this.seek = data.result
         this.ggu = true
+      } else {
+        this.ggu = false
       }
     },
     range(lo, ne) {

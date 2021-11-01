@@ -87,12 +87,22 @@
             </tr>
           </tbody>
         </table>
+        <div class="ping" v-if="hot && news" id="ping">
+          <Com :sw="news" :sh="hot" :su="shu" :typ="typ"></Com>
+          <div class="foote">
+            <a @click="app">上一页</a>
+            <input type="number" placeholder="页数" class="tex" v-model="yeshu" />
+            <a @click="re">跳转</a>
+            <a @click="add">下一页</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import com from '@/views/comment'
 export default {
   name: 'bang',
   data() {
@@ -101,12 +111,54 @@ export default {
       dat_band: [],
       data: null,
       da: this,
-      i: 1
+      i: 1,
+      hot: null,
+      news: null,
+      shu: null,
+      typ: 2,
+      yeshu: 0
     }
+  },
+  methods: {
+    async add() {
+      if (this.yeshu < 0) {
+        this.yeshu = 0
+        return alert('这页数认真的吗')
+      }
+      this.yeshu++
+      const {
+        data: { comments }
+      } = await this.$http(`/comment/playlist?id=${this.$route.query.id}&offset=${this.yeshu * 20}`)
+      this.news = comments
+    },
+    async app() {
+      if (this.yeshu <= 0) {
+        this.yeshu = 0
+        return alert('这页数认真的吗')
+      }
+      this.yeshu--
+      const {
+        data: { comments }
+      } = await this.$http(`/comment/playlist?id=${this.$route.query.id}&offset=${this.yeshu * 20}`)
+      this.news = comments
+    },
+    async re() {
+      if (this.value < 1) alert('这页数认真的吗')
+      const {
+        data: { comments }
+      } = await this.$http(`/comment/playlist?id=${this.$route.query.id}&offset=${this.yeshu * 20}`)
+      this.news = comments
+    }
+  },
+  components: {
+    Com: com
   },
   watch: {
     $route(to, from) {
       this.date(this.da, to.query.id)
+
+      this.hotp(this, to.query.id, 'playlist')
+      this.date(this, to.query.id)
     }
   },
   computed: {
@@ -129,6 +181,7 @@ export default {
     }
   },
   async created() {
+    this.hotp(this, this.$route.query.id, 'playlist')
     this.$http('/toplist').then(value => {
       this.dat_ban = value.data.list
       this.dat_band = this.dat_ban.splice(0, 4)
@@ -332,7 +385,29 @@ table {
   width: 38px;
   text-align: center;
 }
-
+.foote {
+  text-align: center;
+  margin-top: 20px;
+}
+.foote > a {
+  display: inline-block;
+  line-height: 24px;
+  width: 50px;
+  color: black;
+  background-image: linear-gradient(180deg, #ffffff, rgb(236, 236, 236));
+  margin-right: 20px;
+  box-shadow: 0 0 1px 1px rgba(0.5, 0.5, 0.5, 0.2);
+}
+.foote > a:hover {
+  background-image: linear-gradient(180deg, rgb(236, 236, 236), #ffffff);
+}
+.tex {
+  box-shadow: 0 0 1px 1px rgba(0.5, 0.5, 0.5, 0.5);
+  padding-left: 5px;
+  height: 24px;
+  width: 50px;
+  margin-right: 10px;
+}
 th {
   padding: 6px 8px 6px 10px;
   font-size: 12px;
@@ -355,5 +430,8 @@ tbody > tr:nth-child(1n) {
 }
 tbody > tr:nth-child(2n) {
   background-color: white;
+}
+.ping {
+  padding: 20px 30px 100px 39px;
 }
 </style>
