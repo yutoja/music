@@ -63,6 +63,9 @@ const actions = {
   // 添加个人用户数据
   user(commit, data) {
     commit.commit('user', data)
+  },
+  clearuser(commit) {
+    commit.commit('clearuser')
   }
 }
 const mutations = {
@@ -80,6 +83,9 @@ const mutations = {
   },
   user(state, data) {
     state.user = data
+  },
+  clearuser(state) {
+    state.user = null
   }
 }
 

@@ -8,11 +8,11 @@
       <div class="dsisscu"><img :src="sess ? sess.profile.avatarUrl : ''" /><textarea v-model="text"></textarea></div>
       <input type="button" value="评论" @click="pilun(text, 1)" />
     </div>
-    <div class="zhon">
+    <div class="zhon" v-if="hot.length > 0">
       <div class="jizai">
         精彩评论
       </div>
-      <div class="jibody" v-for="item in hot" :key="item.commentId">
+      <div :class="{ jibody: true, shaa: sess && sess.bindings[0].userId == item.user.userId }" v-for="item in hot" :key="item.commentId">
         <img :src="item.user.avatarUrl" alt="" @click="skip('/User', item.user.userId)" />
         <div class="qu">
           <div class="lun">
@@ -26,7 +26,8 @@
           <div class="qufoot">
             <span>{{ item.time | capitalize }}</span>
             <div class="bo">
-              <span class="xiaolu" @click="diaz(cidd, item.commentId, typ)"><span class="blue"></span>({{ item.likedCount }})</span>
+              <span class="xiaolu sha" @click=";(tish = true), (dat = item.commentId)">删除</span>
+              <span class="xiaolu" @click="diaz(cidd, item.commentId, typ)"><span v-bind:class="[item.liked ? 'red' : 'blue']"></span>({{ item.likedCount }})</span>
               <span class="xiaolu" @click="fuid == item.commentId ? (fuid = '') : (fuid = item.commentId)"> <span class="blue"></span>回复</span>
             </div>
           </div>
@@ -37,11 +38,11 @@
         </div>
       </div>
     </div>
-    <div class="zhon">
+    <div class="zhon" v-if="news.length > 0">
       <div class="jizai">
         最新评论
       </div>
-      <div class="jibody" v-for="(item, index) in news" :key="index">
+      <div :class="{ jibody: true, shaa: sess && sess.bindings[0].userId == item.user.userId }" v-for="(item, index) in news" :key="index">
         <img :src="item.user.avatarUrl" alt="" @click="skip('/User', item.user.userId)" />
         <div class="qu">
           <div class="lun">
@@ -55,6 +56,7 @@
           <div class="qufoot">
             <span>{{ item.time | apitalize }}</span>
             <div class="bo">
+              <span class="xiaolu sha" @click=";(tish = true), (dat = item.commentId)">删除</span>
               <span class="xiaolu"><span class="blue"></span>{{ item.likedCount > 0 ? `(${item.likedCount})` : '' }}</span>
               <span class="xiaolu" @click="fuid == item.commentId ? (fuid = '') : (fuid = item.commentId)"> <span class="blue"></span>回复</span>
             </div>
@@ -63,6 +65,21 @@
         <div class="discuss1" v-if="item.commentId == fuid">
           <div class="dsisscu1"><img :src="sess ? sess.profile.avatarUrl : ''" /><textarea v-model="hhuifu" :placeholder="`回复${item.user.nickname}`"></textarea></div>
           <input type="button1" value="回复" @click="pilun(hhuifu, 2, item.commentId)" />
+        </div>
+      </div>
+    </div>
+    <div class="boos" v-if="tish">
+      <div class="tishi">
+        <div class="tihe">
+          <span>删除</span>
+          <span @click=";(tish = false), (dat = '')" class="yiu">x</span>
+        </div>
+        <div class="tibod">
+          <span>确定删除吗</span>
+          <div class="tiba">
+            <button @click="remo, (tish = false), (dat = '')">确定</button>
+            <button @click=";(tish = false), (dat = '')">取消</button>
+          </div>
         </div>
       </div>
     </div>
@@ -103,10 +120,11 @@ export default {
       shu: this.su,
       text: '',
       hhuifu: '',
-      fuid: 0
+      fuid: 0,
+      tish: false,
+      dat: ''
     }
   },
-
   filters: {
     apitalize: function(val) {
       const shi = parseInt(((+new Date() - val) / 1000 / 60) % 60)
@@ -131,6 +149,9 @@ export default {
         this.pinlu(this.cidd, text, this.typ, t)
       }
       this.text = ''
+    },
+    remo() {
+      this.remov(this.cidd, this.typ, this.dat)
     }
   },
   watch: {
@@ -212,6 +233,9 @@ export default {
 }
 .blue {
   color: blue;
+}
+.red {
+  color: red;
 }
 .bo > span {
   margin: 0 5px;
@@ -301,5 +325,67 @@ export default {
   margin-left: 10px;
   cursor: pointer;
   text-align: center;
+}
+.lun {
+  white-space: pre-line;
+}
+.tishi {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 180px;
+  transform: translateX(-50%) translateY(-50%);
+  box-shadow: 0 0 20px 5px rgba(0.5, 0.5, 0.5, 0.5);
+  z-index: 999;
+}
+.tishi > .tihe {
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  line-height: 30px;
+  padding: 0 10px;
+}
+.tibod {
+  padding-top: 40px;
+  box-sizing: border-box;
+  background-color: #fff;
+  height: 150px;
+  text-align: center;
+}
+.tiba {
+  margin-top: 20px;
+}
+.tiba > button {
+  height: 30px;
+  width: 70px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.tiba > button:nth-child(1) {
+  background-image: linear-gradient(180deg, #fff, blue);
+  margin-right: 30px;
+}
+.tiba > button:nth-child(2) {
+  background-image: linear-gradient(180deg, rgb(155, 155, 155), rgb(219, 219, 219));
+  margin-right: 10px;
+}
+.yiu {
+  cursor: pointer;
+}
+.boos {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  user-select: none;
+}
+.sha {
+  display: none;
+}
+.shaa:hover .sha {
+  display: inline-block;
 }
 </style>

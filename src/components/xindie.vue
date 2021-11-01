@@ -168,6 +168,10 @@ export default {
 }
 .xin-p1 {
   margin: 0 0 0 0;
+  overflow: hidden;
+  width: 135px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .foote {
   margin-top: 10px;

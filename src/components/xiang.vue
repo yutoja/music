@@ -11,7 +11,7 @@
         </div>
         <div class="btb">
           <div class="btt">
-            <a :id="data.playlist.tracks[0].id" @click="sr" title="播放"><a class="font wite"></a>播放</a>
+            <a @click="all(data.playlist.tracks)" title="播放"><a class="font wite"></a>播放</a>
             <a href="#" title="收藏"><a class="font black"></a>({{ zda.data.bookedCount }})</a>
             <a href="#" title="转发"><a class="font black"></a>({{ zda.data.shareCount }})</a>
             <a href="#ping" title="评论"><a class="font black"></a>({{ zda.data.commentCount }})</a>
@@ -131,15 +131,13 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.hotp(this, to.query.id, 2)
-      this.newsa(this, to.query.id, 2)
+      this.hotp(this, to.query.id, 'playlist')
       this.date(this, to.query.id)
     }
   },
   async created() {
     this.date(this, this.$route.query.id)
-    this.hotp(this, this.$route.query.id, 2)
-    this.newsa(this, this.$route.query.id, 2)
+    this.hotp(this, this.$route.query.id, 'playlist')
     const a = await this.$http(`/playlist/detail/dynamic?id=${this.$route.query.id}`)
     this.zda = a
   },

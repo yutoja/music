@@ -7,8 +7,8 @@
           <h1>{{ dat.profile.nickname }}</h1>
           <em>Lv. {{ dat.level }} </em>
           <span :class="{ font: true, blue: dat.profile.gender == 1, red: dat.profile.gender == 2 }"></span>
-          <button @click=";(a = guzh(dat.userPoint.userId, xi)), xi === 1 && a ? (xi = 0) : ((xi = 1), (a = undefined))" v-text="xi == 1 ? '关注' : '取消关注'">关注</button>
-          <button>发私信</button>
+          <button @click=";(a = guzh(dat.userPoint.userId, xi)), xi === 1 && a ? (xi = 0) : ((xi = 1), (a = undefined))" v-text="xi == 1 ? '关注' : '取消关注'" v-if="!$store.state.user || $store.state.user.profile.userId != $route.query.id">关注</button>
+          <button v-if="!$store.state.user || $store.state.user.profile.userId != $route.query.id">发私信</button>
         </div>
         <div class="js">
           <div>
@@ -54,7 +54,7 @@
           <div class="baj">
             <span class="font"> {{ item.playCount > 10000 ? parseInt(item.playCount / 10000) + '万' : item.playCount }}</span> <span class="font"></span>
           </div>
-          <a href="#" class="xiaolu black ove dis">{{ item.name }}</a>
+          <router-link :to="`/Xiang?id=${item.id}`" class="xiaolu black ove dis">{{ item.name }}</router-link>
         </li>
       </ul>
     </div>

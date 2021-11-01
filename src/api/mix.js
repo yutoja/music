@@ -1,6 +1,6 @@
 const mix = {
   data() {
-    return { t: 1, zhen: false }
+    return { t: 1, zhen: false, no: 0 }
   },
   methods: {
     // 获取验证码
@@ -71,11 +71,28 @@ const mix = {
         token
       })
     },
+    // 退出登录
+    async logout() {
+      const { data } = await this.$http('/logout')
+      if (data.code == 200) {
+        this.$store.dispatch('clearuser')
+        return ''
+      }
+    },
     // 点赞
     diaz(id, cid, type) {
       const a = sessionStorage.getItem('co')
       if (!a) return alert('请先登录')
       this.$http(`/comment/like?id=${id}&cid=${cid}&type=${type}&t=${this.t}&cookie=${a}`)
+
+      switch (type) {
+        case 0:
+          this.hotp(this, this.$route.query.id, 'musie')
+          break
+        case 2:
+          this.hotp(this, this.$route.query.id, 'playlist')
+          break
+      }
 
       this.t = this.t === 1 ? 0 : 1
     },
@@ -83,14 +100,28 @@ const mix = {
     pinlu(id, text, type, t, commentId) {
       const a = sessionStorage.getItem('co')
       if (!a) return alert('请先登录')
-      this.$http(`/comment?t=2&type=1&id=5436712&content=${text}${t === 2 ? `&commentId=${6281318440}` : ''}&cookie=${a}`).then(value => {})
+      this.$http(`/comment?t=${t}&type=${type}&id=${id}&content=${text}${t === 2 ? `&commentId=${commentId}` : ''}&cookie=${a}`).then(value => {
+        console.log(value)
+      })
+    },
+    remov(id, type, commentId) {
+      const a = sessionStorage.getItem('co')
+      this.$http(`/comment?t=0&type=${type}&id=${id}&commentId=${commentId}&cookie=${a}`).then(value => {
+        if (value.data.code === 200) {
+          alert('删除成功')
+        }
+      })
     },
     sr(e) {
       this.$store.dispatch('addsrc', e.target.id)
     },
     all(e) {
-      this.$store.dispatch('addsrc', e.splice(0, 1)[0].id)
-      e.forEach(element => {
+      const a = [...e]
+      this.$store.dispatch('addsrc', a.splice(0, 1)[0].id)
+      if (this.$store.state.playli.length > 499) {
+        this.$store.state.playli.length = 0
+      }
+      a.forEach(element => {
         this.$store.dispatch('addbo', element.id)
       })
     },
@@ -103,21 +134,21 @@ const mix = {
     },
     async hotp(el, id, type) {
       const {
-        data: { hotComments }
-      } = await this.$http(`/comment/hot?id=${id}&type=${type}`)
+        data: { hotComments, comments, total }
+      } = await this.$http(`/comment/${type}?id=${id}`)
+
       el.hot = hotComments
-    },
-    async newsa(el, id, type) {
-      const {
-        data: {
-          data: { comments, totalCount }
-        }
-      } = await this.$http(`/comment/new?type=${type}&id=${id}&sortType=3`)
-
       el.news = comments
-
-      el.shu = totalCount
+      el.shu = total
     },
+    // async newsa(el, id, type) {
+    //   const {
+    //     data: {
+    //       data: {  }
+    //     }
+    //   } = await this.$http(`/comment/new?type=${type}&id=${id}&sortType=3`)
+
+    // },
     async gezi(el, id) {
       try {
         const {

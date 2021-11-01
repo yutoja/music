@@ -101,8 +101,7 @@ export default {
   },
   watch: {
     async $route(to, from) {
-      this.hotp(this, to.query.id, 0)
-      this.newsa(this, to.query.id, 0)
+      this.hotp(this, to.query.id, 'music')
       this.gezi(this, to.query.id)
       const {
         data: { songs }
@@ -131,8 +130,7 @@ export default {
   },
 
   async beforeMount() {
-    this.hotp(this, this.$route.query.id, 0)
-    this.newsa(this, this.$route.query.id, 0)
+    this.hotp(this, this.$route.query.id, 'music')
     this.gezi(this, this.$route.query.id)
     const {
       data: { songs }

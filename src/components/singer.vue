@@ -54,7 +54,8 @@ export default {
         ['乐队组合', 3]
       ],
       dat: null,
-      shu: 1
+      shu: 1,
+      scrol: true
     }
   },
   methods: {
@@ -64,12 +65,15 @@ export default {
   },
   async created() {
     window.addEventListener('scroll', async e => {
-      if (document.body.offsetHeight - (window.innerHeight + document.documentElement.scrollTop) < 1) {
+      if (document.body.offsetHeight - (window.innerHeight + document.documentElement.scrollTop) < 1 && this.scrol) {
+        this.scrol = false
         this.shu++
+
         const {
           data: { artists }
-        } = await this.$http(`/artist/list?${this.$route.query.type ? `type=${this.$route.query.type}` : ''}&${this.$route.query.area ? `area=${this.$route.query.area}` : ''}&${this.$route.query.initial ? `initial=${this.$route.query.initial}` : ''}&limit=${this.shu * 10}`)
-        this.dat = artists
+        } = await this.$http(`/artist/list?${this.$route.query.type ? `type=${this.$route.query.type}` : ''}&${this.$route.query.area ? `area=${this.$route.query.area}` : ''}&${this.$route.query.initial ? `initial=${this.$route.query.initial}` : ''}&limit=10&offset=${this.shu * 10}`)
+        this.dat.push(...artists)
+        this.scrol = true
       }
     })
     const {

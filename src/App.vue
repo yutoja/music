@@ -46,7 +46,13 @@
           </div>
           <button class="m-zhon">创作者中心</button>
           <a href="" class="m-deng" @click.prevent="lun = true" v-if="!sese">登录</a>
-          <img v-else :src="sese.profile.avatarUrl" class="douy" />
+          <div v-else class="douxin">
+            <img class="douy" :src="sese.profile.avatarUrl" />
+            <ul class="douxin-li">
+              <li @click="skip('/User', sese.profile.userId)">个人中心</li>
+              <li @click="logout">登出</li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="m-botton">
@@ -74,7 +80,7 @@
         </div>
       </div>
     </nav>
-    <div :class="{ dohuan: true, huanda: this.zhen }">登录成功<span class="font"></span></div>
+    <div :class="{ dohuan: true, huanda: zhen }">登录成功<span class="font"></span></div>
     <div class="register" ref="redister" v-if="lun">
       <div class="redh" @mousedown="weizhi"><span>手机号登录</span><span @click="lun = false">X</span></div>
       <div class="reab">
@@ -478,6 +484,9 @@ export default {
       return this.$store.state.id
     },
     sese() {
+      if (!this.$store.state.user) {
+        sessionStorage.clear()
+      }
       return this.$store.state.user
     }
   },
@@ -969,9 +978,11 @@ button {
 }
 .ttbody {
   transition: 0.5s;
+  padding-bottom: 36px;
 }
 .ttbody > p {
-  padding: 10px 0 10px 25px;
+  padding-left: 25px;
+  height: 36px;
   color: #989898;
   font-size: 12px;
   transition: all 0.5s ease;
@@ -1219,5 +1230,33 @@ button {
   border-radius: 5px;
 
   background-color: black;
+}
+.douxin {
+  position: relative;
+  height: 10px;
+}
+.douxin-li {
+  position: absolute;
+  top: 50px;
+  left: -5px;
+  z-index: 999;
+  background: rgb(61, 61, 61);
+  color: white;
+  line-height: 32px;
+  width: 100px;
+  text-align: center;
+  box-shadow: 0 0 2px 2px rgba(0.5, 0.5, 0.5, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+  display: none;
+}
+.douxin-li > li {
+  cursor: pointer;
+}
+.douxin-li > li:hover {
+  background-color: rgb(134, 134, 134);
+}
+.douxin:hover > .douxin-li {
+  display: block;
 }
 </style>

@@ -133,8 +133,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.hotp(this, to.query.id, 3)
-      this.newsa(this, to.query.id, 3)
+      this.hotp(this, this.$route.query.id, 'album')
       this.date(this, to.query.id)
     }
   },
@@ -142,8 +141,7 @@ export default {
     const { data } = await this.$http(`/album?id=${this.$route.query.id}`)
 
     this.data = data
-    this.hotp(this, this.$route.query.id, 3)
-    this.newsa(this, this.$route.query.id, 3)
+    this.hotp(this, this.$route.query.id, 'album')
     const a = await this.$http(`/album/detail/dynamic?id=${this.$route.query.id}`)
     this.zda = a
   },
