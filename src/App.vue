@@ -381,10 +381,11 @@ export default {
 
               break
             case 2:
+              // 设置 loop 属性，使其循环播放
+              // e.target.loop = true
               this.$store.state.id = this.b[a]
               e.target.pause()
               e.target.play()
-
               break
           }
         }
@@ -530,7 +531,7 @@ export default {
   --color-y: black;
 }
 .xiaolu:hover {
-  text-decoration: revert;
+  text-decoration: revert !important;
 }
 .hove {
   color: var(--color);
@@ -1080,7 +1081,7 @@ button {
   z-index: 9999;
   width: 528px;
   height: 300px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -1267,5 +1268,31 @@ button {
 }
 .douxin:hover > .douxin-li {
   display: block;
+}
+.ping {
+  padding: 20px 0 100px 0;
+}
+.foote {
+  text-align: center;
+  margin-top: 20px;
+}
+.foote > a {
+  display: inline-block;
+  line-height: 24px;
+  width: 50px;
+  color: black;
+  background-image: linear-gradient(180deg, #ffffff, rgb(236, 236, 236));
+  margin-right: 20px;
+  box-shadow: 0 0 1px 1px rgba(0.5, 0.5, 0.5, 0.2);
+}
+.foote > a:hover {
+  background-image: linear-gradient(180deg, rgb(236, 236, 236), #ffffff);
+}
+.tex {
+  box-shadow: 0 0 1px 1px rgba(0.5, 0.5, 0.5, 0.5);
+  padding-left: 5px;
+  height: 24px;
+  width: 50px;
+  margin-right: 10px;
 }
 </style>

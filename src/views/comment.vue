@@ -127,7 +127,12 @@ export default {
   },
   filters: {
     apitalize: function(val) {
-      const shi = parseInt(((+new Date() - val) / 1000 / 60) % 60)
+      let shi = parseInt((+new Date() - val) / 1000 / 60 / 6 / 24)
+      if (shi / 10 > 10) {
+        const a = new Date(val)
+        return `20${a.getYear() - 100}-${a.getMonth() + 1}-${a.getDay()}`
+      }
+      shi = parseInt(((+new Date() - val) / 1000 / 60) % 60)
       return shi < 60 ? (shi < 1 ? '刚刚更新' : shi + '分钟前') : shi / 60 + '小时前'
     },
     capitalize: function(val) {
@@ -248,7 +253,7 @@ export default {
 .hu {
   margin-top: 10px;
   padding: 10px 20px;
-  background-color: #f4f4f4;
+  background-color: #ebebeb;
   border: 1px solid #ccc;
 }
 .hu > span {
@@ -328,6 +333,7 @@ export default {
 }
 .lun {
   white-space: pre-line;
+  word-break: break-all;
 }
 .tishi {
   position: fixed;

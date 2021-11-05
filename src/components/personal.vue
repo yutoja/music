@@ -45,6 +45,9 @@
       <li>
         <label for="zhuj" @click="pus(1000)" :class="{ labhh: $route.query.type == 1000 }">歌单</label>
       </li>
+      <li>
+        <label for="zhuj" @click="pus(1014)" :class="{ labhh: $route.query.type == 1014 }">视频</label>
+      </li>
     </ul>
     <div class="rouqi">
       <div class="gedan" v-for="item in dat.songs" :key="item.id" :class="{ qiang: $route.query.type == 1 }">
@@ -113,6 +116,20 @@
           </td>
         </tr>
       </table>
+
+      <div class="geuhs" :class="{ qiang: $route.query.type == 1014 }">
+        <ul>
+          <li class="gett" v-for="item in dat.videos" :key="item.id">
+            <img :src="item.coverUrl" @click="skip('/Vedio', item.vid)" />
+            <p class="over">
+              <router-link class="xiaoul size black" :to="`/Vedio?id=${item.vid}`">{{ item.title }}</router-link>
+            </p>
+            <p class="over">
+              by <router-link class="xiaoul gexi" :to="`/User?id=${item.creator[0].userId}`">{{ item.creator[0].userName }}</router-link>
+            </p>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -130,7 +147,6 @@ export default {
   },
   methods: {
     pus(val) {
-      console.log(val)
       if (val !== this.$route.query.type) this.$router.push(`/Personal?id=${this.$route.query.id}&type=${val}`)
     },
     ganb() {
@@ -159,6 +175,7 @@ export default {
       if (this.dat.artists) return this.dat.artists.length
       if (this.dat.albums) return this.dat.albums.length
       if (this.dat.playlists) return this.dat.playlists.length
+      if (this.dat.videos) return this.dat.videos.length
       return ''
     },
     zi() {
@@ -167,6 +184,7 @@ export default {
       if (this.dat.artists) return '个歌手'
       if (this.dat.albums) return '个歌单'
       if (this.dat.playlists) return '张专辑'
+      if (this.dat.videos) return '个视频'
       return ''
     }
   },
@@ -256,8 +274,8 @@ a {
   font-family: 'icomoon';
   font-size: 14px;
 }
-.xiaolu:hover {
-  text-decoration: revert;
+.xiaoul:hover {
+  text-decoration: revert !important;
 }
 .theb {
   height: 40px;
@@ -371,6 +389,19 @@ a {
 .get > img {
   height: 130px;
   width: 130px;
+}
+.gett {
+  display: inline-block;
+  height: 154px;
+  width: 161px;
+  margin: 0 26px 45px 0;
+}
+.gett:nth-child(5n) {
+  margin: 0;
+}
+.gett > img {
+  height: 130px;
+  width: 162px;
 }
 .ge {
   height: 60px;
