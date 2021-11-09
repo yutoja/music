@@ -79,9 +79,13 @@ export default {
     }
   },
   created() {
-    this.$http(`/user/detail?uid=${this.id}`).then(value => {
-      this.dat = value.data
-    })
+    this.$http(`/user/detail?uid=${this.id}`)
+      .then(value => {
+        this.dat = value.data
+      })
+      .catch(() => {
+        alert('很抱歉，你要查找的网页找不到')
+      })
     this.$http(`/user/playlist?uid=${this.id}`).then(value => {
       this.daia = value.data.playlist.filter(value => value.creator.userId == this.id)
       this.diaa = value.data.playlist.filter(value => value.creator.userId != this.id)
