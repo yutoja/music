@@ -68,10 +68,10 @@ export default {
       if (document.body.offsetHeight - (window.innerHeight + document.documentElement.scrollTop) < 1 && this.scrol) {
         this.scrol = false
         this.shu++
-
+        const query = this.$route.query
         const {
           data: { artists }
-        } = await this.$http(`/artist/list?${this.$route.query.type ? `type=${this.$route.query.type}` : ''}&${this.$route.query.area ? `area=${this.$route.query.area}` : ''}&${this.$route.query.initial ? `initial=${this.$route.query.initial}` : ''}&limit=10&offset=${this.shu * 10}`)
+        } = await this.$http(`/artist/list?${query.type ? `type=${query.type}` : ''}&${query.area ? `area=${query.area}` : ''}&${query.initial ? `initial=${query.initial}` : ''}&limit=10&offset=${this.shu * 10}`)
         this.dat.push(...artists)
         this.scrol = true
       }

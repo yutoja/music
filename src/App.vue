@@ -169,7 +169,7 @@
             </div>
             <div class="liezib" ref="geh" @mousewheel="geclear">
               <div class="ttbody">
-                <p v-for="(item, index) in gez" :key="index" :class="{ tran: index === zindex }">{{ item.lyri }}</p>
+                <p v-for="(item, index) in gez" :key="index" :class="{ tran: index === zindex }" ref="lyri">{{ item.lyri }}</p>
               </div>
             </div>
           </div>
@@ -485,7 +485,9 @@ export default {
     },
     zindex(lod, ne) {
       if (this.geclas) {
-        this.inter(this.$refs.geh, ne * 36 - 68)
+        // 统计需要滚动的位置
+        const a = this.$refs.lyri.slice(0, ne).reduce((pon, value) => value.offsetHeight + pon, 0)
+        this.inter(this.$refs.geh, a - 68)
       }
     }
   },
@@ -991,8 +993,7 @@ button {
   padding-bottom: 36px;
 }
 .ttbody > p {
-  padding-left: 25px;
-  height: 36px;
+  padding: 5px 0 5px 25px;
   color: #989898;
   font-size: 12px;
   transition: all 0.5s ease;

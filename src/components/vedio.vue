@@ -109,20 +109,21 @@ export default {
       this.news = comments
     },
     async fun() {
-      const type = this.$route.query.id.length < 10 ? 'mv' : 'video'
-      const t = this.$route.query.id.length < 10 ? 'mv' : 'v'
-      const ty = this.$route.query.id.length < 10 ? 'mv' : ''
-      this.hotp(this, this.$route.query.id, type)
+      const id = this.$route.query.id
+      const type = id.length < 10 ? 'mv' : 'video'
+      const t = id.length < 10 ? 'mv' : 'v'
+      const ty = id.length < 10 ? 'mv' : ''
+      this.hotp(this, id, type)
 
       if (ty == 'mv') {
         const {
           data: { data }
-        } = await this.$http(`/${type}/url?id=${this.$route.query.id}`)
+        } = await this.$http(`/${type}/url?id=${id}`)
         this.ved = data
       } else {
         const {
           data: { urls }
-        } = await this.$http(`/${type}/url?id=${this.$route.query.id}`)
+        } = await this.$http(`/${type}/url?id=${id}`)
 
         this.ved = urls[0]
       }
@@ -130,17 +131,17 @@ export default {
       {
         const {
           data: { data }
-        } = await this.$http(`/${type}/detail?${ty}id=${this.$route.query.id}`)
+        } = await this.$http(`/${type}/detail?${ty}id=${id}`)
         this.dae = data
       }
       {
-        const { data } = await this.$http(`/${type}/detail/info?${t}id=${this.$route.query.id}`)
+        const { data } = await this.$http(`/${type}/detail/info?${t}id=${id}`)
         this.veda = data
       }
       {
         const {
           data: { data }
-        } = await this.$http(`/related/allvideo?id=${this.$route.query.id}`)
+        } = await this.$http(`/related/allvideo?id=${id}`)
 
         this.tuijian = data
       }

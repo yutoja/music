@@ -44,6 +44,7 @@ const mix = {
     // 登录
     async ghg(obj, na) {
       let data
+
       if (obj.verification) {
         this.$http(`/captcha/verify?phone=${obj.account}&captcha=${obj.verification}`)
           .then(async value => {
