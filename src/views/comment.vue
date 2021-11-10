@@ -34,7 +34,7 @@
         </div>
         <div class="discuss1" v-if="item.commentId == fuid">
           <div class="dsisscu1"><img :src="sess ? sess.profile.avatarUrl : ''" /><textarea v-model="hhuifu" :placeholder="`回复${item.user.nickname}`"></textarea></div>
-          <input type="button1" value="回复" @click="pilun(hhuifu, 2, item.commentId)" />
+          <input type="button1" value="回复" @click="pilun(hhuifu, 2, item.commentId), (hhuifu = '')" />
         </div>
       </div>
     </div>
@@ -57,14 +57,14 @@
             <span>{{ item.time | apitalize }}</span>
             <div class="bo">
               <span class="xiaolu sha" @click=";(tish = true), (dat = item.commentId)">删除</span>
-              <span class="xiaolu"><span class="blue"></span>{{ item.likedCount > 0 ? `(${item.likedCount})` : '' }}</span>
+              <span class="xiaolu" @click="diaz(cidd, item.commentId, typ)"><span v-bind:class="[item.liked ? 'red' : 'blue']"></span>({{ item.likedCount }})</span>
               <span class="xiaolu" @click="fuid == item.commentId ? (fuid = '') : (fuid = item.commentId)"> <span class="blue"></span>回复</span>
             </div>
           </div>
         </div>
         <div class="discuss1" v-if="item.commentId == fuid">
           <div class="dsisscu1"><img :src="sess ? sess.profile.avatarUrl : ''" /><textarea v-model="hhuifu" :placeholder="`回复${item.user.nickname}`"></textarea></div>
-          <input type="button1" value="回复" @click="pilun(hhuifu, 2, item.commentId)" />
+          <input type="button" value="回复" @click="pilun(hhuifu, 2, item.commentId), (hhuifu = '')" />
         </div>
       </div>
     </div>

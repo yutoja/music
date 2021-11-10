@@ -80,7 +80,9 @@
         </div>
       </div>
     </nav>
-    <div :class="{ dohuan: true, huanda: zhen }">登录成功<span class="font"></span></div>
+    <div :class="{ dohuan: true, huanda: zhen }">
+      {{ title }}<span :class="{ font: true, red: tgg }">{{ tgg ? '' : '' }}</span>
+    </div>
     <div class="register" ref="redister" v-if="lun">
       <div class="redh" @mousedown="weizhi"><span>手机号登录</span><span @click="lun = false">X</span></div>
       <div class="reab">
@@ -265,21 +267,15 @@ export default {
       if (!this.phone.test(this.account)) return alert('请填写正确的账户')
       if (this.duan) {
         if (!this.password) return alert('密码不能为空')
-        this.ghg(
-          {
-            account: this.account,
-            password: this.password
-          },
-          this
-        )
+        this.ghg({
+          account: this.account,
+          password: this.password
+        })
       } else {
-        this.ghg(
-          {
-            account: this.account,
-            verification: this.verification
-          },
-          this
-        )
+        this.ghg({
+          account: this.account,
+          verification: this.verification
+        })
       }
 
       // if (this.cookie && this.cookie.account) return alert(this.cookie.msg)
@@ -489,6 +485,14 @@ export default {
         const a = this.$refs.lyri.slice(0, ne).reduce((pon, value) => value.offsetHeight + pon, 0)
         this.inter(this.$refs.geh, a - 68)
       }
+    },
+    zhen(lo, ne) {
+      let a = null
+      clearTimeout(a)
+      a = setTimeout(() => {
+        this.zhen = false
+        clearTimeout(a)
+      }, 2000)
     }
   },
   computed: {

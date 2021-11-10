@@ -7,7 +7,7 @@
           <h1>{{ dat.profile.nickname }}</h1>
           <em>Lv. {{ dat.level }} </em>
           <span :class="{ font: true, blue: dat.profile.gender == 1, red: dat.profile.gender == 2 }"></span>
-          <button @click=";(a = guzh(dat.userPoint.userId, xi)), xi === 1 && a ? (xi = 0) : ((xi = 1), (a = undefined))" v-text="xi == 1 ? '关注' : '取消关注'" v-if="!$store.state.user || $store.state.user.profile.userId != $route.query.id">关注</button>
+          <button @click="guzhu" v-text="xi == 1 ? '关注' : '取消关注'" v-if="!$store.state.user || $store.state.user.profile.userId != $route.query.id"></button>
           <button v-if="!$store.state.user || $store.state.user.profile.userId != $route.query.id">发私信</button>
         </div>
         <div class="js">
@@ -70,7 +70,14 @@ export default {
       xi: 1,
       daia: null,
       diaa: null,
-      a: undefined
+      aaaa: false
+    }
+  },
+  methods: {
+    guzhu() {
+      this.guzh(this.dat.userPoint.userId, this.xi)
+      this.xi = this.aaaa && this.xi == 1 ? 0 : 1
+      this.aaaa = false
     }
   },
   computed: {

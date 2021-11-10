@@ -1,6 +1,6 @@
 const mix = {
   data() {
-    return { t: 1, zhen: false, no: 0 }
+    return { t: 1, zhen: false, no: 0, title: '登录成功', tgg: false }
   },
   methods: {
     // 获取验证码
@@ -33,13 +33,30 @@ const mix = {
     },
     // 关注
     guzh(id, type) {
+      const ve = this.$parent
       const a = sessionStorage.getItem('co')
-      if (!a) return alert('请先登录')
-      this.$http(`/follow?id=${id}&t=${type}&cookie=${a}`).then(value => {
-        if (value.code === 200) {
-          return 1
-        }
-      })
+
+      this.$http(`/follow?id=${id}&t=${type}&cookie=${a}`)
+        .then(value => {
+          if (parseInt(value.data.code / 100) == 2) {
+            if (value.data.followContent) {
+              ve.title = value.data.followContent
+            } else {
+              ve.title = '取消关注'
+            }
+
+            ve.tgg = false
+            ve.zhen = true
+            this.aaaa = true
+          }
+        })
+        .catch(err => {
+          if (err) {
+            ve.title = '请先登录'
+            ve.tgg = true
+            ve.zhen = true
+          }
+        })
     },
     // 登录
     async ghg(obj, na) {
@@ -56,9 +73,15 @@ const mix = {
       } else {
         data = await this.$http(`/login/cellphone?phone=${obj.account}&password=${obj.password}`)
       }
-
-      if (data.data.code !== 200) return alert('。。。。')
+      this.title = '登录成功'
+      this.tgg = false
       this.zhen = true
+      if (data.data.code !== 200) {
+        this.title = '登录失败'
+        this.tgg = true
+        return
+      }
+
       sessionStorage.setItem('co', data.data.cookie)
       // 获取指定的cookie
       // console.log(document.cookie.replace(/(?:(?:^|.*;\s*)text\s*\=\s*([^;]*).*$)|^.*$/, '$1'))
@@ -78,14 +101,31 @@ const mix = {
       if (data.code == 200) {
         this.$store.dispatch('clearuser')
         this.$router.push('/')
+        this.title = '登出账号'
+        this.tgg = false
+        this.zhen = true
         return ''
       }
     },
     // 点赞
     diaz(id, cid, type) {
+      const ve = this.$parent.$parent
       const a = sessionStorage.getItem('co')
-      if (!a) return alert('请先登录')
       this.$http(`/comment/like?id=${id}&cid=${cid}&type=${type}&t=${this.t}&cookie=${a}`)
+        .then(value => {
+          if (value.data.code === 200) {
+            ve.title = '点赞成功'
+            ve.tgg = false
+            ve.zhen = true
+          }
+        })
+        .catch(err => {
+          if (err) {
+            ve.title = '请先登录'
+            ve.tgg = true
+            ve.zhen = true
+          }
+        })
 
       switch (type) {
         case 0:
@@ -100,26 +140,16 @@ const mix = {
     },
     // 评论
     pinlu(id, text, type, t, commentId) {
+      const ve = this.$parent.$parent
       const a = sessionStorage.getItem('co')
-      if (!a) return alert('请先登录')
-      this.$http(`/comment?t=${t}&type=${type}&id=${id}&content=${text}${t === 2 ? `&commentId=${commentId}` : ''}&cookie=${a}`).then(value => {
-        alert('评论成功')
 
-        switch (type) {
-          case 0:
-            this.hotp(this, this.$route.query.id, 'musie')
-            break
-          case 2:
-            this.hotp(this, this.$route.query.id, 'playlist')
-            break
-        }
-      })
-    },
-    remov(id, type, commentId) {
-      const a = sessionStorage.getItem('co')
-      this.$http(`/comment?t=0&type=${type}&id=${id}&commentId=${commentId}&cookie=${a}`).then(value => {
-        if (value.data.code === 200) {
-          alert('删除成功')
+      this.$http(`/comment?t=${t}&type=${type}&id=${id}&content=${text}${t === 2 ? `&commentId=${commentId}` : ''}&cookie=${a}`)
+        .then(value => {
+          if (value.data.code === 200) {
+            ve.title = '点赞成功'
+            ve.tgg = false
+            ve.zhen = true
+          }
 
           switch (type) {
             case 0:
@@ -129,8 +159,41 @@ const mix = {
               this.hotp(this, this.$route.query.id, 'playlist')
               break
           }
-        }
-      })
+        })
+        .catch(err => {
+          if (err) {
+            ve.title = '请先登录'
+            ve.tgg = true
+            ve.zhen = true
+          }
+        })
+    },
+    remov(id, type, commentId) {
+      const ve = this.$parent.$parent
+      const a = sessionStorage.getItem('co')
+      this.$http(`/comment?t=0&type=${type}&id=${id}&commentId=${commentId}&cookie=${a}`)
+        .then(value => {
+          if (value.data.code === 200) {
+            this.title = '删除成功'
+            this.tgg = false
+            this.zhen = true
+            switch (type) {
+              case 0:
+                this.hotp(this, this.$route.query.id, 'musie')
+                break
+              case 2:
+                this.hotp(this, this.$route.query.id, 'playlist')
+                break
+            }
+          }
+        })
+        .catch(err => {
+          if (err) {
+            ve.title = '请先登录'
+            ve.tgg = true
+            ve.zhen = true
+          }
+        })
     },
     sr(e) {
       this.$store.dispatch('addsrc', e.target.id)
