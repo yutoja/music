@@ -521,7 +521,10 @@ export default {
     window.onmouseup = this.mousu
     window.addEventListener('keyup', e => {
       if (this.ggu && e.keyCode === 13 && this.value) {
-        if (this.$route.query.id !== this.value) this.$router.push(`/Personal?id=${this.value}&type=1`)
+        if (this.$route.query.id !== this.value) {
+          this.$router.push(`/Personal?id=${this.value}&type=1`)
+          this.ggu = false
+        }
       }
     })
 

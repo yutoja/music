@@ -45,7 +45,7 @@
               <a @click="all(data.playlist.tracks)"><a class="font wite"></a>播放</a>
               <a href="#" title="收藏"><a class="font wite black"></a>{{ data.playlist.subscribedCount }}</a>
               <a href="#" title="转发"><a class="font wite black"></a>{{ data.playlist.shareCount }}</a>
-              <a href="#" title="评论"><a class="font wite black"></a>{{ data.playlist.commentCount }}</a>
+              <a href="#ping" title="评论"><a class="font wite black"></a>{{ data.playlist.commentCount }}</a>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@
                 <span class="size">{{ item.dt | capitalize }}</span>
               </td>
               <td class="td4">
-                <router-link :to="`/SingerHome?id=${item.ar[0].id}`" class="hou size qwer asdf">{{ item.ar[0].name }}</router-link>
+                <router-link :to="`/SingerHome?id=${item.ar[0].id}`" class="hou size qwer asdf xiaolu">{{ item.ar[0].name }}</router-link>
               </td>
             </tr>
           </tbody>
@@ -156,7 +156,6 @@ export default {
   watch: {
     $route(to, from) {
       this.date(this.da, to.query.id)
-
       this.hotp(this, to.query.id, 'playlist')
       this.date(this, to.query.id)
     }

@@ -219,7 +219,6 @@ const mix = {
       const {
         data: { hotComments, comments, total }
       } = await this.$http(`/comment/${type}?id=${id}`)
-
       el.hot = hotComments
       el.news = comments
       el.shu = total
