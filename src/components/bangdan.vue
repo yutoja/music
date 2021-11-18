@@ -114,7 +114,7 @@ export default {
       i: 1,
       hot: null,
       news: null,
-      shu: null,
+      shu: 0,
       typ: 2,
       yeshu: 0
     }

@@ -2,7 +2,7 @@
   <div class="comment">
     <div class="thead">
       <h2>评论</h2>
-      <span>共有{{ shu }}评论</span>
+      <span>共有{{ su }}评论</span>
     </div>
     <div class="discuss">
       <div class="dsisscu"><img :src="sess ? sess.profile.avatarUrl : ''" /><textarea v-model="text"></textarea></div>
@@ -117,7 +117,6 @@ export default {
     return {
       hot: this.sh,
       news: this.sw,
-      shu: this.su,
       text: '',
       hhuifu: '',
       fuid: 0,
