@@ -20,7 +20,7 @@
         </dd>
       </dl>
     </div>
-    <div class="sibd">
+    <div class="sibd" v-if="dat">
       <div class="xl" v-for="item in dat" :key="item.id">
         <router-link :to="`/SingerHome?id=${item.id}`" class="img">
           <img :src="item.img1v1Url" :title="item.name" />
@@ -30,6 +30,7 @@
         </p>
       </div>
     </div>
+    <Little v-else></Little>
   </div>
 </template>
 

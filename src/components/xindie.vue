@@ -1,5 +1,5 @@
 <template>
-  <div class="xindie">
+  <div class="xindie" v-if="data_tui && data_tou">
     <div class="xinhe">
       <h2 class="xin-he">热门新碟</h2>
       <div class="xin-bd">
@@ -54,6 +54,7 @@
       </div>
     </div>
   </div>
+  <Little v-else></Little>
 </template>
 
 <script>

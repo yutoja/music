@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" v-if="data_bran">
     <div class="lup" @mouseover="di" @mouseout="run">
       <img class="lups" :src="url" />
       <span @click="left"></span><img :src="url" @click="tiao" /><span @click="right"></span>
@@ -145,6 +145,7 @@
       </div>
     </div>
   </div>
+  <Little v-else></Little>
 </template>
 
 <script>
@@ -156,7 +157,7 @@ export default {
       data_tui: [],
       list: [],
       data_zhubo: [],
-      data_bran: [],
+      data_bran: null,
       data_gesh: [],
       ge: 0,
       ds: 0,
@@ -217,13 +218,13 @@ export default {
     },
     left() {
       this.ge--
-      if (this.ge < 0) {
+      if (this.data_bran && this.ge < 0) {
         this.ge = this.data_bran.length - 1
       }
     },
     right() {
       this.ge++
-      if (this.ge > this.data_bran.length - 1) {
+      if (this.data_bran && this.ge > this.data_bran.length - 1) {
         this.ge = 0
       }
     },

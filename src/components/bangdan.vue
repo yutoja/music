@@ -1,6 +1,6 @@
 <template>
   <div class="bangdan">
-    <div class="bod">
+    <div class="bod" v-if="data">
       <div class="aside">
         <div class="as1">
           <div class="as1_n">
@@ -35,13 +35,13 @@
           </ul>
         </div>
       </div>
-      <div class="body" v-if="data">
+      <div class="body">
         <div class="bt">
           <img :src="data.playlist.coverImgUrl" />
           <div class="btb">
             <h3>{{ data.playlist.name }}</h3>
             <p class="size">{{ time }}</p>
-            <div class="btt" v-if="data">
+            <div class="btt">
               <a @click="all(data.playlist.tracks)"><a class="font wite"></a>播放</a>
               <a href="#" title="收藏"><a class="font wite black"></a>{{ data.playlist.subscribedCount }}</a>
               <a href="#" title="转发"><a class="font wite black"></a>{{ data.playlist.shareCount }}</a>
@@ -68,7 +68,7 @@
               <th>歌手</th>
             </tr>
           </thead>
-          <tbody v-if="data">
+          <tbody>
             <tr v-for="(item, index) in data.playlist.tracks" :key="item.id">
               <td class="td1">
                 <span class="wi size">{{ index + 1 }}</span>
@@ -98,6 +98,7 @@
         </div>
       </div>
     </div>
+    <Little v-else></Little>
   </div>
 </template>
 

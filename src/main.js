@@ -10,10 +10,14 @@ import store from './store'
 
 import mix from '@/api/mix'
 
+import Little from '@/views/Little'
+
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 
 Vue.mixin(mix)
+
+Vue.component('Little', Little)
 
 new Vue({
   render: h => h(App),

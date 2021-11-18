@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="tbody">
-        <ul class="te_body">
+        <ul class="te_body" v-if="data_tou">
           <li v-for="(item, index) in data_tou" :key="index">
             <div>
               <router-link :to="`/Xiang?id=${item.id}`" class="te_a"><img :src="item.coverImgUrl"/></router-link>
@@ -36,6 +36,7 @@
             <a class="size ove"> by{{ item.creator.nickname }}</a>
           </li>
         </ul>
+        <Little v-else></Little>
         <div class="foote">
           <a href="#" @click="app">上一页</a>
           <input type="number" placeholder="页数" class="tex" v-model="yeshu" />
@@ -56,7 +57,7 @@
 export default {
   data() {
     return {
-      data_tou: [],
+      data_tou: null,
       yeshu: 0,
       feng: [],
       zibiao: ['', '', '', '', ''],

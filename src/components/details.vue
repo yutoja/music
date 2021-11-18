@@ -30,6 +30,7 @@
       </div>
     </div>
   </div>
+  <Little v-else></Little>
 </template>
 <script>
 import Com from '@/views/comment'

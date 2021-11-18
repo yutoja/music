@@ -4,8 +4,8 @@
       <h1 class="weig">{{ srv ? (srv.data ? srv.data.artist.name : '') : '' }}</h1>
       <!-- <span>123</span> -->
     </div>
-    <div class="tou">
-      <div class="im pos" v-if="srv">
+    <div class="tou" v-if="srv && dat && jis">
+      <div class="im pos">
         <img :src="srv.data.artist.cover + '?param=640y300'" alt="" class="im" />
         <div class="baj"></div>
       </div>
@@ -14,7 +14,7 @@
         <li :class="{ qiu: !teg }" @click="teg = false">艺人介绍</li>
       </ul>
       <div v-show="teg">
-        <div class="keg" v-if="dat">
+        <div class="keg">
           <a :id="dat[0].id" @click="sr"><a class="font witee"></a>播放</a>
         </div>
         <div class="tbody">
@@ -35,7 +35,7 @@
           </div>
         </div>
       </div>
-      <div class="jias" v-show="!teg" v-if="jis">
+      <div class="jias" v-show="!teg">
         <h4 class="diy">{{ srv ? (srv.data ? srv.data.artist.name : '') : '' }}简历</h4>
         <p class="co">{{ jis.briefDesc }}</p>
         <div v-for="(item, index) in jis.introduction" :key="index">
@@ -44,6 +44,7 @@
         </div>
       </div>
     </div>
+    <Little v-else></Little>
   </div>
 </template>
 
