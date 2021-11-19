@@ -4,6 +4,21 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+function inter(obj, target, callback) {
+  clearInterval(obj.timer)
+  obj.timer = setInterval(function() {
+    let step = (target - obj.scrollTop) / 10
+    step = step > 0 ? Math.ceil(step) : Math.floor(step)
+    obj.scrollTop = step + obj.scrollTop
+    if (Math.abs(obj.scrollTop - target) < 1) {
+      clearInterval(obj.timer)
+      if (callback) {
+        callback()
+      }
+    }
+  }, 10)
+}
+
 const router = new VueRouter({
   mode: 'history',
   routes: [
@@ -20,13 +35,19 @@ const router = new VueRouter({
     { path: '/Zhuan', component: () => import('@/components/zhuanji') },
     { path: '/Xindie', component: () => import('@/components/xindie') },
     { path: '/Vedio', component: () => import('@/components/vedio') }
-  ],
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { x: 0, y: 0 }
-    }
-  }
+  ]
+  // scrollBehavior(to, from, savedPosition) {
+  //   if (savedPosition) {
+  //     return savedPosition
+  //   } else {
+  //     return { x: 0, y: 0 }
+  //   }
+  // }
 })
+
+router.afterEach((to, from) => {
+  if (document.documentElement.scrollTop === 0) return
+  inter(document.documentElement, 0)
+})
+
 export default router
