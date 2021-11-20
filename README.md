@@ -1,6 +1,6 @@
 # pcwyy
 
-## Project setup
+## 安装依赖包
 ```
 npm install
 ```
@@ -22,3 +22,4 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+

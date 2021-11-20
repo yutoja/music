@@ -16,7 +16,7 @@ function inter(obj, target, callback) {
         callback()
       }
     }
-  }, 10)
+  }, 5)
 }
 
 const router = new VueRouter({

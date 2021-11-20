@@ -173,6 +173,10 @@ export default {
     },
     tiao() {
       const b = this.data_bran[this.ge]
+      if (b.url) {
+        location.href = b.url
+        return ''
+      }
       const a = b.targetType == 1 ? { path: '/Details', query: { id: b.targetId } } : b.targetType == 10 ? { path: '/Zhuan', query: { id: b.targetId } } : b.targetType == 3000 ? `${b.url}` : ''
       this.$router.push(a)
     },

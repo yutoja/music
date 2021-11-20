@@ -1,3 +1,3 @@
-const http = 'http://localhost:3000'
+const http = 'https://www.codeman.ink/api'
 
 export default http
