@@ -20,7 +20,7 @@ function inter(obj, target, callback) {
 }
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     { path: '/', redirect: '/home' },
     { path: '/home', component: () => import('@/components/home') },

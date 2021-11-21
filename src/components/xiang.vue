@@ -44,16 +44,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in data.playlist.tracks" :key="item.id">
+        <tr v-for="(item, index) in data.playlist.tracks" :key="item.id" class="tds">
           <td>
             <span class="wi size">{{ index + 1 }}</span>
-            <a class="font rea size fff" :id="item.id" @click="sr"></a>
+            <a :class="{ font: true, rea: true, size: true, fff: true, redee: ef === item.id }" :id="item.id" @click="sr"></a>
           </td>
           <td>
             <router-link :to="`/Details?id=${item.id}`" class="a ma hou size xiaoul er width" :title="item.name">{{ item.name }}</router-link>
           </td>
-          <td>
+          <td class="td3">
             <span class="size">{{ item.dt | capitalize }}</span>
+            <div class="qw">
+              <a class="as" @click="bo(item.id)"></a>
+              <a class="as" @click.prevent="down(item)"></a>
+              <a class="as" href="#"></a>
+            </div>
           </td>
           <td>
             <a href="#" class="hou size er xiaoul" :title="item.ar[0].name">{{ item.ar[0].name }}</a>
@@ -85,6 +90,12 @@
 import Com from '@/views/comment'
 export default {
   name: 'xiang',
+  props: {
+    ef: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
       data: null,
@@ -183,6 +194,9 @@ export default {
 .red {
   color: red;
   margin-right: 20px;
+}
+.redee {
+  color: red;
 }
 .black {
   color: rgb(128, 128, 128);
@@ -462,5 +476,29 @@ tbody > tr:nth-child(2n) {
   height: 24px;
   width: 50px;
   margin-right: 10px;
+}
+.td3 {
+  position: relative;
+}
+.qw {
+  float: right;
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.as {
+  font-family: 'icomoon';
+  color: #6d6d6d;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 12px 0 1px;
+  line-height: 30px;
+}
+.tds:hover .qw {
+  display: inline-block;
+}
+.tds:hover > .td3 .size {
+  color: transparent;
 }
 </style>

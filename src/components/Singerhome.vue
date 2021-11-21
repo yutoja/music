@@ -21,13 +21,18 @@
           <div class="td" v-for="(item, index) in dat" :key="item.id">
             <div class="td1">
               <span class="wi c3">{{ ++index }}</span>
-              <a class="font rea" :id="item.id" @click="sr"></a>
+              <a :class="{ font: true, rea: true, red: ef === item.id }" :id="item.id" @click="sr"></a>
             </div>
             <div class="td2">
               <router-link :to="`/Details?id=${item.id}`" class="b4 xiaolu">{{ item.name }}</router-link>
             </div>
             <div class="td3">
               <span class="b4">{{ item.dt | fezhon }}</span>
+              <div class="qw">
+                <a class="as" @click="bo(item.id)"></a>
+                <a class="as" @click.prevent="down(item)"></a>
+                <a class="as" href="#"></a>
+              </div>
             </div>
             <div class="td4">
               <a href="#" class="b4 xiaolu">{{ item.al.name }}</a>
@@ -51,6 +56,12 @@
 <script>
 export default {
   name: 'SingerHome',
+  props: {
+    ef: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
       dat: null,
@@ -149,6 +160,9 @@ export default {
 .ul > li:hover {
   border-top-color: red;
 }
+.red {
+  color: red;
+}
 .keg {
   padding: 10px 5px;
 }
@@ -182,6 +196,7 @@ export default {
 }
 .td3 {
   width: 130px;
+  position: relative;
 }
 .td4 {
   width: 140px;
@@ -217,5 +232,26 @@ export default {
 }
 .co {
   text-indent: 2em;
+}
+.qw {
+  float: right;
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.as {
+  font-family: 'icomoon';
+  color: #6d6d6d;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 12px 0 1px;
+  line-height: 30px;
+}
+.td:hover .qw {
+  display: inline-block;
+}
+.td:hover > .td3 .b4 {
+  color: transparent;
 }
 </style>

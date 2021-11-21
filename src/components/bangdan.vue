@@ -69,17 +69,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in data.playlist.tracks" :key="item.id">
+            <tr v-for="(item, index) in data.playlist.tracks" :key="item.id" class="tds">
               <td class="td1">
                 <span class="wi size">{{ index + 1 }}</span>
                 <!-- <div class="rea size">new</div> -->
               </td>
               <td class=" td2">
-                <a class="font" :id="item.id" @click="sr"></a>
+                <a :class="{ font: true, red: ef === item.id }" :id="item.id" @click="sr"></a>
                 <router-link :to="`/Details?id=${item.id}`" class="a ma hou size qwer">{{ item.name }}</router-link>
               </td>
               <td class="td3">
                 <span class="size">{{ item.dt | capitalize }}</span>
+                <div class="qw">
+                  <a class="as" @click="bo(item.id)"></a>
+                  <a class="as" @click.prevent="down(item)"></a>
+                  <a class="as" href="#"></a>
+                </div>
               </td>
               <td class="td4">
                 <router-link :to="`/SingerHome?id=${item.ar[0].id}`" class="hou size qwer asdf xiaolu">{{ item.ar[0].name }}</router-link>
@@ -106,6 +111,12 @@
 import com from '@/views/comment'
 export default {
   name: 'bang',
+  props: {
+    ef: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
       dat_ban: [],
@@ -371,6 +382,7 @@ table {
   height: 30px;
   overflow: hidden;
   width: 91px;
+  position: relative;
 }
 .td4 {
   height: 30px;
@@ -433,5 +445,26 @@ tbody > tr:nth-child(2n) {
 }
 .ping {
   padding: 20px 30px 100px 39px;
+}
+.qw {
+  float: right;
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.as {
+  font-family: 'icomoon';
+  color: #6d6d6d;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 12px 0 1px;
+  line-height: 30px;
+}
+.tds:hover .qw {
+  display: inline-block;
+}
+.tds:hover > .td3 .size {
+  color: transparent;
 }
 </style>

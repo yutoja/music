@@ -4,7 +4,7 @@
       <div class="m-top">
         <div class="m-wrap">
           <div class="m-logo">
-            <a>网易云音乐</a>
+            <a>云音乐</a>
           </div>
           <ul class="m-tab" @click="qie($event, 'm-fa')">
             <li class="m-fa"><router-link to="/home">发现音乐</router-link></li>
@@ -501,7 +501,7 @@ export default {
     },
     sese() {
       if (!this.$store.state.user) {
-        sessionStorage.clear()
+        localStorage.removeItem('co')
       }
       return this.$store.state.user
     }
@@ -530,6 +530,7 @@ export default {
 
     window.addEventListener('mousemove', this.yido)
     window.addEventListener('mouseup', this.zhonz)
+    this.$store.dispatch('user')
   }
 }
 </script>

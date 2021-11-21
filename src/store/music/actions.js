@@ -56,8 +56,9 @@ const actions = {
     commit.commit('remove', a)
   },
   // 添加个人用户数据
-  user(commit, data) {
-    commit.commit('user', data)
+  user(commit) {
+    const use = JSON.parse(localStorage.getItem('user'))
+    commit.commit('user', use)
   },
   clearuser(commit) {
     commit.commit('clearuser')

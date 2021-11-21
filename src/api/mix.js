@@ -3,6 +3,27 @@ const mix = {
     return { t: 1, zhen: false, no: 0, title: '登录成功', tgg: false }
   },
   methods: {
+    // 下载音乐
+    async down(row) {
+      const {
+        data: {
+          data: [res]
+        }
+      } = await this.$http(`/song/url?id=${row.id}`)
+      this.$http({
+        method: 'get',
+        url: res.url,
+        responseType: 'blob'
+      }).then(response => {
+        const href = URL.createObjectURL(response.data)
+        const a = document.createElement('a')
+        a.setAttribute('href', href)
+        a.setAttribute('download', row.name)
+        a.click()
+        URL.revokeObjectURL(href)
+      })
+    },
+
     // 获取验证码
     verify(phone) {
       this.$http(`/captcha/sent?phone=${phone}`)
@@ -18,7 +39,7 @@ const mix = {
     },
     // 访问他人歌单
     visit(id) {
-      const a = sessionStorage.getItem('co')
+      const a = localStorage.getItem('co')
       if (!a) return alert('请先登录')
 
       this.$router.push({
@@ -34,7 +55,7 @@ const mix = {
     // 关注
     guzh(id, type) {
       const ve = this.$parent
-      const a = sessionStorage.getItem('co')
+      const a = localStorage.getItem('co')
 
       this.$http(`/follow?id=${id}&t=${type}&cookie=${a}`)
         .then(value => {
@@ -82,18 +103,23 @@ const mix = {
         return
       }
 
-      sessionStorage.setItem('co', data.data.cookie)
+      localStorage.setItem('co', data.data.cookie)
       // 获取指定的cookie
       // console.log(document.cookie.replace(/(?:(?:^|.*;\s*)text\s*\=\s*([^;]*).*$)|^.*$/, '$1'))
+
       const {
         data: { account, profile, bindings, token }
       } = data
-      this.$store.dispatch('user', {
-        account,
-        profile,
-        bindings,
-        token
-      })
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          account,
+          profile,
+          bindings,
+          token
+        })
+      )
+      this.$store.dispatch('user')
     },
     // 退出登录
     async logout() {
@@ -110,7 +136,7 @@ const mix = {
     // 点赞
     diaz(id, cid, type) {
       const ve = this.$parent.$parent
-      const a = sessionStorage.getItem('co')
+      const a = localStorage.getItem('co')
       this.$http(`/comment/like?id=${id}&cid=${cid}&type=${type}&t=${this.t}&cookie=${a}`)
         .then(value => {
           if (value.data.code === 200) {
@@ -141,7 +167,7 @@ const mix = {
     // 评论
     pinlu(id, text, type, t, commentId) {
       const ve = this.$parent.$parent
-      const a = sessionStorage.getItem('co')
+      const a = localStorage.getItem('co')
 
       this.$http(`/comment?t=${t}&type=${type}&id=${id}&content=${text}${t === 2 ? `&commentId=${commentId}` : ''}&cookie=${a}`)
         .then(value => {
@@ -170,7 +196,7 @@ const mix = {
     },
     remov(id, type, commentId) {
       const ve = this.$parent.$parent
-      const a = sessionStorage.getItem('co')
+      const a = localStorage.getItem('co')
       this.$http(`/comment?t=0&type=${type}&id=${id}&commentId=${commentId}&cookie=${a}`)
         .then(value => {
           if (value.data.code === 200) {

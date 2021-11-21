@@ -16,5 +16,7 @@ export default {
   },
   clearuser(state) {
     state.user = null
+    localStorage.removeItem('co')
+    localStorage.removeItem('user')
   }
 }

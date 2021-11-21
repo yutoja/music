@@ -92,7 +92,9 @@
                 <ol class="blko">
                   <li class="hov" v-for="(im, index) in item.data" :key="im.id">
                     <span class=" cpn">{{ index + 1 }}</span> <router-link :to="`/Details?id=${im.id}`" class="xiao td over">{{ im.name }}</router-link>
-                    <div class="qw"><a class=" as" :id="im.id" @click="sr"></a><a class=" as" @click="bo(im.id)"></a><a class=" as" href="#"></a></div>
+                    <div class="qw"><a class=" as" :id="im.id" @click="sr"></a><a class=" as" @click="bo(im.id)"></a><a class="as" @click.prevent="down(im)"></a></div>
+                    <!-- 收藏图标 -->
+                    <!--  -->
                   </li>
                 </ol>
               </dd>
