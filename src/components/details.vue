@@ -8,16 +8,16 @@
       <div class="right">
         <h2 class="tou">{{ scr[0].name }}</h2>
         <div class="ming">
-          歌手： <span class="blue xiaolu" @click="skip('/Singerhome', scr[0].ar[0].id)">{{ scr[0].ar[0].name }}</span>
+          歌手： <span class="blue xiaolul" @click="skip('/Singerhome', scr[0].ar[0].id)">{{ scr[0].ar[0].name }}</span>
           <p>
-            专辑： <span class="blue xiaolu" @click="skip('/Zhuan', scr[0].al.id)">{{ scr[0].al.name }}</span>
+            专辑： <span class="blue xiaolul" @click="skip('/Zhuan', scr[0].al.id)">{{ scr[0].al.name }}</span>
           </p>
         </div>
         <div :class="{ ooo: bl, tbody: true }" v-if="gez && gez.length > 0">
           <p v-for="(item, index) in gez" :key="index">{{ item.lyri }}</p>
         </div>
         <div v-else class="tbody">纯音乐</div>
-        <p class="eulb xiaolu" v-text="`${bl ? '展开' : '收起'}`" @click="ert" v-if="gez && gez.length > 0"></p>
+        <p class="eulb xiaolul" v-text="`${bl ? '展开' : '收起'}`" @click="ert" v-if="gez && gez.length > 0"></p>
       </div>
     </div>
     <div class="ping" v-if="hot && news">
@@ -145,7 +145,7 @@ export default {
 .details {
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 47px 30px 100px 39px;
+  padding: 47px 30px 50px 39px;
   width: 709px;
   border: 1px solid #ccc;
   background-color: white;
@@ -238,7 +238,7 @@ export default {
 .bo > span {
   margin: 0 5px;
 }
-.xiaolu:hover {
+.xiaolul:hover {
   text-decoration: underline;
   cursor: pointer;
 }

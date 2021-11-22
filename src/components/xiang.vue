@@ -60,11 +60,11 @@
               <a class="as" href="#"></a>
             </div>
           </td>
-          <td>
-            <a href="#" class="hou size er xiaoul" :title="item.ar[0].name">{{ item.ar[0].name }}</a>
+          <td class="qwer">
+            <router-link :to="`/SingerHome?id=${ion.id}`" class="hou size asdf xiaolu" v-for="(ion, index) in item.ar" :key="ion.id">{{ ion.name }} {{ item.ar.length > 1 && index !== item.ar.length - 1 ? '/' : '' }}</router-link>
           </td>
           <td>
-            <a href="#" class="hou size er xiaoul" :title="item.al.name">{{ item.al.name }}</a>
+            <a href="#" class="hou size er xiaoul" :title="item.al.name" @click="skip('/Zhuan', item.al.id)">{{ item.al.name }}</a>
           </td>
         </tr>
       </tbody>
@@ -288,6 +288,10 @@ export default {
   background-image: linear-gradient(180deg, #f7f7f7, #e0e0e0);
   border-radius: 5px;
   border: 1px solid #e0e0e0;
+  color: rgb(124, 124, 124);
+}
+.top > a:hover {
+  color: black;
 }
 .fotr {
   margin-top: 10px;
@@ -500,5 +504,13 @@ tbody > tr:nth-child(2n) {
 }
 .tds:hover > .td3 .size {
   color: transparent;
+}
+.qwer {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+  word-wrap: normal;
 }
 </style>

@@ -20,6 +20,7 @@ const actions = {
       dt
     }
     commit.commit('addsrc', dui)
+    localStorage.setItem('music', id)
     if (state.playli.some(value => value.id === dui.id)) return ''
     commit.commit('addbo', dui)
   },

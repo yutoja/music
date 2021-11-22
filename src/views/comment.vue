@@ -16,19 +16,19 @@
         <img :src="item.user.avatarUrl" alt="" @click="skip('/User', item.user.userId)" />
         <div class="qu">
           <div class="lun">
-            <span class="xiaolu" @click="skip('/User', item.user.userId)">{{ item.user.nickname }}</span> ：
+            <span class="xiaolul" @click="skip('/User', item.user.userId)">{{ item.user.nickname }}</span> ：
             {{ item.content }}
           </div>
           <div class="hu" v-if="item.beReplied && item.beReplied.length > 0">
-            <span class="xiaolu">{{ item.beReplied[0].user.nickname }}</span> ：
+            <span class="xiaolul">{{ item.beReplied[0].user.nickname }}</span> ：
             {{ item.beReplied[0].content }}
           </div>
           <div class="qufoot">
             <span>{{ item.time | capitalize }}</span>
             <div class="bo">
-              <span class="xiaolu sha" @click=";(tish = true), (dat = item.commentId)">删除</span>
-              <span class="xiaolu" @click="diaz(cidd, item.commentId, typ)"><span v-bind:class="[item.liked ? 'red' : 'blue']"></span>({{ item.likedCount }})</span>
-              <span class="xiaolu" @click="fuid == item.commentId ? (fuid = '') : (fuid = item.commentId)"> <span class="blue"></span>回复</span>
+              <span class="xiaolul sha" @click=";(tish = true), (dat = item.commentId)">删除</span>
+              <span class="xiaolul" @click="diaz(cidd, item.commentId, typ, item.liked)"><span v-bind:class="[item.liked ? 'red' : 'blue']"></span>({{ item.likedCount }})</span>
+              <span class="xiaolul" @click="fuid == item.commentId ? (fuid = '') : (fuid = item.commentId)"> <span class="blue"></span>回复</span>
             </div>
           </div>
         </div>
@@ -46,19 +46,19 @@
         <img :src="item.user.avatarUrl" alt="" @click="skip('/User', item.user.userId)" />
         <div class="qu">
           <div class="lun">
-            <span class="xiaolu" @click="skip('/User', item.user.userId)">{{ item.user.nickname }}</span> ：
+            <span class="xiaolul" @click="skip('/User', item.user.userId)">{{ item.user.nickname }}</span> ：
             {{ item.content }}
           </div>
           <div class="hu" v-if="item.beReplied && item.beReplied.length > 0">
-            <span class="xiaolu">{{ item.beReplied[0].user.nickname }}</span> ：
+            <span class="xiaolul">{{ item.beReplied[0].user.nickname }}</span> ：
             {{ item.beReplied[0].content }}
           </div>
           <div class="qufoot">
             <span>{{ item.time | apitalize }}</span>
             <div class="bo">
-              <span class="xiaolu sha" @click=";(tish = true), (dat = item.commentId)">删除</span>
-              <span class="xiaolu" @click="diaz(cidd, item.commentId, typ)"><span v-bind:class="[item.liked ? 'red' : 'blue']"></span>({{ item.likedCount }})</span>
-              <span class="xiaolu" @click="fuid == item.commentId ? (fuid = '') : (fuid = item.commentId)"> <span class="blue"></span>回复</span>
+              <span class="xiaolul sha" @click=";(tish = true), (dat = item.commentId)">删除</span>
+              <span class="xiaolul" @click="diaz(cidd, item.commentId, typ, item.liked)"><span v-bind:class="[item.liked ? 'red' : 'blue']"></span>({{ item.likedCount }})</span>
+              <span class="xiaolul" @click="fuid == item.commentId ? (fuid = '') : (fuid = item.commentId)"> <span class="blue"></span>回复</span>
             </div>
           </div>
         </div>
@@ -244,7 +244,7 @@ export default {
 .bo > span {
   margin: 0 5px;
 }
-.xiaolu:hover {
+.xiaolul:hover {
   text-decoration: underline;
   cursor: pointer;
 }

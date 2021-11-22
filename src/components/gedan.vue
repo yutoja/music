@@ -8,13 +8,13 @@
         </div>
         <div class="right">></div>
         <div class="felei" v-show="ba">
-          <div class="fehe"><router-link to="/Gedan" class="xiaolu">全部分类</router-link></div>
+          <div class="fehe"><router-link to="/Gedan" class="xiaolul">全部分类</router-link></div>
           <div class="febd">
             <dl v-for="(item, index) in feng[0]" :key="index">
               <dt class="febb"><span v-text="zibiao[index]"></span> {{ item }}</dt>
               <dd class="fenn">
                 <div v-for="iem in feng[++index]" :key="iem.id">
-                  <router-link :to="`/Gedan?cat=${iem.name}`" class="xiaolu">{{ iem.name }}</router-link> <span class="zjs">|</span>
+                  <router-link :to="`/Gedan?cat=${iem.name}`" class="xiaolul">{{ iem.name }}</router-link> <span class="zjs">|</span>
                 </div>
               </dd>
             </dl>
@@ -32,8 +32,10 @@
                 <span></span>
               </p>
             </div>
-            <p class="te_q">{{ item.name }}</p>
-            <a class="size ove"> by{{ item.creator.nickname }}</a>
+            <p class="te_q xiaolul" @click="skip('/Xiang', item.id)">{{ item.name }}</p>
+            <a class="size ove" @click="skip('/User', item.creator.userId)">
+              by<a class="xiaolul tufa">{{ item.creator.nickname }}</a></a
+            >
           </li>
         </ul>
         <Little v-else></Little>
@@ -211,13 +213,14 @@ export default {
   box-sizing: border-box;
 }
 .te_q {
-  margin-top: 5px;
+  margin: 5px 0;
   width: 140px;
-  font-size: 14px;
+  font-size: 16px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   word-wrap: normal;
+  cursor: pointer;
 }
 .foote {
   text-align: center;
@@ -249,8 +252,8 @@ export default {
   display: inline-block;
   width: 140px;
 }
-.xiaolu:hover {
-  text-decoration: revert;
+.xiaolul:hover {
+  text-decoration: underline;
 }
 .felei {
   position: absolute;
@@ -304,5 +307,8 @@ export default {
 .zjs {
   margin: 0 8px 0 10px;
   color: #ccc;
+}
+.tufa {
+  margin-left: 10px;
 }
 </style>

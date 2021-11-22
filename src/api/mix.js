@@ -1,6 +1,6 @@
 const mix = {
   data() {
-    return { t: 1, zhen: false, no: 0, title: '登录成功', tgg: false }
+    return { zhen: false, no: 0, title: '登录成功', tgg: false }
   },
   methods: {
     // 下载音乐
@@ -10,9 +10,10 @@ const mix = {
           data: [res]
         }
       } = await this.$http(`/song/url?id=${row.id}`)
+      const a = 'https' + res.url.slice(4)
       this.$http({
         method: 'get',
-        url: res.url,
+        url: a,
         responseType: 'blob'
       }).then(response => {
         const href = URL.createObjectURL(response.data)
@@ -134,10 +135,11 @@ const mix = {
       }
     },
     // 点赞
-    diaz(id, cid, type) {
+    diaz(id, cid, type, like) {
+      const t = Number(!like)
       const ve = this.$parent.$parent
       const a = localStorage.getItem('co')
-      this.$http(`/comment/like?id=${id}&cid=${cid}&type=${type}&t=${this.t}&cookie=${a}`)
+      this.$http(`/comment/like?id=${id}&cid=${cid}&type=${type}&t=${t}&cookie=${a}`)
         .then(value => {
           if (value.data.code === 200) {
             ve.title = '点赞成功'
@@ -152,17 +154,15 @@ const mix = {
             ve.zhen = true
           }
         })
-
+      if (ve.tgg) return ''
       switch (type) {
         case 0:
-          this.hotp(this, this.$route.query.id, 'musie')
+          this.hotp(this, this.$route.query.id, 'music')
           break
         case 2:
           this.hotp(this, this.$route.query.id, 'playlist')
           break
       }
-
-      this.t = this.t === 1 ? 0 : 1
     },
     // 评论
     pinlu(id, text, type, t, commentId) {
@@ -179,7 +179,7 @@ const mix = {
 
           switch (type) {
             case 0:
-              this.hotp(this, this.$route.query.id, 'musie')
+              this.hotp(this, this.$route.query.id, 'music')
               break
             case 2:
               this.hotp(this, this.$route.query.id, 'playlist')
@@ -205,7 +205,7 @@ const mix = {
             this.zhen = true
             switch (type) {
               case 0:
-                this.hotp(this, this.$route.query.id, 'musie')
+                this.hotp(this, this.$route.query.id, 'music')
                 break
               case 2:
                 this.hotp(this, this.$route.query.id, 'playlist')
@@ -249,14 +249,6 @@ const mix = {
       el.news = comments
       el.shu = total
     },
-    // async newsa(el, id, type) {
-    //   const {
-    //     data: {
-    //       data: {  }
-    //     }
-    //   } = await this.$http(`/comment/new?type=${type}&id=${id}&sortType=3`)
-
-    // },
     async gezi(el, id) {
       try {
         const {

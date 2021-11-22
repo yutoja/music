@@ -116,7 +116,10 @@
           <a @click="add"></a>
         </div>
         <div class="fbd2">
-          <router-link :to="`/Details?id=${s ? s.id : ''}`" target="_self"><img :src="s ? s.al.picUrl : ''" :title="s ? s.al.name : ''"/></router-link>
+          <router-link :to="`/Details?id=${s.id}`" target="_self" v-if="s">
+            <img :src="s.al.picUrl" :title="s.al.name" class="fbd2img" />
+          </router-link>
+          <img src="./imgs/default_album.jpg" v-else class="fbd2img" />
         </div>
         <div class="fbd3">
           <div class="fdb3s">
@@ -188,36 +191,67 @@
 export default {
   data() {
     return {
-      tef: true,
-      zhonji: 20,
+      // 底部是否自动下拉
+      tef: JSON.parse(localStorage.getItem('tef')),
+
+      // zhonji: 20,
+      // 音乐时间
       leng: '00:00',
+      // 音乐播放进度
       sleng: '00:00',
+      // 音频开关
       austatus: false,
+      // 音频播放进度与音频时间比例
       progressBar: 0,
+      // 控制音频播放时间
       fazhi: false,
+      // 用户拖动音频的起始位置
       clx: 0,
+      // 用户松开音频的位置
       clxx: 0,
+      // 要搜索的内容
       value: '',
+      // 搜索内容
       seek: [],
+      // 搜索内容显示
       ggu: false,
+      // 音频音量
       range: 100,
+      // 音量显示
       yin: false,
+      // 当前播放的歌曲
       b: this.$store.state.playli,
+      // 播放列表显示状态
       lib: false,
+      // 登录方式
       duan: true,
+      // 登录窗口初始坐标
       xy: null,
+      // 存储登录窗口的坐标
       dxy: null,
+      // 登录窗口的显示状态
       lun: false,
+      // 账号
       account: '',
+      // 密码
       password: '',
+      // 验证码
       verification: '',
-      cookie: null,
+
+      // 匹配账号是否符合
       phone: /^1[36|78|51]\d{9}$/,
+      // 歌词
       gez: null,
+      // 当前音乐进度
       zindex: 0,
+      // 播放模式
       xed: 0,
+      // 播放模式文字显示状态
       tis: false,
-      geclas: true
+      // 歌词是否能滚动
+      geclas: true,
+      // 历史音乐
+      music: JSON.parse(localStorage.getItem('music'))
     }
   },
   methods: {
@@ -340,14 +374,19 @@ export default {
     // 切换固定图标
     teg() {
       this.tef = !this.tef
+      localStorage.setItem('tef', JSON.stringify(this.tef))
     },
     // 若audio有音频则播放
     pla(e) {
-      e.target.play()
-      this.austatus = true
       const fe = parseInt(e.target.duration / 60)
       const miao = parseInt(e.target.duration % 60)
       this.leng = `${fe < 10 ? '0' + fe : fe}:${miao < 10 ? '0' + miao : miao}`
+      if (this.music) {
+        this.music = null
+        return ''
+      }
+      e.target.play()
+      this.austatus = true
     },
     // 监听audio的播放进度
     yie(e) {
@@ -415,13 +454,13 @@ export default {
     },
     mout() {
       if (this.tef) {
-        this.$refs.footer.ine = setTimeout(() => {
+        window.ine = setTimeout(() => {
           this.$refs.footer.style.bottom = '-50px'
         }, 3000)
       }
     },
     mouov() {
-      clearTimeout(this.$refs.footer.ine)
+      clearTimeout(window.ine)
       this.$refs.footer.style.bottom = '0px'
     },
     inter(obj, target, callback) {
@@ -531,6 +570,11 @@ export default {
     window.addEventListener('mousemove', this.yido)
     window.addEventListener('mouseup', this.zhonz)
     this.$store.dispatch('user')
+    if (this.tef) {
+      this.mout()
+    }
+    if (!this.music) return ''
+    this.$store.dispatch('addsrc', this.music)
   }
 }
 </script>
@@ -597,6 +641,8 @@ button {
 }
 .app {
   background-color: #f5f5f5;
+  min-width: 1519px;
+  padding-bottom: 50px;
 }
 .td {
   color: #242424;
@@ -787,7 +833,7 @@ button {
 .footer {
   position: fixed;
   z-index: 999;
-  bottom: -53px;
+  bottom: 0px;
   transition: all 0.2s;
   left: 0;
   height: 53px;
@@ -821,12 +867,17 @@ button {
 .fbd1 > a:hover {
   color: white;
 }
-.fbd2 > a > img {
+.fbd2img {
   width: 34px;
   height: 34px;
 }
 .fbd2 {
-  margin: 10px 10px 0 0;
+  margin: 10px 20px 0 0;
+  border: 1px solid black;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 34px;
+  width: 34px;
 }
 .fdb3s {
   width: 465px;
@@ -862,7 +913,7 @@ button {
   width: 466px;
   height: 9px;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 7px;
   margin-left: 4px;
   background-color: black;
   box-shadow: inset 0 0 7px 1px #9b9b9b;
@@ -897,7 +948,7 @@ button {
 }
 .fbd5 {
   color: #9b9b9b;
-  padding-top: 32px;
+  padding-top: 31px;
   font-size: 12px;
   margin-left: 12px;
 }
@@ -1279,7 +1330,7 @@ button {
   display: block;
 }
 .ping {
-  padding: 20px 0 100px 0;
+  padding: 20px 0 50px 0;
 }
 .foote {
   text-align: center;

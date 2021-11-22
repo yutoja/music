@@ -47,7 +47,7 @@
         <tr v-for="(item, index) in data.songs" :key="item.id">
           <td>
             <span class="wi size">{{ index + 1 }}</span>
-            <a class="font rea size fff" :id="item.id" @click="sr"></a>
+            <a :class="{ font: true, rea: true, size: true, fff: true, der: ef === item.id }" :id="item.id" @click="sr"></a>
           </td>
           <td>
             <router-link :to="`/Details?id=${item.id}`" class="a ma hou size xiaoul er width" :title="item.name">{{ item.name }}</router-link>
@@ -55,8 +55,9 @@
           <td>
             <span class="size">{{ item.dt | capitalize }}</span>
           </td>
-          <td>
-            <router-link :to="`/SingerHome?id=${item.ar[0].id}`" class="hou size er xiaoul" :title="item.ar[0].name">{{ item.ar[0].name }}</router-link>
+          <td class="qwer">
+            <router-link :to="`/SingerHome?id=${ion.id}`" class="hou size xiaoul" v-for="(ion, index) in item.ar" :key="ion.id">{{ ion.name }} {{ item.ar.length > 1 && index !== item.ar.length - 1 ? '/' : '' }}</router-link>
+            <!-- <router-link :to="`/SingerHome?id=${item.ar[0].id}`" class="hou size xiaoul" :title="item.ar[0].name">{{ item.ar[0].name }}</router-link> -->
           </td>
         </tr>
       </tbody>
@@ -82,6 +83,12 @@
 import Com from '@/views/comment'
 export default {
   name: 'zhuan',
+  props: {
+    ef: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
       data: null,
@@ -361,6 +368,7 @@ export default {
   justify-content: space-between;
   border-bottom: 2px solid red;
   margin-top: 15px;
+  width: 638px;
   padding: 0 0 5px 0;
 }
 .bs > div:nth-child(1) {
@@ -472,5 +480,13 @@ tbody > tr:nth-child(2n) {
   height: 24px;
   width: 50px;
   margin-right: 10px;
+}
+.qwer {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+  word-wrap: normal;
 }
 </style>

@@ -86,8 +86,8 @@
                   <a class="as" href="#"></a>
                 </div>
               </td>
-              <td class="td4">
-                <router-link :to="`/SingerHome?id=${item.ar[0].id}`" class="hou size qwer asdf xiaolu">{{ item.ar[0].name }}</router-link>
+              <td class="td4 qwer">
+                <router-link :to="`/SingerHome?id=${ion.id}`" class="hou size asdf xiaolu" v-for="(ion, index) in item.ar" :key="ion.id">{{ ion.name }} {{ item.ar.length > 1 && index !== item.ar.length - 1 ? '/' : '' }}</router-link>
               </td>
             </tr>
           </tbody>
@@ -209,6 +209,7 @@ export default {
 }
 .asdf {
   width: 130px;
+  line-height: 32px;
 }
 .font {
   font-family: 'icomoon';

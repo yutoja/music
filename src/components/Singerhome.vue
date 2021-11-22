@@ -34,8 +34,8 @@
                 <a class="as" href="#"></a>
               </div>
             </div>
-            <div class="td4">
-              <a href="#" class="b4 xiaolu">{{ item.al.name }}</a>
+            <div class="td4 qwer">
+              <a href="#" class="b4 xiaolu" @click="skip('/Zhuan', item.al.id)">{{ item.al.name }}</a>
             </div>
           </div>
         </div>
@@ -253,5 +253,13 @@ export default {
 }
 .td:hover > .td3 .b4 {
   color: transparent;
+}
+.qwer {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+  word-wrap: normal;
 }
 </style>

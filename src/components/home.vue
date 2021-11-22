@@ -347,8 +347,7 @@ button {
   width: 982px;
 }
 .tbody {
-  width: 980px;
-
+  width: 982px;
   margin: 0 auto;
   display: flex;
   background-color: white;
@@ -613,9 +612,11 @@ button {
   background-image: linear-gradient(180deg, #e41820, #000000);
 }
 .asdie {
-  width: 250px;
-  border-left: 1px solid #9b9b9b;
-  border-right: 1px solid #9b9b9b;
+  width: 251px;
+  height: 1338px;
+  border-left: 1px solid #9b9b9b5c;
+  border-right: 1px solid #9b9b9b5c;
+  border-bottom: 1px solid #9b9b9b5c;
 }
 .asbd {
   margin-top: 10px;
