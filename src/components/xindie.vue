@@ -6,7 +6,7 @@
         <ul>
           <li class="xin-li" v-for="item in data_tui" :key="item.id">
             <router-link :to="`/Zhuan?id=${item.id}`">
-              <img :src="item.blurPicUrl" class="xin-im" />
+              <img :src="item.blurPicUrl | https" class="xin-im" />
             </router-link>
             <p class="xin-p">
               <router-link :to="`/Zhuan?id=${item.id}`" class="xiaolu ove">{{ item.name }}</router-link>
@@ -35,7 +35,7 @@
         <ul>
           <li class="xin-li" v-for="item in data_tou" :key="item.id">
             <router-link :to="`/Zhuan?id=${item.id}`">
-              <img :src="item.blurPicUrl" class="xin-im" />
+              <img :src="item.blurPicUrl | https" class="xin-im" />
             </router-link>
             <p class="xin-p">
               <router-link :to="`/Zhuan?id=${item.id}`" class="xiaolu ove">{{ item.name }}</router-link>

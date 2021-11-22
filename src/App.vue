@@ -181,7 +181,7 @@
         </div>
         <div class="tis" v-text="xed > 1 ? '单曲循坏' : xed > 0 ? '循坏' : '随机'" v-show="tis"></div>
         <span class="s" @click="teg" ref="foote" v-text="tef ? '' : ''"></span>
-        <audio :src="s.url" ref="audio" @durationchange="pla" @timeupdate="yie" :id="s.id"></audio>
+        <audio :src="s.url | https" ref="audio" @durationchange="pla" @timeupdate="yie" :id="s.id"></audio>
       </div>
     </div>
   </div>

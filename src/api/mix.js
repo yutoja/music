@@ -5,12 +5,23 @@ const mix = {
   methods: {
     // 下载音乐
     async down(row) {
+      const than = this.$parent
+      // 创建任务
+      than.schedule = than.schedule ? than.schedule : []
+      // 判断当前任务是否重复
+      if (than.schedule.includes(row.id)) return ''
+      // 添加任务
+      than.schedule.push(row.id)
       const {
         data: {
           data: [res]
         }
       } = await this.$http(`/song/url?id=${row.id}`)
       const a = 'https' + res.url.slice(4)
+      // 弹出开始下载提示
+      than.title = '开始下载'
+      than.tgg = false
+      than.zhen = true
       this.$http({
         method: 'get',
         url: a,
@@ -22,6 +33,12 @@ const mix = {
         a.setAttribute('download', row.name)
         a.click()
         URL.revokeObjectURL(href)
+        // 删除完成的进度
+        than.schedule.splice(than.schedule.indexOf(than.schedule), 1)
+        // 弹出提示
+        than.title = '下载完成'
+        than.tgg = false
+        than.zhen = true
       })
     },
 

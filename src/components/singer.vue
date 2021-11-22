@@ -23,7 +23,7 @@
     <div class="sibd" v-if="dat">
       <div class="xl" v-for="item in dat" :key="item.id">
         <router-link :to="`/SingerHome?id=${item.id}`" class="img">
-          <img :src="item.img1v1Url" :title="item.name" />
+          <img :src="item.img1v1Url | https" :title="item.name" />
         </router-link>
         <p class="weng ove">
           <router-link :to="`/SingerHome?id=${item.id}`" class="xiaolu  ">{{ item.name }}</router-link>

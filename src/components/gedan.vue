@@ -25,7 +25,7 @@
         <ul class="te_body" v-if="data_tou">
           <li v-for="(item, index) in data_tou" :key="index">
             <div>
-              <router-link :to="`/Xiang?id=${item.id}`" class="te_a"><img :src="item.coverImgUrl"/></router-link>
+              <router-link :to="`/Xiang?id=${item.id}`" class="te_a"><img :src="item.coverImgUrl | https"/></router-link>
               <p class="te_p">
                 <span></span>
                 <span>{{ parseInt(item.playCount / 10000) }}万</span>

@@ -126,7 +126,7 @@
               <router-link class="xiaoul size black" :to="`/Vedio?id=${item.vid}`">{{ item.title }}</router-link>
             </p>
             <p class="over">
-              by <router-link class="xiaoul gexi" :to="`SingerHome?id=${item.creator[0].userId}`">{{ item.creator[0].userName }}</router-link>
+              by <router-link class="xiaoul gexi" :to="`/${item.type == 0 ? 'SingerHome' : 'User'}?id=${item.creator[0].userId}`">{{ item.creator[0].userName }}</router-link>
             </p>
           </li>
         </ul>

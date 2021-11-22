@@ -1,8 +1,8 @@
 <template>
   <div class="home" v-if="data_bran">
     <div class="lup" @mouseover="di" @mouseout="run">
-      <img class="lups" :src="url" />
-      <span @click="left"></span><img :src="url" @click="tiao" /><span @click="right"></span>
+      <img class="lups" :src="url | https" />
+      <span @click="left"></span><img :src="url | https" @click="tiao" /><span @click="right"></span>
       <ul class="radoo">
         <li v-for="(item, index) in radiu" :key="index" :class="{ raoo: ge == index }" @click="ge = index"></li>
       </ul>
@@ -28,7 +28,7 @@
           <ul class="te_body">
             <li v-for="item in data_tou" :key="item.id">
               <div>
-                <router-link :to="`/Xiang?id=${item.id}`" class="te_a"><img :src="item.picUrl"/></router-link>
+                <router-link :to="`/Xiang?id=${item.id}`" class="te_a"><img :src="item.picUrl | https"/></router-link>
                 <p class="te_p">
                   <span></span>
                   <span>{{ parseInt(item.playCount / 10000) }}万</span>
@@ -54,7 +54,7 @@
             <ul ref="uli">
               <li v-for="(item, index) in data_tui" :key="index">
                 <div class="er_na">
-                  <router-link :to="`/Zhuan?id=${item.id}`"><img :src="item.picUrl" class="eri"/></router-link>
+                  <router-link :to="`/Zhuan?id=${item.id}`"><img :src="item.picUrl | https" class="eri"/></router-link>
                 </div>
                 <p class="erp">
                   <router-link :to="`/Zhuan?id=${item.id}`" class="td">{{ item.name }}</router-link>
@@ -77,7 +77,7 @@
             <dl class="blk" v-for="item in list" :key="item.id">
               <dt>
                 <div class="blk_a">
-                  <router-link :to="`/Bang?id=${item.id}`"><img :src="item.coverImgUrl" alt=""/></router-link>
+                  <router-link :to="`/Bang?id=${item.id}`"><img :src="item.coverImgUrl | https" alt=""/></router-link>
                 </div>
                 <div class="blk_b">
                   <h4>
@@ -116,7 +116,7 @@
           <ul class="asbd2">
             <li v-for="item in data_gesh" :key="item.id">
               <router-link :to="`/SingerHome?id=${item.id}`" class="asdb">
-                <div><img :src="item.img1v1Url" :title="item.name" /></div>
+                <div><img :src="item.img1v1Url | https" :title="item.name" /></div>
                 <div>
                   <h4>{{ item.name }}</h4>
                   <p class="tud">{{ item.alias[0] }}</p>
@@ -133,7 +133,7 @@
           <ul>
             <li class="remena" v-for="item of data_zhubo" :key="item.id">
               <router-link :to="`/User?id=${item.id}`">
-                <img :src="item.avatarUrl" alt="" />
+                <img :src="item.avatarUrl | https" alt="" />
               </router-link>
               <div class="rea">
                 <p>

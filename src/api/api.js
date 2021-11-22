@@ -3,6 +3,7 @@ import https from './https'
 
 axios.defaults.baseURL = https
 axios.defaults.method = 'GET'
+// axios.defaults.timeout = 3000
 // 添加响应拦截器
 axios.interceptors.response.use(
   function(response) {
