@@ -33,7 +33,7 @@
               <dl v-if="seek.albums">
                 <dt><span class="sia"></span>专辑</dt>
                 <dd v-for="item in seek.albums" :key="item.id" class="ove">
-                  <router-link to="">{{ item.name }}-{{ item.artist.name }}</router-link>
+                  <router-link :to="`/Zhuan?id=${item.id}`">{{ item.name }}-{{ item.artist.name }}</router-link>
                 </dd>
               </dl>
               <dl v-if="seek.playlists">
@@ -1354,5 +1354,13 @@ button {
   height: 24px;
   width: 50px;
   margin-right: 10px;
+}
+.qwer {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+  word-wrap: normal;
 }
 </style>

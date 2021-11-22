@@ -57,7 +57,6 @@
           </td>
           <td class="qwer">
             <router-link :to="`/SingerHome?id=${ion.id}`" class="hou size xiaoul" v-for="(ion, index) in item.ar" :key="ion.id">{{ ion.name }} {{ item.ar.length > 1 && index !== item.ar.length - 1 ? '/' : '' }}</router-link>
-            <!-- <router-link :to="`/SingerHome?id=${item.ar[0].id}`" class="hou size xiaoul" :title="item.ar[0].name">{{ item.ar[0].name }}</router-link> -->
           </td>
         </tr>
       </tbody>

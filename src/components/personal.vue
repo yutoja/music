@@ -13,19 +13,19 @@
         <dl v-if="seek.artists">
           <dt><span class="sia"></span>歌手</dt>
           <dd v-for="item in seek.artists" :key="item.id">
-            <router-link to="">{{ item.name }}</router-link>
+            <router-link :to="`/SingerHome?id=${item.id}`">{{ item.name }}</router-link>
           </dd>
         </dl>
         <dl v-if="seek.albums">
           <dt><span class="sia"></span>专辑</dt>
           <dd v-for="item in seek.albums" :key="item.id">
-            <router-link to="">{{ item.name }}-{{ item.artist.name }}</router-link>
+            <router-link :to="`/Zhuan?id=${item.id}`">{{ item.name }}-{{ item.artist.name }}</router-link>
           </dd>
         </dl>
         <dl v-if="seek.playlists">
           <dt><span class="sia"></span>歌单</dt>
           <dd v-for="item in seek.playlists" :key="item.id" class="ove">
-            <router-link to="">{{ item.name }}</router-link>
+            <router-link :to="`/Xiang?id=${item.id}`">{{ item.name }}</router-link>
           </dd>
         </dl>
       </div>
@@ -52,16 +52,16 @@
     <div class="rouqi">
       <div class="gedan" v-for="item in dat.songs" :key="item.id" :class="{ qiang: $route.query.type == 1 }">
         <div class="body">
-          <div class="bo1"><a :id="item.id" @click="sr" class="font"></a></div>
+          <div class="bo1"><a :id="item.id" @click="all(data.playlist.tracks)" :class="{ font: true, red: ef === item.id }"></a></div>
           <div class="bo2">
             <router-link :to="`/Details?id=${item.id}`" class="xiaolu over">{{ item.name }}</router-link>
-            <span class="hidd"><a href="#" class="font"></a><a href="#" class="font"></a><a href="#" class="font"></a><a href="#" class="font"></a></span>
+            <span class="hidd"><a class="font" @click="bo(item.id)"></a><a href="#" class="font"></a><a href="#" class="font"></a><a @click.prevent="down(item)" class="font"></a></span>
           </div>
-          <div class="bo3">
-            <a href="#" class="xiaolu over wind">{{ item.artists[0].name }}</a>
+          <div class="bo3 qwer">
+            <router-link :to="`/SingerHome?id=${ion.id}`" class="xiaolu over" v-for="(ion, index) in item.artists" :key="ion.id">{{ ion.name }} {{ item.artists.length > 1 && index !== item.artists.length - 1 ? '/' : '' }}</router-link>
           </div>
           <div class="bo4">
-            <a href="#" class="xiaolu over wind">《{{ item.album.name }}》</a>
+            <router-link :to="`/Zhuan?id=${item.album.id}`" class="xiaolu over wind">《{{ item.album.name }}》</router-link>
           </div>
           <div class="bo5">
             <span>{{ item.duration | capitalize }}</span>
@@ -79,24 +79,24 @@
           </li>
         </ul>
       </div>
-
+      <!-- 专辑 -->
       <div class="geuhs" :class="{ qiang: $route.query.type == 10 }">
         <ul>
           <li class="get" v-for="item in dat.albums" :key="item.id">
             <img :src="item.picUrl" @click="skip('/Zhuan', item.id)" />
             <p class="over">
-              <router-link class="xiaoul size black" :to="`/Zhuan?${item.id}`">{{ item.name }}</router-link>
+              <router-link class="xiaoul size black" :to="`/Zhuan?id=${item.id}`">{{ item.name }}</router-link>
             </p>
             <p class="over">
-              <a class="xiaoul gexi" href="#">{{ item.artist.name }}</a>
+              <router-link class="xiaoul gexi" :to="`/SingerHome?id=${item.artist.id}`">{{ item.artist.name }}</router-link>
             </p>
           </li>
         </ul>
       </div>
-
+      <!-- 歌单 -->
       <table class="zhuj" :class="{ qiang: $route.query.type == 1000 }">
         <tr class="ge" v-for="item in dat.playlists" :key="item.id">
-          <td class="ge1"><a class="font" @click="sr" :id="item.track.id"></a></td>
+          <td class="ge1"><a :class="{ font: true, red: ef === item.track.id }" @click="sr" :id="item.track.id"></a></td>
           <td class="ge2">
             <router-link :to="`/Xiang?id=${item.id}`"><img :src="item.coverImgUrl" class="gei" :title="item.name"/></router-link>
           </td>
@@ -106,7 +106,7 @@
           <td class="ge4"><a href="#" class="font"></a><a href="#" class="font"></a><a href="#" class="font"></a></td>
           <td class="ge5">{{ item.trackCount }}首</td>
           <td class="ge6">
-            by<a href="#" class="xiaolu over wind"> {{ item.creator.nickname }}</a>
+            by<router-link :to="`/User?id=${item.creator.userId}`" class="xiaolu over wind"> {{ item.creator.nickname }}</router-link>
           </td>
           <td class="ge7">
             <a href="#">收场：{{ item.bookCount }}</a>
@@ -117,6 +117,7 @@
         </tr>
       </table>
 
+      <!--MV -->
       <div class="geuhs" :class="{ qiang: $route.query.type == 1014 }">
         <ul>
           <li class="gett" v-for="item in dat.videos" :key="item.id">
@@ -125,7 +126,7 @@
               <router-link class="xiaoul size black" :to="`/Vedio?id=${item.vid}`">{{ item.title }}</router-link>
             </p>
             <p class="over">
-              by <router-link class="xiaoul gexi" :to="`/User?id=${item.creator[0].userId}`">{{ item.creator[0].userName }}</router-link>
+              by <router-link class="xiaoul gexi" :to="`SingerHome?id=${item.creator[0].userId}`">{{ item.creator[0].userName }}</router-link>
             </p>
           </li>
         </ul>
@@ -138,6 +139,12 @@
 <script>
 export default {
   name: 'Personal',
+  props: {
+    ef: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
       dat: null,
@@ -427,6 +434,7 @@ a {
 .ge4 {
   visibility: hidden;
   transition: all 0.2s;
+  width: 85px;
 }
 .ge:hover > .ge4 {
   visibility: visible;
