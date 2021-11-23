@@ -1,7 +1,7 @@
 <template>
   <div class="w" v-if="data && zda">
     <div class="th">
-      <div class="left"><img :src="data.songs[0].al.picUrl" :title="data.songs[0].al.name" /></div>
+      <div class="left"><img :src="data.songs[0].al.picUrl | https" :title="data.songs[0].al.name" /></div>
       <div class="right">
         <h3 class="no"><span class="font red"></span>{{ data.songs[0].al.name }}</h3>
         <div class="to">

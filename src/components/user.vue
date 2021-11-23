@@ -1,7 +1,7 @@
 <template>
   <div class="user" v-if="daia && dat && dat.profile">
     <thead>
-      <img :src="dat.profile.avatarUrl" alt="" class="img" />
+      <img :src="dat.profile.avatarUrl | https" alt="" class="img" />
       <div class="jian">
         <div class="jh">
           <h1>{{ dat.profile.nickname }}</h1>
@@ -35,7 +35,7 @@
       <ul class="tbody">
         <li class="tli" v-for="item in daia" :key="item.id">
           <a @click="visit(item.id)">
-            <img :src="item.coverImgUrl" alt="" class="ain" />
+            <img :src="item.coverImgUrl | https" alt="" class="ain" />
           </a>
           <div class="baj">
             <span class="font"> {{ item.playCount > 10000 ? parseInt(item.playCount / 10000) + '万' : item.playCount }}</span> <span class="font"></span>
@@ -49,7 +49,7 @@
       <ul class="tbody">
         <li class="tli" v-for="item in diaa" :key="item.id">
           <router-link :to="`/Xiang?id=${item.id}`">
-            <img :src="item.coverImgUrl" alt="" class="ain" />
+            <img :src="item.coverImgUrl | https" alt="" class="ain" />
           </router-link>
           <div class="baj">
             <span class="font"> {{ item.playCount > 10000 ? parseInt(item.playCount / 10000) + '万' : item.playCount }}</span> <span class="font"></span>

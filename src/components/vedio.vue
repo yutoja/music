@@ -10,7 +10,7 @@
           <router-link class="xiaolu" :to="`/User?id=${dae.creator.userId}`" v-else>by {{ dae.creator.nickname }}</router-link>
         </p>
         <div class="vhbd">
-          <video :src="ved.url" class="vedi" controls ref="video"></video>
+          <video :src="ved.url | https" class="vedi" controls ref="video"></video>
           <!-- <a href="#" class="vha"></a> -->
         </div>
 
@@ -47,7 +47,7 @@
 
         <div class="vtui" v-for="item in tuijian" :key="item.vid">
           <router-link :to="`/Vedio?id=${item.vid}`" class="vtim">
-            <img :src="item.coverUrl" />
+            <img :src="item.coverUrl | https" />
             <span class="vtou font">{{ parseInt(item.playTime / 10000) }}万</span>
           </router-link>
           <div class="vtbo">

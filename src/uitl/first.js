@@ -4,6 +4,7 @@ export default {
   install(Vue) {
     // 将http转换为https
     Vue.filter('https', value => {
+      if (!value) return value
       if (value.indexOf('https') !== -1) return value
       return `https${value.slice(4)}`
     })

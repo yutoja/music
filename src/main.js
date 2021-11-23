@@ -19,7 +19,7 @@ Vue.mixin(mix)
 
 Vue.use(first)
 
-new Vue({
+export default new Vue({
   render: h => h(App),
   router,
   store

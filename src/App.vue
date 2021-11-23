@@ -80,9 +80,6 @@
         </div>
       </div>
     </nav>
-    <div :class="{ dohuan: true, huanda: zhen }">
-      {{ title }}<span :class="{ font: true, red: tgg }">{{ tgg ? '' : '' }}</span>
-    </div>
     <div class="register" ref="redister" v-if="lun">
       <div class="redh" @mousedown="weizhi"><span>手机号登录</span><span @click="lun = false">X</span></div>
       <div class="reab">
@@ -93,7 +90,6 @@
             <input type="text" placeholder="请输入验证码" v-model.trim="verification" />
             <button @click="yztime">获取验证码</button>
           </div>
-
           <div class="reati"><a href="#" @click="duan = !duan">短信登录</a><a href="#">忘记密码?</a></div>
           <button class="reabu" @click="post">登录</button>
         </div>
@@ -193,7 +189,6 @@ export default {
     return {
       // 底部是否自动下拉
       tef: JSON.parse(localStorage.getItem('tef')),
-
       // zhonji: 20,
       // 音乐时间
       leng: '00:00',
@@ -311,9 +306,6 @@ export default {
           verification: this.verification
         })
       }
-
-      // if (this.cookie && this.cookie.account) return alert(this.cookie.msg)
-      this.zhen = false
       this.lun = false
       this.account = ''
       this.password = ''
@@ -524,14 +516,6 @@ export default {
         const a = this.$refs.lyri.slice(0, ne).reduce((pon, value) => value.offsetHeight + pon, 0)
         this.inter(this.$refs.geh, a - 68)
       }
-    },
-    zhen(lo, ne) {
-      let a = null
-      clearTimeout(a)
-      a = setTimeout(() => {
-        this.zhen = false
-        clearTimeout(a)
-      }, 2000)
     }
   },
   computed: {

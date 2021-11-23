@@ -6,7 +6,7 @@
     </div>
     <div class="tou" v-if="srv && dat && jis">
       <div class="im pos">
-        <img :src="srv.data.artist.cover + '?param=640y300'" alt="" class="im" />
+        <img :src="srv.data.artist.cover | https | jia" alt="" class="im" />
         <div class="baj"></div>
       </div>
       <ul class="ul">
@@ -103,6 +103,9 @@ export default {
       const fe = parseInt(value / 60 / 1000)
       const miao = parseInt((value / 1000) % 60)
       return `${fe < 10 ? '0' + fe : fe}:${miao < 10 ? '0' + miao : miao}`
+    },
+    jia(value) {
+      return value + '?param=640y300'
     }
   }
 }

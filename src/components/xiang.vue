@@ -1,20 +1,20 @@
 <template>
   <div class="w" v-if="data && zda">
     <div class="th">
-      <div class="left"><img :src="data.playlist.coverImgUrl" :title="data.playlist.name" /></div>
+      <div class="left"><img :src="data.playlist.coverImgUrl | https" :title="data.playlist.name" /></div>
       <div class="right">
         <h3 class="no"><span class="font red"></span>{{ data.playlist.name }}</h3>
         <div class="to">
-          <router-link :to="`/User?id=${data.playlist.creator.userId}`" class="yo"><img :src="data.playlist.creator.avatarUrl" class="yo"/></router-link>
+          <router-link :to="`/User?id=${data.playlist.creator.userId}`" class="yo"><img :src="data.playlist.creator.avatarUrl | https" class="yo"/></router-link>
           <router-link :to="`/User?id=${data.playlist.creator.userId}`" class="ve col size">{{ data.playlist.creator.nickname }}</router-link>
           <span class="ve clo size">{{ time }} 创建</span>
         </div>
         <div class="btb">
           <div class="btt">
             <a @click="all(data.playlist.tracks)" title="播放"><a class="font wite"></a>播放</a>
-            <a href="#" title="收藏"><a class="font black"></a>({{ zda.data.bookedCount }})</a>
-            <a href="#" title="转发"><a class="font black"></a>({{ zda.data.shareCount }})</a>
-            <a href="#ping" title="评论"><a class="font black"></a>({{ zda.data.commentCount }})</a>
+            <a href="#" title="收藏"><a class="font black"></a>({{ zda.data.bookedCount | hhuan }})</a>
+            <a href="#" title="转发"><a class="font black"></a>({{ zda.data.shareCount | hhuan }})</a>
+            <a href="#ping" title="评论"><a class="font black"></a>({{ zda.data.commentCount | hhuan }})</a>
           </div>
         </div>
         <div class="top">
@@ -167,6 +167,9 @@ export default {
       const miao = parseInt(values % 60)
       const time = `${fe < 10 ? '0' + fe : fe}:${miao < 10 ? '0' + miao : miao}`
       return time
+    },
+    hhuan(value) {
+      return value > 1_0000_0000 ? parseInt(value / 1_0000_0000) + '亿' : value > 100000 ? parseInt(value / 10000) + '万' : value
     }
   }
 }

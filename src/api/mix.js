@@ -1,6 +1,8 @@
+import win from '@/uitl/feature'
+
 const mix = {
   data() {
-    return { zhen: false, no: 0, title: '登录成功', tgg: false }
+    return { no: 0 }
   },
   methods: {
     // 下载音乐
@@ -9,7 +11,7 @@ const mix = {
       // 创建任务
       than.schedule = than.schedule ? than.schedule : []
       // 判断当前任务是否重复
-      if (than.schedule.includes(row.id)) return ''
+      if (than.schedule.includes(row.id)) return win.danwindow('正在下载', 0)
       // 添加任务
       than.schedule.push(row.id)
       const {
@@ -18,10 +20,11 @@ const mix = {
         }
       } = await this.$http(`/song/url?id=${row.id}`)
       const a = 'https' + res.url.slice(4)
-      // 弹出开始下载提示
-      than.title = '开始下载'
-      than.tgg = false
-      than.zhen = true
+      win.danwindow('开始下载', 0)
+      // 弹出开始下载提示  复用一个弹出窗口，若需用将 win.danwindow('***', 0)改为下方即可
+      // than.title = '开始下载'
+      // than.tgg = false
+      // than.zhen = true
       this.$http({
         method: 'get',
         url: a,
@@ -36,12 +39,9 @@ const mix = {
         // 删除完成的进度
         than.schedule.splice(than.schedule.indexOf(than.schedule), 1)
         // 弹出提示
-        than.title = '下载完成'
-        than.tgg = false
-        than.zhen = true
+        win.danwindow('下载完成', 0)
       })
     },
-
     // 获取验证码
     verify(phone) {
       this.$http(`/captcha/sent?phone=${phone}`)
@@ -58,7 +58,7 @@ const mix = {
     // 访问他人歌单
     visit(id) {
       const a = localStorage.getItem('co')
-      if (!a) return alert('请先登录')
+      if (!a) return win.danwindow('请先登录', 1)
 
       this.$router.push({
         path: '/Xiang',
@@ -72,33 +72,26 @@ const mix = {
     },
     // 关注
     guzh(id, type) {
-      const ve = this.$parent
       const a = localStorage.getItem('co')
-
       this.$http(`/follow?id=${id}&t=${type}&cookie=${a}`)
         .then(value => {
           if (parseInt(value.data.code / 100) == 2) {
             if (value.data.followContent) {
-              ve.title = value.data.followContent
+              win.danwindow(value.data.followContent, 0)
             } else {
-              ve.title = '取消关注'
+              win.danwindow('取消关注', 0)
             }
-
-            ve.tgg = false
-            ve.zhen = true
             this.aaaa = true
           }
         })
         .catch(err => {
           if (err) {
-            ve.title = '请先登录'
-            ve.tgg = true
-            ve.zhen = true
+            win.danwindow('请先登录', 1)
           }
         })
     },
     // 登录
-    async ghg(obj, na) {
+    async ghg(obj) {
       let data
 
       if (obj.verification) {
@@ -112,13 +105,12 @@ const mix = {
       } else {
         data = await this.$http(`/login/cellphone?phone=${obj.account}&password=${obj.password}`)
       }
-      this.title = '登录成功'
-      this.tgg = false
-      this.zhen = true
+
       if (data.data.code !== 200) {
-        this.title = '登录失败'
-        this.tgg = true
+        win.danwindow('登录失败', 1)
         return
+      } else {
+        win.danwindow('登录成功', 0)
       }
 
       localStorage.setItem('co', data.data.cookie)
@@ -145,102 +137,67 @@ const mix = {
       if (data.code == 200) {
         this.$store.dispatch('clearuser')
         this.$router.push('/')
-        this.title = '登出账号'
-        this.tgg = false
-        this.zhen = true
+        win.danwindow('登出账号', 0)
         return ''
       }
     },
     // 点赞
     diaz(id, cid, type, like) {
       const t = Number(!like)
-      const ve = this.$parent.$parent
       const a = localStorage.getItem('co')
       this.$http(`/comment/like?id=${id}&cid=${cid}&type=${type}&t=${t}&cookie=${a}`)
         .then(value => {
+          console.log(value)
           if (value.data.code === 200) {
-            ve.title = '点赞成功'
-            ve.tgg = false
-            ve.zhen = true
+            win.danwindow('点赞成功', 0)
+            // 刷新数据
+            win.reques(type)
           }
         })
         .catch(err => {
+          console.log(err)
           if (err) {
-            ve.title = '请先登录'
-            ve.tgg = true
-            ve.zhen = true
+            win.danwindow('请先登录', 1)
           }
         })
-      if (ve.tgg) return ''
-      switch (type) {
-        case 0:
-          this.hotp(this, this.$route.query.id, 'music')
-          break
-        case 2:
-          this.hotp(this, this.$route.query.id, 'playlist')
-          break
-      }
     },
     // 评论
     pinlu(id, text, type, t, commentId) {
-      const ve = this.$parent.$parent
       const a = localStorage.getItem('co')
-
       this.$http(`/comment?t=${t}&type=${type}&id=${id}&content=${text}${t === 2 ? `&commentId=${commentId}` : ''}&cookie=${a}`)
         .then(value => {
           if (value.data.code === 200) {
-            ve.title = '点赞成功'
-            ve.tgg = false
-            ve.zhen = true
+            win.danwindow('点赞成功', 0)
           }
-
-          switch (type) {
-            case 0:
-              this.hotp(this, this.$route.query.id, 'music')
-              break
-            case 2:
-              this.hotp(this, this.$route.query.id, 'playlist')
-              break
-          }
+          // 刷新数据
+          win.reques(type)
         })
         .catch(err => {
           if (err) {
-            ve.title = '请先登录'
-            ve.tgg = true
-            ve.zhen = true
+            win.danwindow('请先登录', 0)
           }
         })
     },
     remov(id, type, commentId) {
-      const ve = this.$parent.$parent
       const a = localStorage.getItem('co')
       this.$http(`/comment?t=0&type=${type}&id=${id}&commentId=${commentId}&cookie=${a}`)
         .then(value => {
           if (value.data.code === 200) {
-            this.title = '删除成功'
-            this.tgg = false
-            this.zhen = true
-            switch (type) {
-              case 0:
-                this.hotp(this, this.$route.query.id, 'music')
-                break
-              case 2:
-                this.hotp(this, this.$route.query.id, 'playlist')
-                break
-            }
+            win.danwindow('删除成功', 0)
+            // 刷新数据
+            win.reques(type)
           }
         })
         .catch(err => {
           if (err) {
-            ve.title = '请先登录'
-            ve.tgg = true
-            ve.zhen = true
+            win.danwindow('请先登录', 1)
           }
         })
     },
     sr(e) {
       this.$store.dispatch('addsrc', e.target.id)
     },
+    // 载入当前歌单
     all(e) {
       const a = [...e]
       this.$store.dispatch('addsrc', a.splice(0, 1)[0].id)
