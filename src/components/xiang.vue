@@ -94,6 +94,10 @@ export default {
     ef: {
       type: Number,
       default: 0
+    },
+    qu: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -148,16 +152,18 @@ export default {
     }
   },
   async created() {
-    this.date(this, this.$route.query.id)
-    this.hotp(this, this.$route.query.id, 'playlist')
-    const a = await this.$http(`/playlist/detail/dynamic?id=${this.$route.query.id}`)
+    const id = this.$route.query.id || this.qu
+    const b = localStorage.getItem('co')
+    this.date(this, id)
+    this.hotp(this, id, 'playlist')
+    const a = await this.$http(`/playlist/detail/dynamic?id=${id}&cookie=${b}`)
     this.zda = a
   },
   computed: {
     time() {
       if (!this.data) return ''
       const a = new Date(this.data.playlist.createTime)
-      return `2${a.getYear()}-${a.getMonth() + 1}-${a.getDay()}`
+      return `20${a.getYear() - 100}-${a.getMonth() + 1}-${a.getDay()}`
     }
   },
   filters: {

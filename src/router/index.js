@@ -34,7 +34,8 @@ const router = new VueRouter({
     { path: '/User', component: () => import('@/components/user') },
     { path: '/Zhuan', component: () => import('@/components/zhuanji') },
     { path: '/Xindie', component: () => import('@/components/xindie') },
-    { path: '/Vedio', component: () => import('@/components/vedio') }
+    { path: '/Vedio', component: () => import('@/components/vedio') },
+    { path: '/Personage', component: () => import('@/components/personage') }
   ]
   // scrollBehavior(to, from, savedPosition) {
   //   if (savedPosition) {

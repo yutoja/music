@@ -6,9 +6,9 @@
           <div class="m-logo">
             <a>云音乐</a>
           </div>
-          <ul class="m-tab" @click="qie($event, 'm-fa')">
-            <li class="m-fa"><router-link to="/home">发现音乐</router-link></li>
-            <li><a href="#">我的音乐</a></li>
+          <ul class="m-tab">
+            <li :class="{ mfa: !($route.path == '/Personage') }"><router-link to="/home">发现音乐</router-link></li>
+            <li :class="{ mfa: $route.path == '/Personage' }"><a @click="wode">我的音乐</a></li>
             <li><a href="#">朋友</a></li>
             <li><a href="https://music.163.com/store/product" target="_blank">商城</a></li>
             <li><a href="https://music.163.com/st/musician">音乐人</a></li>
@@ -250,6 +250,14 @@ export default {
     }
   },
   methods: {
+    wode() {
+      const user = localStorage.getItem('user')
+      if (!user) {
+        this.lun = true
+        return
+      }
+      this.skip('/Personage')
+    },
     kuai(e) {
       const a = (e.clientX - this.$refs.fyiao.offsetLeft) / this.$refs.fyiao.clientWidth
       this.$refs.audio.currentTime = this.$refs.audio.duration * a
@@ -276,7 +284,7 @@ export default {
     },
     // 获取验证码
     yztime(e) {
-      if (!this.phone.test(this.account)) return alert('请填写正确的账户')
+      if (!this.phone.test(this.account)) return this.win.danwindow('请填写正确的账户', 1)
       e.target.disabled = true
       let i = 60
       e.target.innerText = `${i}秒`
@@ -293,9 +301,9 @@ export default {
     },
     // 登录
     post() {
-      if (!this.phone.test(this.account)) return alert('请填写正确的账户')
+      if (!this.phone.test(this.account)) return this.win.danwindow('请填写正确的账户', 1)
       if (this.duan) {
-        if (!this.password) return alert('密码不能为空')
+        if (!this.password) return this.win.danwindow('密码不能为空', 1)
         this.ghg({
           account: this.account,
           password: this.password
@@ -356,12 +364,6 @@ export default {
           this.ggu = true
         }, 100)
       }
-    },
-    qie(e, str) {
-      for (const k in [...e.target.parentNode.parentNode.children]) {
-        e.target.parentNode.parentNode.children[k].className = ''
-      }
-      e.target.parentNode.className = str
     },
     // 切换固定图标
     teg() {
@@ -564,6 +566,9 @@ export default {
 </script>
 
 <style>
+* {
+  -webkit-tap-highlight-color: transparent;
+}
 :root {
   --color: #ccc;
   --color-y: black;
@@ -684,7 +689,7 @@ button {
 .m-tab > li {
   position: relative;
 }
-.m-fa::after {
+.mfa::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -696,10 +701,10 @@ button {
   border-left: 5px solid transparent;
   border-bottom: 5px solid #9b0909;
 }
-.m-fa {
+.mfa {
   background-color: #000000;
 }
-.m-fa > a {
+.mfa > a {
   color: #ffffff !important;
 }
 .m-la {

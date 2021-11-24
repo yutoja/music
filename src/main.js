@@ -12,12 +12,16 @@ import mix from '@/api/mix'
 
 import first from '@/uitl/first'
 
+import win from '@/uitl/feature'
+
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 
 Vue.mixin(mix)
 
 Vue.use(first)
+
+Vue.prototype.win = win
 
 export default new Vue({
   render: h => h(App),

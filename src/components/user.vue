@@ -45,7 +45,7 @@
       </ul>
     </div>
     <div class="bdbd" v-if="diaa.length > 0">
-      <div class="bdhe">{{ dat.profile.nickname }}收藏的表单({{ diaa.length }})</div>
+      <div class="bdhe">{{ dat.profile.nickname }}收藏的歌单({{ diaa.length }})</div>
       <ul class="tbody">
         <li class="tli" v-for="item in diaa" :key="item.id">
           <router-link :to="`/Xiang?id=${item.id}`">

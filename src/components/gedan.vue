@@ -100,7 +100,7 @@ export default {
   async created() {
     const {
       data: { playlists }
-    } = await this.$http('/top/playlist?limit=35')
+    } = await this.$http(`/top/playlist?limit=35${this.$route.query.cat ? `&cat=${this.$route.query.cat}` : ''}`)
     this.data_tou = playlists
     const { data } = await this.$http('/playlist/catlist')
     this.feng.push(data.categories)

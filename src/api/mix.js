@@ -147,7 +147,6 @@ const mix = {
       const a = localStorage.getItem('co')
       this.$http(`/comment/like?id=${id}&cid=${cid}&type=${type}&t=${t}&cookie=${a}`)
         .then(value => {
-          console.log(value)
           if (value.data.code === 200) {
             win.danwindow('点赞成功', 0)
             // 刷新数据
@@ -155,7 +154,6 @@ const mix = {
           }
         })
         .catch(err => {
-          console.log(err)
           if (err) {
             win.danwindow('请先登录', 1)
           }
@@ -212,13 +210,15 @@ const mix = {
       this.$store.dispatch('addbo', id)
     },
     async date(obj, id) {
-      const { data } = await this.$http(`/playlist/detail?id=${id}&s=-1`)
+      const a = localStorage.getItem('co')
+      const { data } = await this.$http(`/playlist/detail?id=${id}&s=-1&cookie=${a}`)
       obj.data = data
     },
     async hotp(el, id, type) {
+      const a = localStorage.getItem('co')
       const {
         data: { hotComments, comments, total }
-      } = await this.$http(`/comment/${type}?id=${id}`)
+      } = await this.$http(`/comment/${type}?id=${id}&cookie=${a}`)
       el.hot = hotComments
       el.news = comments
       el.shu = total

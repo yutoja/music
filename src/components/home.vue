@@ -91,7 +91,7 @@
               <dd>
                 <ol class="blko">
                   <li class="hov" v-for="(im, index) in item.data" :key="im.id">
-                    <span class=" cpn">{{ index + 1 }}</span> <router-link :to="`/Details?id=${im.id}`" class="xiao td over">{{ im.name }}</router-link>
+                    <span :class="{ cpn: true, hanred: index < 3 }">{{ index + 1 }}</span> <router-link :to="`/Details?id=${im.id}`" class="xiao td over">{{ im.name }}</router-link>
                     <div class="qw"><a class=" as" :id="im.id" @click="sr"></a><a class=" as" @click="bo(im.id)"></a><a class="as" @click.prevent="down(im)"></a></div>
                     <!-- 收藏图标 -->
                     <!--  -->
@@ -212,9 +212,9 @@ export default {
     afte() {
       if (this.nutru) {
         this.nutru = false
-        if (this.num == 3) {
-          this.num = 1
-          this.$refs.uli.style.left = '-660px'
+        if (this.num == 2) {
+          this.num = 0
+          this.$refs.uli.style.left = '-16px'
         }
         this.num++
         this.luno(this.$refs.uli, -this.num * 670 + 16, () => {
@@ -263,7 +263,7 @@ export default {
       this.data_tui = value.data.albums
       const a = this.data_tui.splice(0, 5)
       const b = this.data_tui.splice(0, 5)
-      this.data_tui = [...a, ...b, ...a, ...b]
+      this.data_tui = [...a, ...b, ...a]
     })
     // 获取榜单
     this.$http('/toplist').then(value => {
@@ -550,6 +550,9 @@ button {
 .blko > li {
   height: 32px;
   line-height: 32px;
+}
+.hanred {
+  color: #c10d0c;
 }
 .red {
   color: #9b0909;
