@@ -1,6 +1,6 @@
 <template>
-  <div class="app">
-    <nav>
+  <div :class="{ app: true, paddgin: $route.path !== '/Personage' }">
+    <nav :class="{ ski: $route.path == '/Personage' }">
       <div class="m-top">
         <div class="m-wrap">
           <div class="m-logo">
@@ -576,6 +576,9 @@ export default {
 .xiaolu:hover {
   text-decoration: revert !important;
 }
+.paddgin {
+  padding-bottom: 50px;
+}
 .hove {
   color: var(--color);
 }
@@ -584,6 +587,11 @@ export default {
 }
 .weig {
   font-weight: initial;
+}
+.ski {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 .font {
   font-family: 'icomoon';
@@ -595,7 +603,7 @@ export default {
 }
 .max {
   min-width: 98vw;
-  min-height: 1000px;
+  min-height: 761px;
 }
 * {
   margin: 0;
