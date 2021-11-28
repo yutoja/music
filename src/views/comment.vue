@@ -24,7 +24,7 @@
             {{ item.beReplied[0].content }}
           </div>
           <div class="qufoot">
-            <span>{{ item.time | capitalize }}</span>
+            <span>{{ item.timeStr }}</span>
             <div class="bo">
               <span class="xiaolul sha" @click=";(tish = true), (dat = item.commentId)">删除</span>
               <span class="xiaolul" @click="diaz(cidd, item.commentId, typ, item.liked)"><span v-bind:class="[item.liked ? 'red' : 'blue']"></span>({{ item.likedCount }})</span>
@@ -77,7 +77,7 @@
         <div class="tibod">
           <span>确定删除吗</span>
           <div class="tiba">
-            <button @click="remo, (tish = false), (dat = '')">确定</button>
+            <button @click="remo(), (tish = false), (dat = '')">确定</button>
             <button @click=";(tish = false), (dat = '')">取消</button>
           </div>
         </div>
@@ -133,14 +133,6 @@ export default {
       }
       shi = parseInt(((+new Date() - val) / 1000 / 60) % 60)
       return shi < 60 ? (shi < 1 ? '刚刚更新' : shi + '分钟前') : shi / 60 + '小时前'
-    },
-    capitalize: function(val) {
-      const shi = parseInt((+new Date() - val) / 1000 / 60 / 6 / 24)
-      if (shi / 10 > 30) {
-        const a = new Date(val)
-        return `20${a.getYear() - 100}-${a.getMonth() + 1}-${a.getDay()}`
-      }
-      return shi < 10 ? (shi < 1 ? '刚刚更新' : shi + '小时前更新') : parseInt(shi / 10) + '天前'
     }
   },
   methods: {

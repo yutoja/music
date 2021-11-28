@@ -12,7 +12,7 @@
         <div class="btb">
           <div class="btt">
             <a @click="all(data.playlist.tracks)" title="播放"><a class="font wite"></a>播放</a>
-            <a href="#" title="收藏"><a class="font black"></a>({{ zda.data.bookedCount | hhuan }})</a>
+            <a href="#" :title="zda.data.subscribed ? '已收藏' : '收藏'"><a class="font black"></a>({{ zda.data.bookedCount | hhuan }})</a>
             <a href="#" title="转发"><a class="font black"></a>({{ zda.data.shareCount | hhuan }})</a>
             <a href="#ping" title="评论"><a class="font black"></a>({{ zda.data.commentCount | hhuan }})</a>
           </div>
@@ -146,9 +146,13 @@ export default {
     }
   },
   watch: {
-    $route(to, from) {
+    async $route(to, from) {
+      const id = this.$route.query.id || this.qu
+      const b = localStorage.getItem('co')
       this.hotp(this, to.query.id, 'playlist')
       this.date(this, to.query.id)
+      const a = await this.$http(`/playlist/detail/dynamic?id=${id}&cookie=${b}`)
+      this.zda = a
     }
   },
   async created() {

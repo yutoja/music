@@ -141,6 +141,11 @@ const mix = {
         return ''
       }
     },
+    // 收藏
+    async collect(id, collec) {
+      const a = await this.$http('/playlist/subscribe?t=1&id=106697785')
+      console.log(a)
+    },
     // 点赞
     diaz(id, cid, type, like) {
       const t = Number(!like)
@@ -165,7 +170,7 @@ const mix = {
       this.$http(`/comment?t=${t}&type=${type}&id=${id}&content=${text}${t === 2 ? `&commentId=${commentId}` : ''}&cookie=${a}`)
         .then(value => {
           if (value.data.code === 200) {
-            win.danwindow('点赞成功', 0)
+            win.danwindow('已评论', 0)
           }
           // 刷新数据
           win.reques(type)
@@ -180,8 +185,9 @@ const mix = {
       const a = localStorage.getItem('co')
       this.$http(`/comment?t=0&type=${type}&id=${id}&commentId=${commentId}&cookie=${a}`)
         .then(value => {
+          console.log(value)
           if (value.data.code === 200) {
-            win.danwindow('删除成功', 0)
+            win.danwindow('已删除', 0)
             // 刷新数据
             win.reques(type)
           }

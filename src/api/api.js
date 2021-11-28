@@ -16,14 +16,19 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-// axios.interceptors.request.use(
-//   function(config) {
-//     // 在发送请求之前做些什么
-//     return config
-//   },
-//   function(error) {
-//     // 对请求错误做些什么
-//     return Promise.reject(error)
-//   }
-// )
+axios.interceptors.request.use(
+  function(config) {
+    // 在发送请求之前做些什么
+    // const a = localStorage.getItem('co')
+    // if (a) {
+    //   config.url = config.url + `&cookie=${a}`
+    //   console.log(config.url)
+    // }
+    return config
+  },
+  function(error) {
+    // 对请求错误做些什么
+    return Promise.reject(error)
+  }
+)
 export default axios
