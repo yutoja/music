@@ -184,6 +184,7 @@
 </template>
 
 <script>
+import win from '@/uitl/feature'
 export default {
   data() {
     return {
@@ -423,6 +424,16 @@ export default {
     },
     // 停止或播放音乐
     stop() {
+      const au = this.$refs.audio.id
+      if (!au) {
+        const date = new Date().getDay()
+        if (date == 0 || date == 6) {
+          win.danwindow('双休干活就算了，还不说干啥？', 0)
+          return
+        }
+        win.danwindow('请分派任务', 0)
+        return
+      }
       this.$refs.audio.pause()
       if (!this.austatus) {
         this.$refs.audio.play()
@@ -534,12 +545,15 @@ export default {
   created() {
     window.onmousemove = e => {
       if (this.fazhi) {
+        const au = this.$refs.audio.id
+
         this.progressBar = this.clxx + (e.clientX - this.clx) / 466
         if (this.progressBar > 1) return (this.progressBar = 1)
         if (this.progressBar < 0) return (this.progressBar = 0)
         const time = this.$refs.audio.duration * this.progressBar
         const fe = parseInt(time / 60)
         const miao = parseInt(time % 60)
+        if (!au) return
         this.sleng = `${fe < 10 ? '0' + fe : fe}:${miao < 10 ? '0' + miao : miao}`
       }
     }

@@ -215,6 +215,7 @@ const mix = {
     bo(id) {
       this.$store.dispatch('addbo', id)
     },
+    // 获取歌单详情
     async date(obj, id) {
       const a = localStorage.getItem('co')
       const { data } = await this.$http(`/playlist/detail?id=${id}&s=-1&cookie=${a}`)

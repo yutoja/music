@@ -52,7 +52,7 @@
     <div class="rouqi">
       <div class="gedan" v-for="item in dat.songs" :key="item.id" :class="{ qiang: $route.query.type == 1 }">
         <div class="body">
-          <div class="bo1"><a :id="item.id" @click="all(data.playlist.tracks)" :class="{ font: true, red: ef === item.id }"></a></div>
+          <div class="bo1"><a :id="item.id" @click="sr" :class="{ font: true, red: ef === item.id }"></a></div>
           <div class="bo2">
             <router-link :to="`/Details?id=${item.id}`" class="xiaolu over">{{ item.name }}</router-link>
             <span class="hidd"><a class="font" @click="bo(item.id)"></a><a href="#" class="font"></a><a href="#" class="font"></a><a @click.prevent="down(item)" class="font"></a></span>
@@ -96,7 +96,7 @@
       <!-- 歌单 -->
       <table class="zhuj" :class="{ qiang: $route.query.type == 1000 }">
         <tr class="ge" v-for="item in dat.playlists" :key="item.id">
-          <td class="ge1"><a :class="{ font: true, red: ef === item.track.id }" @click="sr" :id="item.track.id"></a></td>
+          <td class="ge1"><a :class="{ font: true, red: ef === item.track.id }" @click="geall" :id="item.id"></a></td>
           <td class="ge2">
             <router-link :to="`/Xiang?id=${item.id}`"><img :src="item.coverImgUrl" class="gei" :title="item.name"/></router-link>
           </td>
@@ -154,6 +154,14 @@ export default {
     }
   },
   methods: {
+    // 播放歌单
+    async geall(e) {
+      const a = {}
+      // date函数用async修饰了
+      await this.date(a, e.target.id)
+      // 将歌单添加到播放列表
+      this.all(a.data.playlist.tracks)
+    },
     pus(val) {
       if (val !== this.$route.query.type) this.$router.push(`/Personal?id=${this.$route.query.id}&type=${val}`)
     },
