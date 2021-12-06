@@ -171,7 +171,7 @@ export default {
       }, 100)
     },
     kepu() {
-      if (this.$route.query.id !== this.value) this.$router.push(`/Personal?id=${this.value}&type=1`)
+      if (this.value && this.$route.query.id !== this.value) this.$router.push(`/Personal?id=${this.value}&type=1`)
     }
   },
   filters: {
@@ -215,16 +215,21 @@ export default {
     },
     value: async function(newva) {
       if (newva !== '') {
-        const { data } = await this.$http(`/search/suggest?keywords=${newva}`)
-        this.seek = data.result
-        this.ggu = true
+        // 清除之前的定时器
+        clearTimeout(this.inter)
+        // 设置定时器，若300毫秒无操作请求数据
+        this.inter = setTimeout(async () => {
+          const { data } = await this.$http(`/search/suggest?keywords=${newva}`)
+          this.seek = data.result
+          this.ggu = true
+        }, 300)
       }
     }
   },
   created() {
     window.onkeyup = e => {
       if (this.ggu && e.keyCode === 13) {
-        if (this.$route.query.id !== this.value) this.$router.push(`/Personal?id=${this.value}&type=1`)
+        if (this.value && this.$route.query.id !== this.value) this.$router.push(`/Personal?id=${this.value}&type=1`)
       }
     }
     this.dat = ''

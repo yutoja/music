@@ -22,8 +22,9 @@ axios.interceptors.request.use(
     // const a = localStorage.getItem('co')
     // if (a) {
     //   config.url = config.url + `&cookie=${a}`
-    //   console.log(config.url)
+    //
     // }
+
     return config
   },
   function(error) {

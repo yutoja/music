@@ -499,11 +499,16 @@ export default {
     }
   },
   watch: {
-    value: async function(newva) {
+    value: function(newva) {
       if (newva !== '') {
-        const { data } = await this.$http(`/search/suggest?keywords=${newva}`)
-        this.seek = data.result
-        this.ggu = true
+        // 清除之前的定时器
+        clearTimeout(this.inter)
+        // 设置定时器，若300毫秒无操作请求数据
+        this.inter = setTimeout(async () => {
+          const { data } = await this.$http(`/search/suggest?keywords=${newva}`)
+          this.seek = data.result
+          this.ggu = true
+        }, 300)
       } else {
         this.ggu = false
       }

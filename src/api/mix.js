@@ -148,14 +148,20 @@ const mix = {
     },
     // 点赞
     diaz(id, cid, type, like) {
+      const than = this
       const t = Number(!like)
       const a = localStorage.getItem('co')
-      this.$http(`/comment/like?id=${id}&cid=${cid}&type=${type}&t=${t}&cookie=${a}`)
+      this.$http
+        .post(`/comment/like?id=${id}&cid=${cid}&type=${type}&t=${t}&cookie=${a}`)
         .then(value => {
           if (value.data.code === 200) {
-            win.danwindow('点赞成功', 0)
+            if (t) {
+              win.danwindow('点赞成功', 0)
+            } else {
+              win.danwindow('取消点赞', 0)
+            }
             // 刷新数据
-            win.reques(type)
+            win.reques(than, type)
           }
         })
         .catch(err => {
@@ -166,6 +172,7 @@ const mix = {
     },
     // 评论
     pinlu(id, text, type, t, commentId) {
+      const than = this
       const a = localStorage.getItem('co')
       this.$http(`/comment?t=${t}&type=${type}&id=${id}&content=${text}${t === 2 ? `&commentId=${commentId}` : ''}&cookie=${a}`)
         .then(value => {
@@ -173,7 +180,7 @@ const mix = {
             win.danwindow('已评论', 0)
           }
           // 刷新数据
-          win.reques(type)
+          win.reques(than, type)
         })
         .catch(err => {
           if (err) {
@@ -182,6 +189,7 @@ const mix = {
         })
     },
     remov(id, type, commentId) {
+      const than = this
       const a = localStorage.getItem('co')
       this.$http(`/comment?t=0&type=${type}&id=${id}&commentId=${commentId}&cookie=${a}`)
         .then(value => {
@@ -189,7 +197,7 @@ const mix = {
           if (value.data.code === 200) {
             win.danwindow('已删除', 0)
             // 刷新数据
-            win.reques(type)
+            win.reques(than, type)
           }
         })
         .catch(err => {

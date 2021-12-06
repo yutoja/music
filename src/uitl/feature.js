@@ -17,13 +17,13 @@ export default {
       d = null
     }, 2000)
   },
-  reques(type) {
+  reques(tha, type) {
     switch (type) {
       case 0:
-        than.hotp(than, than.$route.query.id, 'music')
+        than.hotp(tha, than.$route.query.id, 'music')
         break
       case 2:
-        than.hotp(than, than.$route.query.id, 'playlist')
+        than.hotp(tha, than.$route.query.id, 'playlist')
         break
     }
   }
