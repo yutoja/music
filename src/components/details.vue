@@ -8,7 +8,7 @@
       <div class="right">
         <h2 class="tou">{{ scr[0].name }}</h2>
         <div class="ming">
-          歌手： <span class="blue xiaolul" @click="skip('/Singerhome', scr[0].ar[0].id)">{{ scr[0].ar[0].name }}</span>
+          歌手： <span class="blue xiaolul" @click="skip('/Singerhome', item.id)" v-for="(item, index) in scr[0].ar" :key="item.id">{{ item.name }}{{ scr[0].ar.length > 1 && index !== scr[0].ar.length - 1 ? '/' : '' }}</span>
           <p>
             专辑： <span class="blue xiaolul" @click="skip('/Zhuan', scr[0].al.id)">{{ scr[0].al.name }}</span>
           </p>
