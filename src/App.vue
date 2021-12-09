@@ -120,8 +120,8 @@
         <div class="fbd3">
           <div class="fdb3s">
             <router-link :to="`/Details?id=${s ? s.id : ''}`" class="td" target="_self">{{ s ? s.name : '' }}</router-link>
-            <router-link :to="`/Singerhome?id=${s ? s.ar[0].id : ''}`" class="td">{{ s ? s.ar[0].name : '' }}{{ s ? (s.ar[1] ? '/' + s.ar[1].name : '') : '' }}</router-link>
-            <router-link :to="`/Singerhome?id=${s ? s.ar[0].id : ''}`" class="td"></router-link>
+            <router-link :to="`/Singerhome?id=${item.id}`" class="td fdbs3s" v-for="(item, index) in s.ar" :key="item.id">{{ item.name }} {{ s.ar.length > 1 && index !== s.ar.length - 1 ? '/' : '' }}</router-link>
+            <router-link :to="`/Singerhome?id=${s ? s.ar[0].id : ''}`" class="td fdb3stu"></router-link>
           </div>
           <div class="fdb3r">
             <div class="f-yiao" @click.stop="kuai" ref="fyiao">
@@ -233,7 +233,6 @@ export default {
       password: '',
       // 验证码
       verification: '',
-
       // 匹配账号是否符合
       phone: /^1[36|78|51]\d{9}$/,
       // 歌词
@@ -910,18 +909,17 @@ button {
   color: white;
   vertical-align: top;
 }
-.fdb3s > a:nth-of-type(2) {
-  margin-right: 10px;
-  margin-left: 10px;
+.fdbs3s {
+  margin-right: 5px;
   color: #9b9b9b;
   font-size: 12px;
 }
-.fdb3s > a:nth-of-type(3) {
+.fdb3stu {
   font-family: 'icomoon';
   color: #9b9b9b;
   font-size: 12px;
 }
-.fdb3s > a:nth-of-type(3):hover {
+.fdb3stu:hover {
   color: white;
 }
 .f-yiao {
