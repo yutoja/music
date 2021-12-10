@@ -21,7 +21,7 @@
           <div class="td" v-for="(item, index) in dat" :key="item.id">
             <div class="td1">
               <span class="wi c3">{{ ++index }}</span>
-              <a :class="{ font: true, rea: true, red: ef === item.id }" :id="item.id" @click="sr"></a>
+              <a :class="{ font: true, rea: true, red: eff === item.id }" :id="item.id" @click="sr"></a>
             </div>
             <div class="td2">
               <router-link :to="`/Details?id=${item.id}`" class="b4 xiaolu">{{ item.name }}</router-link>
@@ -56,12 +56,6 @@
 <script>
 export default {
   name: 'SingerHome',
-  props: {
-    ef: {
-      type: Number,
-      default: 0
-    }
-  },
   data() {
     return {
       dat: null,

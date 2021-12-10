@@ -100,7 +100,7 @@
       </div>
     </div>
     <!-- <keep-alive :exclude="/xiang|detail|bang|SingerHome/"> -->
-    <div class="max"><router-view :bang="austatus" @ge="cuo" :ef="s.id" @deng="uuu"></router-view></div>
+    <div class="max"><router-view :bang="austatus" @ge="cuo" @deng="uuu"></router-view></div>
 
     <!-- </keep-alive> -->
 
@@ -1066,7 +1066,7 @@ button {
   padding-bottom: 36px;
 }
 .ttbody > p {
-  padding: 5px 0 5px 25px;
+  padding: 5px 0 15px 25px;
   color: #989898;
   font-size: 12px;
   transition: all 0.5s ease;

@@ -52,10 +52,10 @@
     <div class="rouqi">
       <div class="gedan" v-for="item in dat.songs" :key="item.id" :class="{ qiang: $route.query.type == 1 }">
         <div class="body">
-          <div class="bo1"><a :id="item.id" @click="sr" :class="{ font: true, red: ef === item.id }"></a></div>
+          <div class="bo1"><a :id="item.id" @click="sr" :class="{ font: true, red: eff === item.id }"></a></div>
           <div class="bo2">
             <router-link :to="`/Details?id=${item.id}`" class="xiaolu over">{{ item.name }}</router-link>
-            <span class="hidd"><a class="font" @click="bo(item.id)"></a><a href="#" class="font"></a><a href="#" class="font"></a><a @click.prevent="down(item)" class="font"></a></span>
+            <span class="hidd"><a class="font" @click="bo(item.id)"></a><a href="#" class="font" @click.prevent="likesong(true, item.id)"></a><a href="#" class="font"></a><a @click.prevent="down(item)" class="font"></a></span>
           </div>
           <div class="bo3 qwer">
             <router-link :to="`/SingerHome?id=${ion.id}`" class="xiaolu over" v-for="(ion, index) in item.artists" :key="ion.id">{{ ion.name }} {{ item.artists.length > 1 && index !== item.artists.length - 1 ? '/' : '' }}</router-link>
@@ -96,7 +96,7 @@
       <!-- 歌单 -->
       <table class="zhuj" :class="{ qiang: $route.query.type == 1000 }">
         <tr class="ge" v-for="item in dat.playlists" :key="item.id">
-          <td class="ge1"><a :class="{ font: true, red: ef === item.track.id }" @click="geall" :id="item.id"></a></td>
+          <td class="ge1"><a :class="{ font: true, red: eff === item.track.id }" @click="geall" :id="item.id"></a></td>
           <td class="ge2">
             <router-link :to="`/Xiang?id=${item.id}`"><img :src="item.coverImgUrl" class="gei" :title="item.name"/></router-link>
           </td>
@@ -139,12 +139,6 @@
 <script>
 export default {
   name: 'Personal',
-  props: {
-    ef: {
-      type: Number,
-      default: 0
-    }
-  },
   data() {
     return {
       dat: null,

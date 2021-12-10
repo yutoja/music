@@ -75,7 +75,7 @@
                 <!-- <div class="rea size">new</div> -->
               </td>
               <td class=" td2">
-                <a :class="{ font: true, red: ef === item.id }" :id="item.id" @click="sr"></a>
+                <a :class="{ font: true, red: eff === item.id }" :id="item.id" @click="sr"></a>
                 <router-link :to="`/Details?id=${item.id}`" class="a ma hou size qwer">{{ item.name }}</router-link>
               </td>
               <td class="td3">
@@ -83,7 +83,7 @@
                 <div class="qw">
                   <a class="as" @click="bo(item.id)"></a>
                   <a class="as" @click.prevent="down(item)"></a>
-                  <a class="as" href="#"></a>
+                  <a class="as" href="#" @click.prevent="likesong(true, item.id)"></a>
                 </div>
               </td>
               <td class="td4 qwer">
@@ -111,12 +111,6 @@
 import com from '@/views/comment'
 export default {
   name: 'bang',
-  props: {
-    ef: {
-      type: Number,
-      default: 0
-    }
-  },
   data() {
     return {
       dat_ban: [],

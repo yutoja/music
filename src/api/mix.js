@@ -141,7 +141,15 @@ const mix = {
         return ''
       }
     },
-    // 收藏
+    // 添加歌曲
+    async likesong(type, id) {
+      const as = localStorage.getItem('co')
+      const a = await this.$http(`/like?id=${id}&like=${type}&cookie=${as}`)
+      if (a.status == 200) {
+        win.danwindow('收藏OK', 0)
+      }
+    },
+    // 收藏歌单
     async collect(id, collec) {
       const a = await this.$http('/playlist/subscribe?t=1&id=106697785')
       console.log(a)
@@ -256,6 +264,11 @@ const mix = {
     formatTimeToSec(value) {
       const a = value.split(':')
       return parseFloat(a[0] * 60) + parseFloat((a[1] * 1).toFixed(1))
+    }
+  },
+  computed: {
+    eff() {
+      return this.$store.state.id.id
     }
   }
 }

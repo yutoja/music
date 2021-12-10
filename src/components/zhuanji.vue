@@ -47,7 +47,7 @@
         <tr v-for="(item, index) in data.songs" :key="item.id">
           <td>
             <span class="wi size">{{ index + 1 }}</span>
-            <a :class="{ font: true, rea: true, size: true, fff: true, der: ef === item.id }" :id="item.id" @click="sr"></a>
+            <a :class="{ font: true, rea: true, size: true, fff: true, der: eff === item.id }" :id="item.id" @click="sr"></a>
           </td>
           <td>
             <router-link :to="`/Details?id=${item.id}`" class="a ma hou size xiaoul er width" :title="item.name">{{ item.name }}</router-link>
@@ -82,12 +82,6 @@
 import Com from '@/views/comment'
 export default {
   name: 'zhuan',
-  props: {
-    ef: {
-      type: Number,
-      default: 0
-    }
-  },
   data() {
     return {
       data: null,

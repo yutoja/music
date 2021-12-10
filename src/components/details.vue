@@ -2,8 +2,8 @@
   <div class="details" v-if="scr">
     <div class="di">
       <div class="left">
-        <div :class="{ rid: true, rotate: banggg && this.$route.query.id == ef }"></div>
-        <div :class="{ led: true, key: true, keys: !banggg || this.$route.query.id != ef }" :id="scr[0].id" @click="srr"><img :src="scr[0].al.picUrl" :title="scr[0].al.name" :id="scr[0].id" /></div>
+        <div :class="{ rid: true, rotate: banggg && this.$route.query.id == eff }"></div>
+        <div :class="{ led: true, key: true, keys: !banggg || this.$route.query.id != eff }" :id="scr[0].id" @click="srr"><img :src="scr[0].al.picUrl" :title="scr[0].al.name" :id="scr[0].id" /></div>
       </div>
       <div class="right">
         <h2 class="tou">{{ scr[0].name }}</h2>
@@ -40,10 +40,6 @@ export default {
     bang: {
       type: Boolean,
       default: false
-    },
-    ef: {
-      type: Number,
-      default: 0
     }
   },
   name: 'detail',
