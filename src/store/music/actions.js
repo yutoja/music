@@ -1,6 +1,6 @@
 import api from '@/api/api'
 import state from './state'
-
+import win from '@/uitl/feature'
 const actions = {
   // 添加音乐并加入到播放列表中
   async addsrc(commit, value) {
@@ -41,7 +41,11 @@ const actions = {
       tns,
       dt
     }
-    if (state.playli.some(value => value.id === dui.id)) return ''
+    if (state.playli.some(value => value.id === dui.id)) {
+      win.danwindow('已在播放列表中', 1)
+      return ''
+    }
+    win.danwindow('已添加到播放列表', 0)
     commit.commit('addbo', dui)
   },
   // 清空播放列表

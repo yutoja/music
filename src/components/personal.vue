@@ -210,9 +210,9 @@ export default {
     value: async function(newva) {
       if (newva !== '') {
         // 清除之前的定时器
-        clearTimeout(this.inter)
+        clearTimeout(this.interr)
         // 设置定时器，若300毫秒无操作请求数据
-        this.inter = setTimeout(async () => {
+        this.interr = setTimeout(async () => {
           const { data } = await this.$http(`/search/suggest?keywords=${newva}`)
           this.seek = data.result
           this.ggu = true

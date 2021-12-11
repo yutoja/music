@@ -228,6 +228,7 @@ const mix = {
         this.$store.dispatch('addbo', element.id)
       })
     },
+    // 添加到播放列表
     bo(id) {
       this.$store.dispatch('addbo', id)
     },
