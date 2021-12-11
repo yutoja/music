@@ -20,26 +20,26 @@
             <div class="m-souz" v-if="ggu">
               <dl v-if="seek.songs">
                 <dt><span class="sia"></span>单曲</dt>
-                <dd v-for="item in seek.songs" :key="item.id" class="ove">
-                  <router-link :to="`/Details?id=${item.id}`">{{ item.name }}-{{ item.artists[0].name }}</router-link>
+                <dd v-for="item in seek.songs" :key="item.id" class="ove" @click="skip('/Details', item.id)">
+                  <a>{{ item.name }}-{{ item.artists[0].name }}</a>
                 </dd>
               </dl>
               <dl v-if="seek.artists">
                 <dt><span class="sia"></span>歌手</dt>
-                <dd v-for="item in seek.artists" :key="item.id" class="ove">
-                  <router-link :to="`/SingerHome?id=${item.id}`">{{ item.name }}</router-link>
+                <dd v-for="item in seek.artists" :key="item.id" class="ove" @click="skip('/SingerHome', item.id)">
+                  <a>{{ item.name }}</a>
                 </dd>
               </dl>
               <dl v-if="seek.albums">
                 <dt><span class="sia"></span>专辑</dt>
-                <dd v-for="item in seek.albums" :key="item.id" class="ove">
-                  <router-link :to="`/Zhuan?id=${item.id}`">{{ item.name }}-{{ item.artist.name }}</router-link>
+                <dd v-for="item in seek.albums" :key="item.id" class="ove" @click="skip('/Zhuan', item.id)">
+                  <a>{{ item.name }}-{{ item.artist.name }}</a>
                 </dd>
               </dl>
               <dl v-if="seek.playlists">
                 <dt><span class="sia"></span>歌单</dt>
-                <dd v-for="item in seek.playlists" :key="item.id" class="ove">
-                  <router-link :to="`/Xiang?id=${item.id}`">{{ item.name }}</router-link>
+                <dd v-for="item in seek.playlists" :key="item.id" class="ove" @click="skip('/Xiang', item.id)">
+                  <a>{{ item.name }}</a>
                 </dd>
               </dl>
             </div>

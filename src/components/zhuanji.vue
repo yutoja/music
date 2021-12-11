@@ -1,6 +1,6 @@
 <template>
   <div class="w" v-if="data && zda">
-    <div class="th">
+    <div class="th" v-if="data.songs">
       <div class="left"><img :src="data.songs[0].al.picUrl | https" :title="data.songs[0].al.name" /></div>
       <div class="right">
         <h3 class="no"><span class="font red"></span>{{ data.songs[0].al.name }}</h3>
@@ -133,18 +133,17 @@ export default {
     }
   },
   watch: {
-    $route(to, from) {
-      this.hotp(this, this.$route.query.id, 'album')
-      this.date(this, to.query.id)
+    $route: {
+      async handler(to, from) {
+        const { data } = await this.$http(`/album?id=${to.query.id}`)
+        this.data = data
+        this.hotp(this, to.query.id, 'album')
+        const a = await this.$http(`/album/detail/dynamic?id=${to.query.id}`)
+        this.zda = a
+      },
+      immediate: true,
+      deep: true
     }
-  },
-  async created() {
-    const { data } = await this.$http(`/album?id=${this.$route.query.id}`)
-
-    this.data = data
-    this.hotp(this, this.$route.query.id, 'album')
-    const a = await this.$http(`/album/detail/dynamic?id=${this.$route.query.id}`)
-    this.zda = a
   },
   computed: {
     time() {

@@ -48,6 +48,8 @@ const mix = {
     },
     // 跳转页面
     skip(path, id) {
+      const http = this.$route
+      if (http.path == path && http.query.id == id) return
       this.$router.push({
         path,
         query: {
