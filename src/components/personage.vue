@@ -6,7 +6,7 @@
         <div>
           <div class="leboh font" @click="lre = !lre">{{ lre ? '' : '' }} 创建的歌单{{ daia.length > 0 ? `(${daia.length})` : `` }}</div>
           <ul v-show="lre">
-            <li class="hov leli" v-for="item in daia" :key="item.id" @click="skip('/Personage', item.id), (tab = 0)">
+            <li class="hov leli" v-for="item in daia" :key="item.id" @click="skip('/Personage', item.id), (tab = 0)" ref="first">
               <img :src="item.coverImgUrl" class="leim" />
               <span>
                 <p class="lep ove">{{ item.name }}</p>
@@ -52,7 +52,8 @@ export default {
       daia: null,
       diaa: null,
       com: [Xiang, Een],
-      tab: 0
+      tab: 0,
+      ne: 0
     }
   },
   components: {
@@ -65,6 +66,12 @@ export default {
       this.daia = value.data.playlist.filter(value => value.userId == id)
       this.diaa = value.data.playlist.filter(value => value.userId != id)
     })
+  },
+  updated() {
+    if (this.$refs.first && this.ne == 0) {
+      this.$refs.first[0].click()
+      this.ne = 1
+    }
   }
 }
 </script>

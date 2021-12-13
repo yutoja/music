@@ -225,12 +225,12 @@ const mix = {
         this.$store.state.playli.length = 0
       }
       a.forEach(element => {
-        this.$store.dispatch('addbo', element.id)
+        this.$store.dispatch('addbo', { id: element.id, valu: true })
       })
     },
     // 添加到播放列表
     bo(id) {
-      this.$store.dispatch('addbo', id)
+      this.$store.dispatch('addbo', { id, valu: false })
     },
     // 获取歌单详情
     async date(obj, id) {

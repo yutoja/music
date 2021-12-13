@@ -42,7 +42,7 @@
       <div class="jizai">
         最新评论
       </div>
-      <div :class="{ jibody: true, shaa: sess && sess.bindings[0].userId == item.user.userId }" v-for="(item, index) in news" :key="index">
+      <div :class="{ jibody: true, shaa: sess && sess.bindings[0].userId == item.user.userId }" v-for="item in news" :key="item.commentId">
         <img :src="item.user.avatarUrl" alt="" @click="skip('/User', item.user.userId)" />
         <div class="qu">
           <div class="lun">

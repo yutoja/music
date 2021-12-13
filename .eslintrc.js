@@ -12,6 +12,8 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'space-before-function-paren': ['off', 'never'],
     'no-useless-escape': 'off',
-    eqeqeq: 'off'
+    eqeqeq: 'off',
+    'no-unused-expressions': ['off', { allowTaggedTemplates: true }],
+    'no-unneeded-ternary': 'off'
   }
 }

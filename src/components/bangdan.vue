@@ -87,7 +87,7 @@
                 </div>
               </td>
               <td class="td4 qwer">
-                <router-link :to="`/SingerHome?id=${ion.id}`" class="hou size asdf xiaolu" v-for="(ion, index) in item.ar" :key="ion.id">{{ ion.name }} {{ item.ar.length > 1 && index !== item.ar.length - 1 ? '/' : '' }}</router-link>
+                <router-link :to="`/SingerHome?id=${ion.id}`" :class="{ hou: true, size: true, asdf: true, xiaolu: true, shixiao: ion.id == 0 }" v-for="(ion, index) in item.ar" :key="index">{{ ion.name }} {{ item.ar.length > 1 && index !== item.ar.length - 1 ? '/' : '' }}</router-link>
               </td>
             </tr>
           </tbody>
@@ -200,6 +200,9 @@ export default {
 * {
   margin: 0;
   padding: 0;
+}
+.shixiao {
+  pointer-events: none;
 }
 .asdf {
   width: 130px;

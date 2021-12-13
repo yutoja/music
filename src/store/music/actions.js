@@ -26,7 +26,7 @@ const actions = {
   },
   // 加入到播放列表中
   async addbo(commit, value) {
-    const { data: res } = await api(`/song/url?id=${value}`)
+    const { data: res } = await api(`/song/url?id=${value.id}`)
     const {
       data: {
         songs: [{ name, id, al, ar, tns, dt }]
@@ -42,10 +42,10 @@ const actions = {
       dt
     }
     if (state.playli.some(value => value.id === dui.id)) {
-      win.danwindow('已在播放列表中', 1)
+      value.valu ? '' : win.danwindow('已在播放列表中', 1)
       return ''
     }
-    win.danwindow('已添加到播放列表', 0)
+    value.valu ? '' : win.danwindow('已添加到播放列表', 0)
     commit.commit('addbo', dui)
   },
   // 清空播放列表
