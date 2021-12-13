@@ -153,8 +153,7 @@ const mix = {
     },
     // 收藏歌单
     async collect(id, collec) {
-      const a = await this.$http('/playlist/subscribe?t=1&id=106697785')
-      console.log(a)
+      // const a = await this.$http('/playlist/subscribe?t=1&id=106697785')
     },
     // 点赞
     diaz(id, cid, type, like) {
@@ -203,7 +202,6 @@ const mix = {
       const a = localStorage.getItem('co')
       this.$http(`/comment?t=0&type=${type}&id=${id}&commentId=${commentId}&cookie=${a}`)
         .then(value => {
-          console.log(value)
           if (value.data.code === 200) {
             win.danwindow('已删除', 0)
             // 刷新数据
@@ -240,14 +238,17 @@ const mix = {
       const { data } = await this.$http(`/playlist/detail?id=${id}&s=-1&cookie=${a}`)
       obj.data = data
     },
-    async hotp(el, id, type) {
-      const a = localStorage.getItem('co')
-      const {
-        data: { hotComments, comments, total }
-      } = await this.$http(`/comment/${type}?id=${id}&cookie=${a}`)
-      el.hot = hotComments
-      el.news = comments
-      el.shu = total
+    hotp(el, id, type) {
+      setTimeout(async () => {
+        const a = localStorage.getItem('co')
+        const as = Date.now()
+        const {
+          data: { hotComments, comments, total }
+        } = await this.$http(`/comment/${type}?id=${id}&a=${as}&cookie=${a}`)
+        el.hot = hotComments
+        el.news = comments
+        el.shu = total
+      }, 500)
     },
     async gezi(el, id) {
       try {

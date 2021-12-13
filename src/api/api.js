@@ -8,7 +8,6 @@ axios.defaults.method = 'GET'
 axios.interceptors.response.use(
   function(response) {
     // 对响应数据做点什么
-
     return response
   },
   function(error) {
@@ -24,7 +23,6 @@ axios.interceptors.request.use(
     //   config.url = config.url + `&cookie=${a}`
     //
     // }
-
     return config
   },
   function(error) {

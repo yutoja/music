@@ -5,7 +5,7 @@
       <span>共有{{ su }}评论</span>
     </div>
     <div class="discuss">
-      <div class="dsisscu"><img :src="sess ? sess.profile.avatarUrl : ''" /><textarea v-model="text"></textarea></div>
+      <div class="dsisscu"><img :src="sess ? sess.profile.avatarUrl : ''" /><textarea v-model="text" @focus="fouc = true" @blur="fouc = false"></textarea></div>
       <input type="button" value="评论" @click="pilun(text, 1)" />
     </div>
     <div class="zhon" v-if="hot.length > 0">
@@ -121,7 +121,8 @@ export default {
       hhuifu: '',
       fuid: 0,
       tish: false,
-      dat: ''
+      dat: '',
+      fouc: false
     }
   },
   filters: {
@@ -171,6 +172,13 @@ export default {
     sess() {
       return this.$store.state.user
     }
+  },
+  created() {
+    window.addEventListener('keyup', e => {
+      if (this.fouc && e.keyCode === 13) {
+        this.pilun(this.text, 1)
+      }
+    })
   }
 }
 </script>
