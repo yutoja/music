@@ -22,8 +22,8 @@
         </div>
       </div>
     </div>
-    <div :class="{ ooo: bl, fotr: true }"><span>介绍：</span>{{ data.album.description }}</div>
-    <p class="eulb xiaolu" v-text="`${bl ? '展开' : '收起'}`" @click="ert" v-if="data.album.description && data.album.description.length > 0"></p>
+    <div :class="{ ooo: bl, fotr: true }" v-if="data.album.description"><span>介绍：</span>{{ data.album.description }}</div>
+    <p class="eulb xiaolu" v-text="`${bl ? '展开' : '收起'}`" @click="ert" v-if="data.album.description && data.album.description.length > 400"></p>
     <div class="bs">
       <div>
         <p class="h">歌曲列表</p>
@@ -198,7 +198,7 @@ export default {
   vertical-align: text-bottom;
 }
 .ooo {
-  height: 100px;
+  max-height: 100px;
 }
 .eulb {
   color: rgb(134, 134, 206);

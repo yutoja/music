@@ -121,7 +121,7 @@
           <div class="fdb3s">
             <router-link :to="`/Details?id=${s ? s.id : ''}`" class="td" target="_self">{{ s ? s.name : '' }}</router-link>
             <router-link :to="`/Singerhome?id=${item.id}`" class="td fdbs3s" v-for="(item, index) in s.ar" :key="item.id">{{ item.name }} {{ s.ar.length > 1 && index !== s.ar.length - 1 ? '/' : '' }}</router-link>
-            <router-link :to="`/Singerhome?id=${s ? s.ar[0].id : ''}`" class="td fdb3stu"></router-link>
+            <router-link :to="`/Singerhome?id=${s ? s.ar[0].id : ''}`" class="td fdb3stu" v-show="s"></router-link>
           </div>
           <div class="fdb3r">
             <div class="f-yiao" @click.stop="kuai" ref="fyiao">
@@ -259,6 +259,7 @@ export default {
       this.skip('/Personage')
     },
     kuai(e) {
+      if (!this.$refs.audio.id) return ''
       const a = (e.clientX - this.$refs.fyiao.offsetLeft) / this.$refs.fyiao.clientWidth
       this.$refs.audio.currentTime = this.$refs.audio.duration * a
     },
@@ -273,11 +274,13 @@ export default {
       }, 2000)
     },
     add() {
+      if (!this.$refs.audio.id) return ''
       let a = this.b.findIndex(value => value.id === +this.$refs.audio.id)
       a = a >= this.b.length - 1 ? 0 : ++a
       this.$store.state.id = this.b[a]
     },
     app() {
+      if (!this.$refs.audio.id) return ''
       let a = this.b.findIndex(value => value.id === +this.$refs.audio.id)
       a = a <= 0 ? this.b.length - 1 : --a
       this.$store.state.id = this.b[a]
@@ -343,12 +346,11 @@ export default {
     clear() {
       this.$store.dispatch('clear', 'n')
     },
-
     remove(id) {
       this.$store.dispatch('remove', id)
     },
-    cuo() {
-      this.stop()
+    cuo(a) {
+      this.stop(a)
     },
     yinl() {
       this.yin = !this.yin
@@ -422,9 +424,9 @@ export default {
       }
     },
     // 停止或播放音乐
-    stop() {
+    stop(a) {
       const au = this.$refs.audio.id
-      if (!au) {
+      if (!au && !(a === 1)) {
         const date = new Date().getDay()
         if (date == 0 || date == 6) {
           win.danwindow('双休干活就算了，还不说干啥？', 0)
@@ -433,7 +435,6 @@ export default {
         win.danwindow('请分派任务', 0)
         return
       }
-      this.$refs.audio.pause()
       if (!this.austatus) {
         this.$refs.audio.play()
         this.austatus = !this.austatus
@@ -442,20 +443,25 @@ export default {
         this.austatus = !this.austatus
       }
     },
+    // 用户调整音频进度时获取点击位置
     mousd(e) {
       this.clx = e.clientX
       this.fazhi = true
       this.clxx = this.progressBar
     },
+    // 用户松开鼠标调整音频进度
     mousu() {
       if (this.fazhi) {
         this.fazhi = false
         this.clxx = 0
+        // 判断音频是否有
+        if (!this.$refs.audio.id) return ''
         this.austatus = true
         this.$refs.audio.currentTime = this.$refs.audio.duration * this.progressBar
         this.$refs.audio.play()
       }
     },
+    // 播放栏的隐藏
     mout() {
       if (this.tef) {
         window.ine = setTimeout(() => {
@@ -463,10 +469,12 @@ export default {
         }, 3000)
       }
     },
+    // 播放栏的显示
     mouov() {
       clearTimeout(window.ine)
       this.$refs.footer.style.bottom = '0px'
     },
+    // 歌词滚动动画
     inter(obj, target, callback) {
       clearInterval(obj.timer)
       obj.timer = setInterval(function() {
@@ -481,6 +489,7 @@ export default {
         }
       }, 10)
     },
+    // 播放模式提示
     geclear() {
       clearTimeout(this.$refs.geh.qou)
       this.geclas = false
@@ -550,7 +559,6 @@ export default {
     window.onmousemove = e => {
       if (this.fazhi) {
         const au = this.$refs.audio.id
-
         this.progressBar = this.clxx + (e.clientX - this.clx) / 466
         if (this.progressBar > 1) return (this.progressBar = 1)
         if (this.progressBar < 0) return (this.progressBar = 0)
@@ -570,7 +578,6 @@ export default {
         }
       }
     })
-
     window.addEventListener('mousemove', this.yido)
     window.addEventListener('mouseup', this.zhonz)
     this.$store.dispatch('user')

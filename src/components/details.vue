@@ -60,8 +60,8 @@ export default {
   },
   methods: {
     srr(e) {
-      this.$emit('ge')
       this.sr(e)
+      this.$emit('ge', 1)
     },
     ert() {
       this.bl = !this.bl
