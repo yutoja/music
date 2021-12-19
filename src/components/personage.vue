@@ -72,6 +72,11 @@ export default {
       this.$refs.first[0].click()
       this.ne = 1
     }
+  },
+  // 用户若没登录了跳转到主页
+  beforeRouteEnter(to, from, next) {
+    const a = localStorage.getItem('user')
+    a ? next() : next('/')
   }
 }
 </script>

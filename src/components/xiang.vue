@@ -139,25 +139,24 @@ export default {
         data: { comments }
       } = await this.$http(`/comment/playlist?id=${this.$route.query.id}&offset=${this.yeshu * 20}`)
       this.news = comments
-    }
-  },
-  watch: {
-    async $route(to, from) {
+    },
+    // 数据更新
+    async update() {
       const id = this.$route.query.id || this.qu
       const b = localStorage.getItem('co')
-      this.hotp(this, to.query.id, 'playlist')
-      this.date(this, to.query.id)
+      this.hotp(this, id, 'playlist')
+      this.date(this, id)
       const a = await this.$http(`/playlist/detail/dynamic?id=${id}&cookie=${b}`)
       this.zda = a
     }
   },
+  watch: {
+    $route(to, from) {
+      this.update()
+    }
+  },
   async created() {
-    const id = this.$route.query.id || this.qu
-    const b = localStorage.getItem('co')
-    this.date(this, id)
-    this.hotp(this, id, 'playlist')
-    const a = await this.$http(`/playlist/detail/dynamic?id=${id}&cookie=${b}`)
-    this.zda = a
+    this.update()
   },
   computed: {
     time() {
