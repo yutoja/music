@@ -42,10 +42,10 @@ const actions = {
       dt
     }
     if (state.playli.some(value => value.id === dui.id)) {
-      value.valu ? '' : win.danwindow('已在播放列表中', 1)
+      value.valu || win.danwindow('已在播放列表中', 1)
       return ''
     }
-    value.valu ? '' : win.danwindow('已添加到播放列表', 0)
+    value.valu || win.danwindow('已添加到播放列表', 0)
     commit.commit('addbo', dui)
   },
   // 清空播放列表

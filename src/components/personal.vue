@@ -200,7 +200,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.$http(`/search?keywords=${to.query.id}&type=${to.query.type ? to.query.type : '1'}`).then(value => {
+      this.$http(`/search?keywords=${to.query.id}&type=${to.query.type || '1'}`).then(value => {
         const {
           data: { result }
         } = value
@@ -227,7 +227,7 @@ export default {
       }
     }
     this.dat = ''
-    this.$http(`/search?keywords=${this.$route.query.id}&type=${this.$route.query.type ? this.$route.query.type : '1'}`).then(value => {
+    this.$http(`/search?keywords=${this.$route.query.id}&type=${this.$route.query.type || '1'}`).then(value => {
       const {
         data: { result }
       } = value

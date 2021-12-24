@@ -140,7 +140,7 @@
           <a href="#"></a>
         </div>
         <div class="fdb6">
-          <a class="" @click="yinl" v-text="range < 2 ? '' : ''"></a>
+          <a class="" @click="this.yin = !this.yin" v-text="range < 2 ? '' : ''"></a>
           <a class="f-zhonj" @click="tiss(), (xed = xed > 1 ? 0 : ++xed)" v-text="xed > 1 ? '' : xed > 0 ? '' : ''"></a>
           <a @click="lib = !lib" title="播放列表">{{ b.length > 0 ? b.length : '' }}</a>
           <div class="range" v-if="yin">
@@ -188,65 +188,35 @@ import win from '@/uitl/feature'
 export default {
   data() {
     return {
-      // 底部是否自动下拉
-      tef: JSON.parse(localStorage.getItem('tef')),
-      // zhonji: 20,
-      // 音乐时间
-      leng: '00:00',
-      // 音乐播放进度
-      sleng: '00:00',
-      // 音频开关
-      austatus: false,
-      // 音频播放进度与音频时间比例
-      progressBar: 0,
-      // 控制音频播放时间
-      fazhi: false,
-      // 用户拖动音频的起始位置
-      clx: 0,
-      // 用户松开音频的位置
-      clxx: 0,
-      // 要搜索的内容
-      value: '',
-      // 搜索内容
-      seek: [],
-      // 搜索内容显示
-      ggu: false,
-      // 音频音量
-      range: 100,
-      // 音量显示
-      yin: false,
-      // 当前播放的歌曲
-      b: this.$store.state.playli,
-      // 播放列表显示状态
-      lib: false,
-      // 登录方式
-      duan: true,
-      // 登录窗口初始坐标
-      xy: null,
-      // 存储登录窗口的坐标
-      dxy: null,
-      // 登录窗口的显示状态
-      lun: false,
-      // 账号
-      account: '',
-      // 密码
-      password: '',
-      // 验证码
-      verification: '',
-      // 匹配账号是否符合
-      phone: /^1[36|78|51]\d{9}$/,
-      // 歌词
-      gez: null,
-      // 当前音乐进度
-      zindex: 0,
-      // 播放模式
-      xed: 0,
-      // 播放模式文字显示状态
-      tis: false,
-      // 歌词是否能滚动
-      geclas: true,
-      // 历史音乐
-      music: JSON.parse(localStorage.getItem('music'))
+      leng: '00:00', // 音乐时间
+      sleng: '00:00', // 音乐播放进度
+      austatus: false, // 音频开关
+      progressBar: 0, // 音频播放进度与音频时间比例
+      fazhi: false, // 控制音频播放时间
+      clx: 0, // 用户拖动音频的起始位置
+      clxx: 0, // 用户松开音频的位置
+      value: '', // 要搜索的内容
+      seek: [], // 搜索内容
+      ggu: false, // 搜索内容显示
+      range: 100, // 音频音量
+      yin: false, // 音量显示
+      b: this.$store.state.playli, // 当前播放的歌曲
+      lib: false, // 播放列表显示状态
+      duan: true, // 登录方式
+      xy: null, // 登录窗口初始坐标
+      dxy: null, // 存储登录窗口的坐标
+      lun: false, // 登录窗口的显示状态
+      account: '', // 账号
+      password: '', // 密码
+      verification: '', // 验证码
+      phone: /^1[36|78|51]\d{9}$/, // 匹配账号是否符合
+      gez: null, // 歌词
+      zindex: 0, // 当前音乐进度
+      xed: 0, // 播放模式
+      tis: false, // 播放模式文字显示状态
+      geclas: true, // 歌词是否能滚动
+      music: JSON.parse(localStorage.getItem('music')), // 历史音乐
+      tef: JSON.parse(localStorage.getItem('tef')) // 底部是否自动下拉
     }
   },
   methods: {
@@ -258,6 +228,7 @@ export default {
       }
       this.skip('/Personage')
     },
+    // 调整音乐进度
     kuai(e) {
       if (!this.$refs.audio.id) return ''
       const a = (e.clientX - this.$refs.fyiao.offsetLeft) / this.$refs.fyiao.clientWidth
@@ -266,6 +237,7 @@ export default {
     uuu() {
       this.lun = true
     },
+    // 播放模式n秒后隐藏
     tiss() {
       clearTimeout(this.tyuu)
       this.tis = true
@@ -273,12 +245,14 @@ export default {
         this.tis = false
       }, 2000)
     },
+    // 下一首
     add() {
       if (!this.$refs.audio.id) return ''
       let a = this.b.findIndex(value => value.id === +this.$refs.audio.id)
       a = a >= this.b.length - 1 ? 0 : ++a
       this.$store.state.id = this.b[a]
     },
+    // 上一首
     app() {
       if (!this.$refs.audio.id) return ''
       let a = this.b.findIndex(value => value.id === +this.$refs.audio.id)
@@ -346,14 +320,12 @@ export default {
     clear() {
       this.$store.dispatch('clear', 'n')
     },
+    // 从播放列表中移除
     remove(id) {
       this.$store.dispatch('remove', id)
     },
     cuo(a) {
       this.stop(a)
-    },
-    yinl() {
-      this.yin = !this.yin
     },
     ganb() {
       setTimeout(() => {

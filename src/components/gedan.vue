@@ -3,7 +3,7 @@
     <div class="w">
       <div class="tou">
         <div class="left">
-          <h2 class="xi">{{ this.$route.query.cat ? this.$route.query.cat : '全部' }}</h2>
+          <h2 class="xi">{{ this.$route.query.cat || '全部' }}</h2>
           <button @click="ba = !ba">全部分类></button>
         </div>
         <div class="right">></div>

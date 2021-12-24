@@ -9,7 +9,7 @@ const mix = {
     async down(row) {
       const than = this.$parent
       // 创建任务
-      than.schedule = than.schedule ? than.schedule : []
+      than.schedule = than.schedule || []
       // 判断当前任务是否重复
       if (than.schedule.includes(row.id)) return win.danwindow('正在下载', 0)
       // 添加任务
@@ -138,7 +138,7 @@ const mix = {
       const { data } = await this.$http('/logout')
       if (data.code == 200) {
         this.$store.dispatch('clearuser')
-        this.$router.push('/')
+        this.$route.path != '/home' && this.$router.push('/')
         win.danwindow('登出账号', 0)
         return ''
       }
