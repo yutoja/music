@@ -19,7 +19,7 @@
       </div>
       <ul class="dostbody">
         <li class="dostbody_li" v-for="(item, index) in dostate.event" :key="index">
-          <img class="dostbody_li_im" :src="item.user.avatarUrl" :alt="item.description" @click="skip('/User', item.user.userId)" />
+          <img class="dostbody_li_im" :src="item.user.avatarUrl | https" :alt="item.description" @click="skip('/User', item.user.userId)" />
           <div class="dostbody_li_bo">
             <div class="li_bo_he">
               <router-link :to="`/User?id=${item.user.userId}`" class="li_bo_he_name xiaolu">{{ item.user.nickname }}</router-link>
@@ -28,7 +28,7 @@
             <div class="li_bo_bo">{{ item.json.msg }}</div>
             <div class="fexiang" v-if="item.json.song">
               <div class="fexiang_he">
-                <img class="fexiang_img" :src="item.json.song.album.blurPicUrl" alt="" />
+                <img class="fexiang_img" :src="item.json.song.album.blurPicUrl | https" />
                 <div @click="skip('/Details', item.json.song.id)" class="fexiang_he_it"></div>
               </div>
               <div class="fexiang_body">
@@ -43,7 +43,7 @@
             </div>
             <div class="fexiang" v-if="item.json.program">
               <div class="fexiang_he">
-                <img class="fexiang_img" :src="item.json.program.coverUrl" />
+                <img class="fexiang_img" :src="item.json.program.coverUrl | https" />
                 <div class="fexiang_he_it" @click="tishi"></div>
               </div>
               <div class="fexiang_body" @click="tishi">
