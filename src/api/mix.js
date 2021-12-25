@@ -5,6 +5,12 @@ const mix = {
     return { no: 0 }
   },
   methods: {
+    // 动态详情
+    doatst(lasttime) {
+      const as = Date.now()
+      const a = localStorage.getItem('co')
+      return this.$http(`/event?cookie=${a}$lasttime=${lasttime}&a=${as}`)
+    },
     // 下载音乐
     async down(row) {
       const than = this.$parent
@@ -171,6 +177,34 @@ const mix = {
             }
             // 刷新数据
             win.reques(than, type)
+          }
+        })
+        .catch(err => {
+          if (err) {
+            win.danwindow('请先登录', 1)
+          }
+        })
+    },
+    // 资源点赞
+    ziydia(id, like, type) {
+      const than = this
+      const t = Number(!like)
+      const a = localStorage.getItem('co')
+      this.$http
+        .post(`/resource/like?t=${t}&type=${type}&threadId=${id}&cookie=${a}`)
+        .then(async value => {
+          if (value.data.code === 200) {
+            if (t) {
+              win.danwindow('点赞成功', 0)
+            } else {
+              win.danwindow('取消点赞', 0)
+            }
+            // 刷新数据
+            const a = (await this.doatst(-1)).data
+            a.event.forEach(element => {
+              element.json = JSON.parse(element.json)
+            })
+            than.dostate = a
           }
         })
         .catch(err => {

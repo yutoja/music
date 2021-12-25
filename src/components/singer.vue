@@ -65,7 +65,7 @@ export default {
     }
   },
   async created() {
-    window.addEventListener('scroll', async e => {
+    window.onscroll = async e => {
       if (document.body.offsetHeight - (window.innerHeight + document.documentElement.scrollTop) < 1 && this.scrol) {
         this.scrol = false
         this.shu++
@@ -76,7 +76,7 @@ export default {
         this.dat.push(...artists)
         this.scrol = true
       }
-    })
+    }
     const {
       data: { artists }
     } = await this.$http('/artist/list?type=-1&area=-1&limit=10')
@@ -90,15 +90,6 @@ export default {
       this.dat = artists
     }
   }
-  //  beforeRouteEnter (to, from, next) {
-  //   const {
-  //     data: { artists }
-  //   } = await this.$http('/artist/list?type=-1&area=-1&limit=10')
-  //   next(artists)
-  // },
-  // beforeRouteUpdate (to, from, next) {
-  //   this.dat =
-  // },
 }
 </script>
 

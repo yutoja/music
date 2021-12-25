@@ -39,7 +39,7 @@
 
 <script>
 import Xiang from '@/components/xiang'
-
+import win from '@/uitl/feature'
 import Een from '@/views/ggen'
 export default {
   name: 'Personage',
@@ -76,6 +76,7 @@ export default {
   // 用户若没登录了跳转到主页
   beforeRouteEnter(to, from, next) {
     const a = localStorage.getItem('user')
+    a ? '' : win.danwindow('请先登录', 0)
     a ? next() : next('/')
   }
 }

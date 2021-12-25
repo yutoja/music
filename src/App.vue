@@ -7,11 +7,11 @@
             <a>云音乐</a>
           </div>
           <ul class="m-tab">
-            <li :class="{ mfa: !($route.path == '/Personage') }"><router-link to="/home">发现音乐</router-link></li>
-            <li :class="{ mfa: $route.path == '/Personage' }"><a @click="wode">我的音乐</a></li>
-            <li><a href="#">朋友</a></li>
+            <li :class="{ mfa: !($route.path == '/Personage' || $route.path == '/Dostate') }"><router-link to="/home">发现音乐</router-link></li>
+            <li :class="{ mfa: $route.path == '/Personage' }"><router-link to="/Personage">我的音乐</router-link></li>
+            <li :class="{ mfa: $route.path == '/Dostate' }"><router-link to="/Dostate">朋友</router-link></li>
             <li><a href="https://music.163.com/store/product" target="_blank">商城</a></li>
-            <li><a href="https://music.163.com/st/musician">音乐人</a></li>
+            <li><a href="https://music.163.com/st/musician" target="_blank">音乐人</a></li>
           </ul>
           <div class="m-sou">
             <label for="m-in" class="m-la">
@@ -220,14 +220,6 @@ export default {
     }
   },
   methods: {
-    wode() {
-      const user = localStorage.getItem('user')
-      if (!user) {
-        this.lun = true
-        return
-      }
-      this.skip('/Personage')
-    },
     // 调整音乐进度
     kuai(e) {
       if (!this.$refs.audio.id) return ''
