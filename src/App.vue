@@ -120,7 +120,10 @@
         <div class="fbd3">
           <div class="fdb3s">
             <router-link :to="`/Details?id=${s ? s.id : ''}`" class="td" target="_self">{{ s ? s.name : '' }}</router-link>
-            <router-link :to="`/Singerhome?id=${item.id}`" class="td fdbs3s" v-for="(item, index) in s.ar" :key="item.id">{{ item.name }} {{ s.ar.length > 1 && index !== s.ar.length - 1 ? '/' : '' }}</router-link>
+            <span class="ove ddbs3">
+              <router-link :to="`/Singerhome?id=${item.id}`" class="td fdbs3s" v-for="(item, index) in s.ar" :key="item.id">{{ item.name }} {{ s.ar.length > 1 && index !== s.ar.length - 1 ? '/' : '' }}</router-link>
+            </span>
+
             <router-link :to="`/Singerhome?id=${s ? s.ar[0].id : ''}`" class="td fdb3stu" v-show="s"></router-link>
           </div>
           <div class="fdb3r">
@@ -867,7 +870,7 @@ button {
 }
 .fdb3s {
   width: 465px;
-  margin: 5px 0 0 2px;
+  margin: 5px 0 -3px 2px;
 }
 .fdb3s > a:nth-of-type(1) {
   display: inline-block;
@@ -889,6 +892,9 @@ button {
   font-family: 'icomoon';
   color: #9b9b9b;
   font-size: 12px;
+  display: inline-block;
+  vertical-align: text-top;
+  margin-top: 4px;
 }
 .fdb3stu:hover {
   color: white;
@@ -1347,5 +1353,10 @@ button {
   white-space: nowrap;
   vertical-align: middle;
   word-wrap: normal;
+}
+.ddbs3 {
+  max-width: 220px;
+  display: inline-block;
+  color: #9b9b9b;
 }
 </style>
