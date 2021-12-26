@@ -43,8 +43,8 @@
         </div>
         <div class="discuss1" v-if="item.commentId == fuid">
           <div class="dsisscu1">
-            <img :src="sess ? sess.profile.avatarUrl : ''" />
-            <textarea v-model="hhuifu" :placeholder="`回复${item.user.nickname}`"></textarea>
+            <img :src="sess ? sess.profile.avatarUrl : ''" v-if="qq" />
+            <textarea v-model="hhuifu" :placeholder="`回复${item.user.nickname}`" :style="`${typ == 6 && 'width: 455px;'}`"></textarea>
           </div>
           <input type="button1" value="回复" @click="pilun(hhuifu, 2, item.commentId), (hhuifu = '')" />
         </div>
@@ -89,8 +89,8 @@
         </div>
         <div class="discuss1" v-if="item.commentId == fuid">
           <div class="dsisscu1">
-            <img :src="sess ? sess.profile.avatarUrl : ''" />
-            <textarea v-model="hhuifu" :placeholder="`回复${item.user.nickname}`"></textarea>
+            <img :src="sess ? sess.profile.avatarUrl : ''" v-if="qq" />
+            <textarea v-model="hhuifu" :placeholder="`回复${item.user.nickname}`" :style="`${typ == 6 && 'width: 455px;'}`"></textarea>
           </div>
           <input type="button" value="回复" @click="pilun(hhuifu, 2, item.commentId), (hhuifu = '')" />
         </div>
@@ -136,6 +136,7 @@ export default {
       type: Number,
       default: 0
     },
+    // 评论类型
     typ: {
       type: Number,
       default: 0
@@ -143,6 +144,10 @@ export default {
     qq: {
       type: Boolean,
       default: true
+    },
+    threadId: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -170,12 +175,13 @@ export default {
   },
   methods: {
     pilun(text, t, commentId) {
+      const cdd = this.threadId || this.cidd
       if (!text.trim()) return ''
       if (commentId) {
-        this.pinlu(this.cidd, text, this.typ, t, commentId)
+        this.pinlu(cdd, text, this.typ, t, commentId)
         this.fuid = 0
       } else {
-        this.pinlu(this.cidd, text, this.typ, t)
+        this.pinlu(cdd, text, this.typ, t)
       }
       this.text = ''
     },

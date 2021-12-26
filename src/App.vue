@@ -894,7 +894,7 @@ button {
   font-size: 12px;
   display: inline-block;
   vertical-align: text-top;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 .fdb3stu:hover {
   color: white;

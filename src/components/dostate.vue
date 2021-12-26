@@ -62,7 +62,7 @@
               <p class="xiaolu" @click="huoqu(item.info.threadId)">评论{{ item.info.commentCount ? `(${item.info.commentCount})` : `` }}</p>
             </div>
             <div v-if="muqi.includes(item.info.threadId) && dostlist[item.info.threadId]">
-              <Com :sw="dostlist[item.info.threadId].comments" :sh="dostlist[item.info.threadId].hotComments" :qq="false" :typ="typ"></Com>
+              <Com :sw="dostlist[item.info.threadId].comments" :threadId="item.info.threadId" :sh="dostlist[item.info.threadId].hotComments" :qq="false" :typ="typ"></Com>
             </div>
           </div>
         </li>
@@ -94,8 +94,9 @@ export default {
       win.danwindow('当前内容尚未完成', 0)
     },
     async huoqu(id) {
-      if (!this.dostlist[id]) {
-        const value = await this.$http(`/comment/event?threadId=${id}`)
+      if (!this.muqi.includes(id)) {
+        const as = Date.now()
+        const value = await this.$http(`/comment/event?threadId=${id}&a=${as}`)
         const { comments, hotComments } = value.data
         this.dostlist[id] = { hotComments, comments }
       }

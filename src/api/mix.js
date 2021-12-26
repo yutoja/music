@@ -217,7 +217,7 @@ const mix = {
     pinlu(id, text, type, t, commentId) {
       const than = this
       const a = localStorage.getItem('co')
-      this.$http(`/comment?t=${t}&type=${type}&id=${id}&content=${text}${t === 2 ? `&commentId=${commentId}` : ''}&cookie=${a}`)
+      this.$http(`/comment?t=${t}&type=${type}&${type == 6 ? 'threadId' : 'id'}=${id}&content=${text}${t === 2 ? `&commentId=${commentId}` : ''}&cookie=${a}`)
         .then(value => {
           if (value.data.code === 200) {
             win.danwindow('已评论', 0)
