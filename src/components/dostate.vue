@@ -1,6 +1,6 @@
 <template>
   <div class="dostate" v-if="dostate">
-    <div class="dobody">
+    <div class="dobody" v-if="dostate.event.length > 0">
       <div class="dahear">
         <h2 class="stleft">
           动态
@@ -68,6 +68,7 @@
         </li>
       </ul>
     </div>
+    <div class="dst_tis" v-else>暂时没有动态</div>
   </div>
   <Little v-else></Little>
 </template>
@@ -303,6 +304,13 @@ export default {
 }
 .li_bo_he_foo > span {
   margin: 0 10px;
+  color: #ccc;
+}
+/* 啥都没有 */
+.dst_tis {
+  line-height: 200px;
+  text-align: center;
+  font-size: 36px;
   color: #ccc;
 }
 </style>
