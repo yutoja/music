@@ -22,7 +22,7 @@
     </div>
     <div class="ping" v-if="hot && news">
       <Com :sw="news" :sh="hot" :su="shu" :typ="typ"></Com>
-      <div class="foote">
+      <div class="foote" v-if="hot.length + news.length > 20">
         <a @click="app">上一页</a>
         <input type="number" placeholder="页数" class="tex" v-model="yeshu" />
         <a @click="re">跳转</a>

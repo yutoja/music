@@ -61,7 +61,7 @@
             </div>
           </td>
           <td class="qwer">
-            <router-link :to="`/SingerHome?id=${ion.id}`" class="hou size asdf xiaolu" v-for="(ion, index) in item.ar" :key="ion.id">{{ ion.name }} {{ item.ar.length > 1 && index !== item.ar.length - 1 ? '/' : '' }}</router-link>
+            <router-link :to="`/SingerHome?id=${ion.id}`" class="hou size asdf xiaolu" v-for="(ion, index) in item.ar" :key="index">{{ ion.name }} {{ item.ar.length > 1 && index !== item.ar.length - 1 ? '/' : '' }}</router-link>
           </td>
           <td>
             <a href="#" class="hou size er xiaoul" :title="item.al.name" @click="skip('/Zhuan', item.al.id)">{{ item.al.name }}</a>

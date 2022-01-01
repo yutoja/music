@@ -143,7 +143,7 @@
           <a href="#"></a>
         </div>
         <div class="fdb6">
-          <a class="" @click="this.yin = !this.yin" v-text="range < 2 ? '' : ''"></a>
+          <a class="" @click="yin = !yin" v-text="range < 2 ? '' : ''"></a>
           <a class="f-zhonj" @click="tiss(), (xed = xed > 1 ? 0 : ++xed)" v-text="xed > 1 ? '' : xed > 0 ? '' : ''"></a>
           <a @click="lib = !lib" title="播放列表">{{ b.length > 0 ? b.length : '' }}</a>
           <div class="range" v-if="yin">
