@@ -717,13 +717,12 @@ button {
 }
 .lup > span:nth-of-type(1) {
   top: 50%;
-  left: 170px;
+  left: 8%;
   transform: translateY(-50%);
 }
 .lup > span:nth-of-type(2) {
   top: 50%;
-  right: 170px;
-
+  right: 8%;
   transform: translateY(-50%);
 }
 .quan {

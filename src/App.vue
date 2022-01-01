@@ -630,7 +630,7 @@ button {
 }
 .app {
   background-color: #f5f5f5;
-  min-width: 1519px;
+  min-width: 1395px;
   padding-bottom: 50px;
 }
 .td {
