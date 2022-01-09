@@ -988,13 +988,14 @@ button {
   transform: rotate(-90deg);
   height: 30px;
   z-index: 999;
-  line-height: 23px;
+  display: flex;
+  align-items: center;
   padding: 0 10px;
   background-color: #000000;
   border-radius: 0 5px 5px 0;
 }
 .range > input {
-  height: 8px;
+  height: 9px;
   -webkit-appearance: none;
   background-color: transparent;
 }
