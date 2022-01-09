@@ -1353,29 +1353,6 @@ button {
 .ping {
   padding: 20px 0 50px 0;
 }
-.foote {
-  text-align: center;
-  margin-top: 20px;
-}
-.foote > a {
-  display: inline-block;
-  line-height: 24px;
-  width: 50px;
-  color: black;
-  background-image: linear-gradient(180deg, #ffffff, rgb(236, 236, 236));
-  margin-right: 20px;
-  box-shadow: 0 0 1px 1px rgba(0.5, 0.5, 0.5, 0.2);
-}
-.foote > a:hover {
-  background-image: linear-gradient(180deg, rgb(236, 236, 236), #ffffff);
-}
-.tex {
-  box-shadow: 0 0 1px 1px rgba(0.5, 0.5, 0.5, 0.5);
-  padding-left: 5px;
-  height: 24px;
-  width: 50px;
-  margin-right: 10px;
-}
 .qwer {
   display: inline-block;
   overflow: hidden;

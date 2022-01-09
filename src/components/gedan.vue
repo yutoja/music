@@ -39,62 +39,31 @@
           </li>
         </ul>
         <Little v-else></Little>
-        <div class="foote">
-          <a href="#" @click="app">上一页</a>
-          <input type="number" placeholder="页数" class="tex" v-model="yeshu" />
-          <a href="#" @click="re">跳转</a>
-          <a href="#" @click="add">下一页</a>
-        </div>
+        <Toca :consh="conshu" :tocal="current + 1" @apd="gai" v-if="data_tou"></Toca>
       </div>
     </div>
   </div>
-  <!-- //  "0": "语种",
-//         "1": "风格",
-//         "2": "场景",
-//         "3": "情感",
-//         "4": "主题" -->
 </template>
 
 <script>
+import Toca from '@/views/tota'
 export default {
   data() {
     return {
       data_tou: null,
-      yeshu: 0,
       feng: [],
       zibiao: ['', '', '', '', ''],
-      ba: false
+      ba: false,
+      current: 0,
+      conshu: 38
     }
   },
+  components: {
+    Toca
+  },
   methods: {
-    async add() {
-      if (this.yeshu < 0) {
-        this.yeshu = 0
-        return alert('这页数认真的吗')
-      }
-      this.yeshu++
-      const {
-        data: { playlists }
-      } = await this.$http(`/top/playlist?limit=35&offset=${this.yeshu * 35}`)
-      this.data_tou = playlists
-    },
-    async app() {
-      if (this.yeshu <= 0) {
-        this.yeshu = 0
-        return alert('这页数认真的吗')
-      }
-      this.yeshu--
-      const {
-        data: { playlists }
-      } = await this.$http(`/top/playlist?limit=35&offset=${this.yeshu * 35}`)
-      this.data_tou = playlists
-    },
-    async re() {
-      if (this.value < 1) alert('这页数认真的吗')
-      const {
-        data: { playlists }
-      } = await this.$http(`/top/playlist?limit=35&offset=${this.yeshu * 35}`)
-      this.data_tou = playlists
+    gai(value) {
+      this.current = value - 1
     }
   },
   async created() {
@@ -110,10 +79,20 @@ export default {
   },
   watch: {
     async $route(to, from) {
+      if (this.current == 0) {
+        const {
+          data: { playlists }
+        } = await this.$http(`/top/playlist?limit=35${to.query.cat ? `&cat=${to.query.cat}` : ''}`)
+        this.data_tou = playlists
+      } else {
+        this.current = 0
+      }
+      this.ba = false
+    },
+    async current(ne, old) {
       const {
         data: { playlists }
-      } = await this.$http(`/top/playlist?limit=35${to.query.cat ? `&cat=${to.query.cat}` : ''}`)
-      this.ba = false
+      } = await this.$http(`/top/playlist?limit=35&offset=${ne * 35}${this.$route.query.cat ? `&cat=${this.$route.query.cat}` : ''}`)
       this.data_tou = playlists
     }
   }
@@ -221,28 +200,6 @@ export default {
   white-space: nowrap;
   word-wrap: normal;
   cursor: pointer;
-}
-.foote {
-  text-align: center;
-}
-.foote > a {
-  display: inline-block;
-  line-height: 24px;
-  width: 50px;
-  color: black;
-  background-image: linear-gradient(180deg, #ffffff, rgb(236, 236, 236));
-  margin-right: 20px;
-  box-shadow: 0 0 1px 1px rgba(0.5, 0.5, 0.5, 0.2);
-}
-.foote > a:hover {
-  background-image: linear-gradient(180deg, rgb(236, 236, 236), #ffffff);
-}
-.tex {
-  box-shadow: 0 0 1px 1px rgba(0.5, 0.5, 0.5, 0.5);
-  padding-left: 5px;
-  height: 24px;
-  width: 50px;
-  margin-right: 10px;
 }
 .ove {
   overflow: hidden;

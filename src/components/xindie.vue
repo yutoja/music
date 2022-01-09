@@ -46,56 +46,32 @@
           </li>
         </ul>
       </div>
-      <div class="foote">
-        <a href="#" @click="app">上一页</a>
-        <input type="number" placeholder="页数" class="tex" v-model="yeshu" />
-        <a href="#" @click="re">跳转</a>
-        <a href="#" @click="add">下一页</a>
-      </div>
+      <br />
+      <Toca :consh="conshu" :tocal="current + 1" @apd="gai" v-if="data_tui && data_tou"></Toca>
     </div>
   </div>
   <Little v-else></Little>
 </template>
 
 <script>
+import Toca from '@/views/tota'
 export default {
   name: 'xindie',
   data() {
     return {
       data_tou: [],
-      yeshu: 0,
-      data_tui: null
+      data_tui: null,
+      current: 0,
+      conshu: 38
     }
   },
+  components: {
+    Toca
+  },
   methods: {
-    async add() {
-      if (this.yeshu < 0) {
-        this.yeshu = 0
-        return alert('这页数认真的吗')
-      }
-      this.yeshu++
-      const {
-        data: { albums }
-      } = await this.$http(`/album/new?limit=20&offset=${this.yeshu * 20}`)
-      this.data_tou = albums
-    },
-    async app() {
-      if (this.yeshu <= 0) {
-        this.yeshu = 0
-        return alert('这页数认真的吗')
-      }
-      this.yeshu--
-      const {
-        data: { albums }
-      } = await this.$http(`/album/new?limit=35&offset=${this.yeshu * 20}`)
-      this.data_tou = albums
-    },
-    async re() {
-      if (this.value < 1) alert('这页数认真的吗')
-      const {
-        data: { albums }
-      } = await this.$http(`/album/new?limit=35&offset=${this.yeshu * 20}`)
-      this.data_tou = albums
+    // 页数
+    gai(value) {
+      this.current = value - 1
     }
   },
   created() {
@@ -109,9 +85,20 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.$http(`/album/new?limit=20&area=${to.query.area}`).then(value => {
-        this.data_tou = value.data.albums
-      })
+      if (this.current == 0) {
+        this.$http(`/album/new?limit=20&area=${to.query.area}`).then(value => {
+          this.data_tou = value.data.albums
+        })
+      } else {
+        this.current = 0
+      }
+    },
+    // 监听页数获取数据
+    async current(ne, old) {
+      const {
+        data: { albums }
+      } = await this.$http(`/album/new?limit=20&offset=${ne * 20}&area=${this.$route.query.area}`)
+      this.data_tou = albums
     }
   }
 }
@@ -173,22 +160,6 @@ export default {
   width: 135px;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-.foote {
-  margin-top: 10px;
-  text-align: center;
-}
-.foote > a {
-  display: inline-block;
-  line-height: 24px;
-  width: 50px;
-  color: black;
-  background-image: linear-gradient(180deg, #ffffff, rgb(236, 236, 236));
-  margin-right: 20px;
-  box-shadow: 0 0 1px 1px rgba(0.5, 0.5, 0.5, 0.2);
-}
-.foote > a:hover {
-  background-image: linear-gradient(180deg, rgb(236, 236, 236), #ffffff);
 }
 .tex {
   box-shadow: 0 0 1px 1px rgba(0.5, 0.5, 0.5, 0.5);

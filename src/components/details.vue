@@ -22,19 +22,15 @@
     </div>
     <div class="ping" v-if="hot && news">
       <Com :sw="news" :sh="hot" :su="shu" :typ="typ"></Com>
-      <div class="foote" v-if="hot.length + news.length > 20">
-        <a @click="app">上一页</a>
-        <input type="number" placeholder="页数" class="tex" v-model="yeshu" />
-        <a @click="re">跳转</a>
-        <a @click="add">下一页</a>
-      </div>
+      <br />
+      <Toca :consh="conshu" :tocal="current + 1" @apd="gai"></Toca>
     </div>
   </div>
   <Little v-else></Little>
 </template>
 <script>
 import Com from '@/views/comment'
-
+import Toca from '@/views/tota'
 export default {
   props: {
     bang: {
@@ -51,12 +47,14 @@ export default {
       bl: true,
       scr: null,
       shu: null,
-      yeshu: 0,
-      typ: 0
+      typ: 0,
+      current: 0,
+      conshu: 38
     }
   },
   components: {
-    Com
+    Com,
+    Toca
   },
   methods: {
     srr(e) {
@@ -66,34 +64,9 @@ export default {
     ert() {
       this.bl = !this.bl
     },
-    async add() {
-      if (this.yeshu < 0) {
-        this.yeshu = 0
-        return alert('这页数认真的吗')
-      }
-      this.yeshu++
-      const {
-        data: { comments }
-      } = await this.$http(`/comment/music?id=${this.$route.query.id}&offset=${this.yeshu * 20}`)
-      this.news = comments
-    },
-    async app() {
-      if (this.yeshu <= 0) {
-        this.yeshu = 0
-        return alert('这页数认真的吗')
-      }
-      this.yeshu--
-      const {
-        data: { comments }
-      } = await this.$http(`/comment/music?id=${this.$route.query.id}&offset=${this.yeshu * 20}`)
-      this.news = comments
-    },
-    async re() {
-      if (this.value < 1) alert('这页数认真的吗')
-      const {
-        data: { comments }
-      } = await this.$http(`/comment/music?id=${this.$route.query.id}&offset=${this.yeshu * 20}`)
-      this.news = comments
+    // 页数
+    gai(value) {
+      this.current = value - 1
     }
   },
   watch: {
@@ -104,6 +77,13 @@ export default {
         data: { songs }
       } = await this.$http(`/song/detail?ids=${to.query.id}`)
       this.scr = songs
+    },
+    // 监听页数获取数据
+    async current(ne, old) {
+      const {
+        data: { comments }
+      } = await this.$http(`/comment/music?id=${this.$route.query.id}&offset=${ne * 20}`)
+      this.news = comments
     }
   },
   computed: {
@@ -243,22 +223,6 @@ export default {
   margin-left: 43px;
   font-size: 12px;
   font-family: 'icomoon';
-}
-.foote {
-  text-align: center;
-  margin-top: 20px;
-}
-.foote > a {
-  display: inline-block;
-  line-height: 24px;
-  width: 50px;
-  color: black;
-  background-image: linear-gradient(180deg, #ffffff, rgb(236, 236, 236));
-  margin-right: 20px;
-  box-shadow: 0 0 1px 1px rgba(0.5, 0.5, 0.5, 0.2);
-}
-.foote > a:hover {
-  background-image: linear-gradient(180deg, rgb(236, 236, 236), #ffffff);
 }
 .tex {
   box-shadow: 0 0 1px 1px rgba(0.5, 0.5, 0.5, 0.5);
