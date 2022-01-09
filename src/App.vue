@@ -998,6 +998,13 @@ button {
   -webkit-appearance: none;
   background-color: transparent;
 }
+.range > input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 15px;
+  width: 15px;
+  background: #0075ff;
+  border-radius: 50%;
+}
 .furange {
   position: absolute;
   background-color: white;
