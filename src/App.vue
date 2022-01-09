@@ -147,7 +147,10 @@
           <a class="f-zhonj" @click="tiss(), (xed = xed > 1 ? 0 : ++xed)" v-text="xed > 1 ? '' : xed > 0 ? '' : ''"></a>
           <a @click="lib = !lib" title="播放列表">{{ b.length > 0 ? b.length : '' }}</a>
           <div class="range" v-if="yin">
-            <input type="range" value="0" v-model="range" />
+            <input type="range" v-model="range" />
+            <div class="furange">
+              <div class="lanra" :style="`width:${range}%`"></div>
+            </div>
           </div>
         </div>
         <div class="lieb" v-show="lib">
@@ -977,21 +980,40 @@ button {
   white-space: nowrap;
   word-wrap: normal;
 }
+/* 音乐拖动条 */
 .range {
   position: absolute;
-  top: -75px;
+  top: -89px;
   left: -50px;
   transform: rotate(-90deg);
   height: 30px;
   z-index: 999;
-  line-height: 30px;
+  line-height: 23px;
   padding: 0 10px;
   background-color: #000000;
   border-radius: 0 5px 5px 0;
 }
 .range > input {
-  width: 100px;
+  height: 8px;
+  -webkit-appearance: none;
+  background-color: transparent;
 }
+.furange {
+  position: absolute;
+  background-color: white;
+  height: 8px;
+  width: 123px;
+  border-radius: 100px;
+  top: 11px;
+  left: 11px;
+  z-index: -1;
+  overflow: hidden;
+}
+.lanra {
+  height: 100%;
+  background: -webkit-linear-gradient(#059cfa, #059cfa) no-repeat;
+}
+/* 播放列表 */
 .lieb {
   position: absolute;
   bottom: 100%;
