@@ -103,15 +103,36 @@ const mix = {
       let data
 
       if (obj.verification) {
-        this.$http(`/captcha/verify?phone=${obj.account}&captcha=${obj.verification}`)
+        this.$http({
+          url: '/captcha/verify',
+          method: 'post',
+          data: {
+            phone: obj.account,
+            captcha: obj.verification
+          }
+        })
           .then(async value => {
-            data = await this.$http(`/login/cellphone?phone=${obj.account}&captcha=${obj.verification}`)
+            data = await this.$http({
+              url: '/login/cellphone',
+              method: 'post',
+              data: {
+                phone: obj.account,
+                captcha: obj.verification
+              }
+            })
           })
           .catch(() => {
             return ''
           })
       } else {
-        data = await this.$http(`/login/cellphone?phone=${obj.account}&password=${obj.password}`)
+        data = await this.$http({
+          url: '/login/cellphone',
+          method: 'post',
+          data: {
+            phone: obj.account,
+            password: obj.password
+          }
+        })
       }
 
       if (data.data.code !== 200) {
@@ -297,7 +318,7 @@ const mix = {
           result.push({ time: this.formatTimeToSec($1), lyri: $2 })
         })
         el.gez = result
-      } catch (err) {}
+      } catch (err) { }
     },
     formatTimeToSec(value) {
       const a = value.split(':')
