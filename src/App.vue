@@ -984,7 +984,7 @@ button {
 .range {
   position: absolute;
   top: -89px;
-  left: -50px;
+  left: -65px;
   transform: rotate(-90deg);
   height: 30px;
   z-index: 999;
