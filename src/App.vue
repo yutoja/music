@@ -598,7 +598,7 @@ export default {
 }
 .max {
   min-width: 98vw;
-  min-height: 761px;
+  min-height: 100vh;
 }
 * {
   margin: 0;
